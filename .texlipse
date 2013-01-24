@@ -1,0 +1,14 @@
+#TeXlipse project settings
+#Thu Jan 24 09:56:31 CET 2013
+markTmpDer=true
+builderNum=2
+outputDir=
+makeIndSty=
+bibrefDir=
+outputFormat=pdf
+tempDir=tmp
+mainTexFile=EmbSW1.tex
+outputFile=EmbSW1.pdf
+langSpell=de
+markDer=true
+srcDir=
