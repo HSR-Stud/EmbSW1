@@ -26,7 +26,10 @@
 *.ps
 *.snm
 *.synctex.gz
+*.synctex
 *.toc
 *.vrb
 *.xdy
 *.tdo
+*.pdf
+/tmp/*
