@@ -1,1 +1,87 @@
 \section{Fine State Machine}
+
+\subsection{Zustandsbasierte Systeme}
+
+\subsubsection{Asynchron vs.synchrone FSMs \buch{p.6}}
+\begin{itemize}
+  \item Bei (elektronisch implementierten) asynchronen FSMs führen geänderte
+  Inputsignale direkt zu Zustandsänderungen. Sie sind deshalb "`schneller"',
+  jedch äusserst empfindlich auf Glitches und kaum tastbar.
+  \item Bei synchronen FSMs werden die Inputsignale nur zu diskreten Zeitpunkten
+  betrachtet, diese Systeme sind getaktet.
+  \item Softwareimplementationen sind eigentlich immer synchron, da die Rechner
+  getaktet sind. Wenn die Inputsignale mittels Interrupts behandelt werden, ist
+  darauf zu achten, dass die Interrupts nicht fälschlicherweise gesetzt werden (
+  ist Aufgabe der Elektronik)
+  \item Rein softwareseitig besteht die Problematik der Asynchronizität nicht
+\end{itemize}
+
+\subsubsection{State-Event-Diagram \buch{p.8}}
+\begin{itemize}
+  \item Die Zustände werden mit einem Kreis gekennzeichnet
+  \item Die Ereignisse werden mit Pfeilen zwischen den Zuständen bezeichnet
+  (Transitionen)
+  \item Die Aktionen werden entweder bei den Zuständen geschrieben oder bei den
+  Transitionen (je nach Automatentyp)
+  \item Die Ausführung einer Transition benötigt keine Zeit. Deshalb sind bei
+  der Modellierung oft Zwischenzustände vorzusehen, z.B. "`Closing"', "`Starting
+  up"', "`Booting"', etc.
+\end{itemize}
+
+\subsubsection{Mealy-Automat \buch{p.9}}
+\begin{itemize}
+  \item Der nächste Zustand $Z_{n+1}$ ist abhängig vom Input X und von $Z_n$:
+  $Z_{n+1}=f(Z_n,X)$
+  \item Der Output Y ist abhängig vom inneren Zustand $Z_n$ \textbf{und vom
+  Input X}: $Y=g(Z_n, X)$
+  \item Die Actions liegen deshalb bei den Transitionen
+\end{itemize}
+
+\subsubsection{Moor-Automat \buch{p.10}}
+\begin{itemize}
+  \item Der nächste Zustand $Z_{n+1}$ ist abhängig vom Input X und von $Z_n$:
+  $Z_{n+1}=f(Z_n,X)$
+  \item Der Output Y ist \textbf{nur} abhängig vom inneren Zustand $Z_n$: $Y=g(Z_n)$
+  \item Die Actions liegen deshalb bei den Zuständen
+\end{itemize}
+
+\subsubsection{Zustandstabelle \buch{p.17}}
+
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{Momentaner Zustand}&\textbf{Ereignis}&\textbf{Nächster
+Zustand}&\textbf{Aktionen}\\
+\hline
+AUS&EIN-Taste&Hochlaufen&Motor ausschalten\\
+&&&Kühlung ausschalten\\&&&Grüne Lampe aus\\&&&Rote Lampe aus\\
+\hline
+Hochlaufen&Drehzahl\_erreicht&Drehzahl\_ok&Motor einschalten\\
+&Signal&&Kühlung einschalten\\ \cline{2-3}
+&Aus-Taste&AUS&\\\cline{2-3}
+&Wasserkühlung&Störung&\\
+&Störung&&\\
+\hline
+Drehzahl\_ok&Wasserkühlung&Störung&Grüne Lampe anz.\\
+&Störung&&\\ \cline{2-3}
+&AUS-Taste&AUS&\\
+\hline
+Störung&RESET-Taste&AUS&Motor ausschalten\\
+&&&Kühlung ausschalten\\&&&Rote Lampe anz.\\
+\hline
+\end{tabular}
+
+\subsubsection{Nachteile von Zustandsdiagrammen \buch{p.19}}
+\begin{itemize}
+  \item Die Transition k führt von jedem Zustand in den Zustand Z. Das ist
+typischerwerise ein Fehlerevent, Reset, etc.
+Das Diagramm wird dadurch unnötigerweise kompliziert
+\item Da Zustandsdiagramme flach sind (es gibt keine Hierarchie), werden sie bei
+praktisch relevanten Aufgaben schnell unübersichtlich
+\item In Zustandsdiagrammen kann keine zeitliche Parallelität modelliert werden
+\end{itemize}
+
+\subsection{Statecharts von Harel \buch{p.18}}
+\subsubsection{Elemente der Statechart}
+
+
+
