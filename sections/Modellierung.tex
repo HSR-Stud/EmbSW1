@@ -89,7 +89,55 @@ geographisch (cm bis km) verteilt und sind mit einem Kommunikationskanal verbund
 \end{figure}
 
 \subsection{Systemprozesse Detaillieren \buch{p.27}}
+Die Systemprozesse nicht detaillierter spezifizieren als sinnvoll. Je weiter Detaillierung soll einen "added value" liefern. 
+Leitidee: Lieber weniger als mehr Detail\\
 
-\subsection{Aktivitätsdiagramme}
+\textbf{Detaillierungsgrad}
+\begin{itemize}
+	\item \textbf{Überblick: } z.B in Form von normalem umgangssprachlichem Text. Diese Form sollte immer erstellt werden
+	\item \textbf{Normale Schicht: } Sie ist für den Systementwickler gedacht und enthält mehr Details  
+\end{itemize}
 
-\subsection{Zustandsbasierte Systeme}
+Für die Detaillierung eignen sich Sequenzdiagramm, Aktivitätsdiagramm, Statecharts und Umgangssprachlicher Text.
+
+\subsubsection{Sequenzdiagramme \buch{p.30}}
+
+\begin{multicols}{2}
+	\textbf{Zweck:}
+	\begin{itemize}
+		\item Austausch von Meldungen zwischen Objekten innerhalb einer beschränkten Zeitdauer anzeigen
+	\end{itemize}
+	\columnbreak
+	
+	\textbf{Ideal:}
+	\begin{itemize}
+		\item Für kurze Zeitdauer mit einigen wenigen Objekten
+		\item Bei wenigen Verschachtlungen und Verzweigungen
+	\end{itemize}
+\end{multicols}
+
+
+\subsubsection{Kommunikationsdiagramm \buch{41}}
+Das Kommunikationsdiagramm zeit dieselbe Information wie das Sequenzdiagramm. Der Schwerpunkt liegt aber
+nicht auf dem zeitlichen Ablauf, sondern auf dem Informationsfluss zwischen den Objekten.
+
+\subsubsection{Aktivitätsdiagramme \buch{p.42}}
+
+\begin{multicols}{2}
+	\textbf{Wird gebraucht für:}
+	\begin{itemize}
+		\item sequenzielle Abläufe
+		\item Prozess- und Steuerfluss
+		\item Auch für gleichzeitige Prozesse geeignet
+		\item Weniger geeignet für komplexe logische Bedingungen (Wahrheitstabelle)
+	\end{itemize}
+	\columnbreak
+	
+	\textbf{Ideal:}
+	\begin{itemize}
+		\item Für kurze Zeitdauer mit einigen wenigen Objekten
+		\item Bei wenigen Verschachtlungen und Verzweigungen
+	\end{itemize}
+\end{multicols}
+
+
