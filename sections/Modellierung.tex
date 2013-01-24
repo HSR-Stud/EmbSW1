@@ -1,5 +1,5 @@
 \section{Modelierung \buch{p.1}}
-\subsection{Modellierung eines Embedded Systems}
+\subsection{Modellierung eines Embedded Systems \buch{p.3}}
 
 \begin{itemize}
 	\item Modelle werden als Werkzeuge der Dokumentation angesehen. Dadruch 
@@ -19,10 +19,11 @@ Agile Softwareentwicklung ist der Oberbegriff für den Einsatz von Agilität (fl
 	\item Eher "Best Practices" aus Erfahrung als verordnete Vorgaben
 	\item Eher Angemessenheit als Extremismus
 	\item \textbf{Aber keine Anarchie!}
-\end{itemize}
+\end{itemize} 
+
 
 \textbf{Model Driven Development}\\
-Bei der modellbasierten Entwicklung kommen in allen Entwicklungsphasen durchgängig Modelle zur Anwendung.\\\\
+Bei der modellbasierten Entwicklung kommen in allen Entwicklungsphasen durchgängig Modelle zur Anwendung.
 
 \begin{multicols}{2}
 	\textbf{UML:}
@@ -45,7 +46,7 @@ Bei der modellbasierten Entwicklung kommen in allen Entwicklungsphasen durchgän
 	\end{enumerate}
 \end{multicols}
 
-\subsection{Systemgrenze definieren}
+\subsection{Systemgrenze definieren \buch{p.14}}
 Das wichtigste und allererste bei sämtlichen Systemen ist die Festlegung der Systemgrenze (System boundary)
 \begin{itemize}
 	\item Was macht das System, d.h was liegt innerhalb der Systemgrenze
@@ -53,28 +54,41 @@ Das wichtigste und allererste bei sämtlichen Systemen ist die Festlegung der Sy
 	\item Welches sind die Schnittstellen zu den Nachbarsystemen
 \end{itemize}
 
-
-\begin{figure}[htbp]
+\begin{figure}[h]
 	\centering
-	{\includegraphics[height=8cm, width = 10cm,]{images/Modellierung/Systemgrenze} 	
-	\label{fig:Systemgrenze}}
-\end{figure} 
+	\includegraphics[height=8cm, width = 10cm,]{images/Modellierung/Systemgrenze}
+	\caption{Aktoren sind: Menschen, Sensoren, Ein- und Ausgabegeräte, Nachbarsysteme, Zeit.}
+\end{figure}
 
-Aktoren sind: Menschen, Sensoren, Ein- und Ausgabegeräte, Nachbarsysteme, Zeit.\\ \\
 
 \textbf{Systemprozesse finden}\\
 Die Aufteilung in Hardware und Software sollte erst nach der Analyse der grundlegenden Anforderungen erfolgen.
-Dieser Schritt ist in der Analysephase. Wenn hier von Prozessen die Rede ist, bedeutet das nicht unbedingt ein
-Betriebssystem Prozess ist.
+RTE-Systeme bestehen meistens nur aus einem einzigen Systemprozess, speziell wen das System im Prinzip "nur" ein
+Regler ist. Dieser Schritt ist in der Analysephase. Wenn hier von Prozessen die Rede ist, bedeutet das nicht unbedingt ein
+Betriebssystem Prozess ist.\newline
 
+\subsection{Verteilung Festlegen \buch{p.23}}
+Bei Systemen bei denen die Grenze durch Nachrichtenflüsse charakterisiert werden können, eignen sich Sequenzdiagramme
+für Kontextbeschreibung.\\
 
+Bei Embedded System werden häufig mehrere Rechner Systeme verwendet um die Aufgaben zu erledigen. Diese liegen meistens 
+geographisch (cm bis km) verteilt und sind mit einem Kommunikationskanal verbunden. Diese Systeme heissen Verteilte Systeme 
+(Distributed System). Zur Darstellung eignet sich in UML das Verteilungsdiagramm (Deployment Diagramm).\\
 
+\textbf{Verteilungsdiagramm (Distributed System)}
+\begin{itemize}
+	\item Die Knoten werden zur Darstellung der geographischen Orten oder Subsysteme verwendet
+	\item Die physikalische Verbindung zwischen zwei Knoten werden als Linien dargestellt.
+	\item Die Knoten können auch hierarchisch aufgebaut sein.
+\end{itemize}
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[height=6cm, width = 9cm,]{images/Modellierung/Verteilungsdiagramm}
+	\caption{Verteilungsdiagramm}
+\end{figure}
 
-
-
-
-\subsection{Systemprozesse Detaillieren}
+\subsection{Systemprozesse Detaillieren \buch{p.27}}
 
 \subsection{Aktivitätsdiagramme}
 
