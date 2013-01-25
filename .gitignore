@@ -32,4 +32,6 @@
 *.xdy
 *.tdo
 *.pdf
+*.fls
 /tmp/*
+revision.tex
