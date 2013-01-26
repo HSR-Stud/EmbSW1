@@ -80,8 +80,67 @@ praktisch relevanten Aufgaben schnell unübersichtlich
 \item In Zustandsdiagrammen kann keine zeitliche Parallelität modelliert werden
 \end{itemize}
 
+
+\newcommand{\kreis}[1]{\unitlength1ex\begin{picture}(2.5,2.5)%
+\put(0.75,0.75){\circle{3.5}}\put(0.75,0.75){\makebox(0,0){#1}}\end{picture}}
+
 \subsection{Statecharts von Harel \buch{p.18}}
 \subsubsection{Elemente der Statechart}
+\begin{tabular}{ll}
+$\bullet$&Anfangszustand (initial pseudo state)\\
+$\diamond$& Entscheidung (choice)\\
+$\bullet$& Kreuzung (junction)\\
+$\times$& Terminator (terminate pseudo state)\\
+\kreis{H}&flache Historie (shallow history): History-Mechanismus merkt sich
+fühere Zustände\\
+\kreis{H*}&tiefe Historie (deep history): Deep History-Mechanismus merkt sich
+Zustände bis in die unterste Hierarchie\\
+\kreis{}&Eintrittspunkt (entry point)\\
+$\otimes$&Austrittspunkt (exit point)\\
+\end{tabular}
 
+\begin{figure}[htbp]
+  \centering
+  {\includegraphics[scale = 0.3]{images/FSM/history_default_state_mechanism}  
+  \caption{Combining history and default state mechanism}
+  \label{fig:history_default_state_mechanism}}
+\end{figure} 
 
+\subsubsection{Definitonen\buch{p.22}}
+\begin{itemize}
+  \item Current states of FSMs are also called \textbf{active} states.
+  \item States which are not composed of other states are called \textbf{basic
+  states}.
+  \item States containing other states are called \textbf{super-states}.
+  \item for each basic state s, the super-states containing s are called
+  \textbf{ancenstor states}.
+  \item Super-states S are called \textbf{OR-super-states}, if exactly one of
+  the sub-states of S is active whenever S is active.
+\end{itemize}
 
+\begin{figure}[htbp]
+  \centering
+  {\includegraphics[scale = 0.3]{images/FSM/definition_statechart}  
+  \caption{Definition Statechart}
+  \label{fig:definition_statechart}}
+\end{figure} 
+
+\subsubsection{Parallälität (Concurrency)\buch{p.28}}
+\begin{itemize}
+  \item AND-super-states
+\end{itemize}
+
+\begin{figure}[htbp]
+  \centering
+  {\includegraphics[scale = 0.4]{images/FSM/AND_super_state}  
+  \caption{AND-super-state}
+  \label{fig:AND_super_state}}
+\end{figure} 
+
+\subsubsection{Timers}
+\begin{figure}[htbp]
+  \centering
+  {\includegraphics[scale = 0.4]{images/FSM/timer}  
+  \caption{Using timers in an  answering machine}
+  \label{fig:timer}}
+\end{figure} 
