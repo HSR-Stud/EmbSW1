@@ -1,10 +1,10 @@
 \section{Embedded RT Systems \buch{p.1}}
-\subsection{Charakterisierung Embedded Systems \buch{p.3}}
+\subsection{Charakterisierung Embedded Systems \buch{p.5,p.6}}
 Ein Embedded System \ldots
 \begin{itemize}
   \item \ldots ist ein System, das einen Computer beinhaltet, aber keiner ist
   \item \ldots besteht üblicherweise aus HW und SW
-  \item \ldots ist häufig ein Control System
+  \item \ldots ist häufig ein Control System\\
 Charakterisierung von Embedded Systems
   \begin{itemize}
     \item \textbf{Reaktive Systeme} : Interagieren mit ihrer Umgebung
@@ -14,16 +14,114 @@ Charakterisierung von Embedded Systems
     Zuverlässigkeitsanforderungen erfüllen
     \item \textbf{Weitere Anforderungen/Charakteristiken}: 
     \begin{itemize}
-      \item kleiner Energieverbrauch
-      \item kleine physikalische Abmessungen
+      \item Kleiner Energieverbrauch
+      \item Kleine physikalische Abmessungen
       \item Lärm, Vibration, Feuchtigkeit etc\ldots
     \end{itemize}
   \end{itemize}
 \end{itemize}
 
-Verfügbarkeit: Anteil der Betriebsdauer, in  der das System seine Funktion
+Verfügbarkeit: \buch{p.26}\\ 
+Anteil der Betriebsdauer, in  der das System seine Funktion
 erfüllt: 
 
 \begin{equation}
-	\hat{f}(x,y)= \left[\prod\limits_{(s,t)\in S_{xy}} g(s,t)\right]^\frac{1}{mn}
+\frac{Gesamtzeit-Ausfallzeit}{Gesamtzeit}
 \end{equation}
+
+\subsection{Real-time Systems\buch{p.30}}
+\textbf{Definition} : System, das Informationen innerhalb einer defierten Zeit
+(deadline) bearbeiten muss. Es erfüllt explizite Anforderungen an die
+Antwortzeiten.\\
+\textbf{Antwortzeit} : Zeit vom Stimulus (Vorhandensein
+Eingangswert) bis zum Erscheinen des Ausgangswert\\
+\textbf{Soft real-time system}: System wird durch das verletzen von
+Antwortzeiten nicht ernsthaft beeinflusst $\rightarrow$ Komforteinbussen (Bsp.:
+Geldautomat()\\
+\textbf{Firm real-time system}: Durch Verletzen weniger Antwortzeiten wird das
+System nicht ernsthaft beeinflusst. Bei vielen Verletzungen jedoch $\rightarrow$
+kompletter Ausfall, katastrophales Fehlverhalten (Bsp.: GPS-gesteuerter
+Rasenmäher)\\
+\textbf{Hard real-time system}: Durch Verletzen der Antwortzeiten wird das
+System ernsthaft beeinflusst $\rightarrow$ kompletter Ausfall, katastrophales
+Fehlverhalten (Bsp.: Helikoptersteuerung)\\
+\textbf{Determinismus}: Für jeden möglichen Zustand und alle möglichen
+Eingabewerte ist jederzeit der nächste Zustand und die Ausgabewerte definiert.\\
+\textbf{Auslastung/Utilization}: 
+Auslastung pro Prozess:
+\begin{center}  
+\begin{tabular}{c c}
+& $u_\text{i}$ = Ausführungsfaktor des Task i\\
+$u_\text{i} = \frac{e_\text{i}}{p_\text{i}}$&$e_\text{i}$ = Executionzeit des
+Task i\\
+& $p_\text{i}$ = Executionperiode des Task i
+\end{tabular}\\
+\end{center}
+Für n periodische Tasks erhalten wir die gesamte Auslastung U: 
+\begin{center}
+\begin{equation}
+U = \sum_{i=1}^{n}u_\text{i} = \sum_{i=1}^{n}\frac{u_\text{i}}{p_\text{i}}
+\end{equation}
+\end{center}
+
+\subsection{Rate monotonic scheduling\buch{p.45}}
+\textbf{Cooperative Scheduling}
+  \begin{itemize}
+    \item Aktiver Task entscheidet selbst, wann er den Prozessor für anderen
+    Task frei gibt. 
+    \item Ein unfairer Task blockiert
+    \item Nächster Task aussuchen via: FCFS, Round Robin, random, Prioritäten
+    \item Einfach zu implementieren
+  \end{itemize}
+\textbf{Preemptive Scheduling}
+  \begin{itemize}
+    \item Task mit höherer Priorität wird ausgeführt
+    \item Task mit niederer Priorität wird verdrängt (preempt)
+    \item Prioritätsverteilungsmöglichkeiten
+      \begin{itemize}
+        \item Dynamic-priority algorithm: Prioritäten werden zur Laufzeit
+        aufgrund vorhandener Deadlines angepasst. 
+        \item Static-priority algorithm: Prioritäten werden zur Entwicklungszeit
+        festgelegt und nicht mehr geändert. $\rightarrow$ Einfacher als
+        dynamic-priority
+      \end{itemize}
+    \item Viele RTOS verwenden preemptive static-priority Algorithmen 
+  \end{itemize}
+Allgemein:\\ Eine Menge von Tasks ist dann schedulable, wenn alle Tasks zu
+allen Zeiten ihre Deadlines einhalten können.\\
+\textbf{Rate-monotonic scheduling}\\
+\textbf{Theorem:}\\
+Hat man ein Set periodischer Task und preemptive static-priority scheduling,
+erhält man optimales Scheduling, wenn man die Prioritäten so verteilt, dass die
+Tasks mit kürzester Periodizität die höhere Prioriät erhalten (rate
+monotonic).\\
+Oder:\\ 
+Ein Set von n periodischen Tasks ist dann rate-monotonic schedulable, wenn die
+gesamte Systemauslastung U folgenden Wert nicht überschreitet: 
+\begin{equation}
+U = n\cdot(2^\frac{1}{n}-1)
+\end{equation}
+Beispiele:\\
+\begin{tabular}{l | l}
+\hline
+n & U in \%\\
+\hline
+2 & 82.4\\
+\hline
+3 & 78.0\\
+\hline
+4 & 75.7\\
+\hline
+5 & 74.4\\
+\hline
+10 & 71.7\\
+\hline
+$\infty$ & $\sim$69.3
+\end{tabular}\\
+Die maximale Systemauslastung beträgt: 
+\begin{equation}
+\lim_{n \to \infty}n\cdot(2^\frac{1}{n}-1) = \ln 2 \approx 0.69
+\end{equation}
+Folgerung aus diesem Grenzwert: Das theoretische Limit der Systemauslastung
+liegt bei 69\%. 
+

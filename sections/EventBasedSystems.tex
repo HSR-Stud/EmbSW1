@@ -1,1 +1,58 @@
-\section{Event Based Systems}
+\section{Event Based Systems \buch{p.1}}
+\subsection{Reaktive Systeme \buch{p.3}}
+Ein Reaktives System befindet sich in ständiger Interaktion mit der Umgebung, wobei die Umgebung dominiert und das System sich dieser unterordnet.
+\begin{itemize}
+	\item Viele Embedded Systems sind auch reaktive Systeme
+	\item Reaktive Systeme reagieren auf (oft externe) Ereignisse
+	\begin{itemize}
+	\item Digitale Inputs
+	\item Erreichen von Analogen Schwellwerten
+	\item Timer
+	\item Buttonclicks und ähnliches in GUI
+	\item etc.
+	\end{itemize}
+\end{itemize}
+\subsection{Umsetzung von Ereignissen \buch{p.4-10}}
+\begin{itemize}
+	\item Ereignisse sind per Definition asynchron
+	\item Ein "normales" Programm ist immer synchron(zuerst das, dann das, dann...)
+	\item Polling
+	\begin{itemize}
+		\item[+] einfach zu implementieren
+		\item sehr viele Leerabfragen $\rightarrow$ unnötige Prozessorbelastung
+		\item Leerabfragen können durch periodisches Abfragen (Kopplung an Timer) reduziert aber nicht vermieden werden.
+		\item Die maximale Reaktionszeit wird durch die Abfrageperiode und die Anzahl Abfragen definiert
+	\end{itemize}
+	\item Interrupt
+	\begin{itemize}
+		\item Non-vectored Interrupt(zentral)
+		\begin{itemize}
+			\item Alle Interrupts verzweigen zu einer gemeinsamen Adresse. Dort wird die Ursache bestimmt und zu einer spezifischen Behandlungsroutine verzweigt.
+		\end{itemize}
+		\item Vectored Interrupt(spezifisch)
+		\begin{itemize}
+			\item In einer Tabelle(Interruptvektortabelle) wird gespeichert, wohin bei welchem Interruptvektor verzweigt werden muss.
+		\end{itemize}
+	\end{itemize}
+	\item	Interruptvektortabelle(IVT)
+	\begin{itemize}
+		\item Für jeden Vektor muss eingetragen werden, welches die Anfangsadresse der Interrupt Service Routine (ISR) ist, d.h. die IVT ist nichts anderes als eine Tabelle(Array) von Funktionspointern.
+	\end{itemize}
+\end{itemize}
+\subsection{Model View Controller (MVC) \buch{p.11}}
+\begin{itemize}
+	\item Beim MVC wirkt das Model als Server, die Views sind Clients
+	\item Jeder Client meldet beim Server an, welche Ereignisse ihn interessieren
+	\item Diese Anmeldung, bzw. Registrierung erfolgt über eine Funktion, welche der Server anbietet:
+	\begin{lstlisting}[style=C]
+int Foo_registerCb(Foo_Event e,Foo_CbFunction f);
+// registers function 'f' on event 'e'
+	\end{lstlisting}
+	\item Der Server trägt diesen Funktionspointer in eine Tabelle ein und ruft bei Eintreten des Ereignisses alle registrierten Funktionen auf.
+	\item Vorteile Callback-Funktionen
+	\begin{itemize}
+		\item Die Views werden asynchron genau informiert, wenn sich etwas geändert hat im Model
+		\item An und für sich sind alle registrierten Funktionen nichts anderes als Eventhanler eines bestimmten Events
+		\item Dadurch wird die Darstellung(die Definition der registrierten Funktionen) sauber von den Daten (Model) entkoppelt
+	\end{itemize} 
+\end{itemize}
