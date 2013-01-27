@@ -11,17 +11,17 @@
 	\begin{enumerate}
 		\item Beim 
 	\end{enumerate}
-	\item um die sichere Übertragung zu gewährleisten, wird diese meist mittels CRC gesichert, bei jedem Datenblock wird zusätzlich eine Prüfsumme mitgeschickt
+	\item Um die sichere Übertragung zu gewährleisten, wird diese meist mittels CRC gesichert, bei jedem Datenblock wird zusätzlich eine Prüfsumme mitgeschickt
 	\item Teilweise wird die Übertragung auch verschlüsselt, damit eine bösartige Änderung des Programms verhindert werden kann
-	\item Häufig wird der Bootloader in mehreren Stufen agebaut,z.B.
+	\item Häufig wird der Bootloader in mehreren Stufen aufgebaut. z.B.
 	\begin{itemize}
-		\item erste Stufe initialisiert die Hardware und lädt ein bestimmtes Filesystem
-		\item die nächste Stufe ist als File in diesem Filesystem gespeichert und startet beispielsweise das Betriebssystem
+		\item Erste Stufe initialisiert die Hardware und lädt ein bestimmtes Filesystem
+		\item Die nächste Stufe ist als File in diesem Filesystem gespeichert und startet beispielsweise das Betriebssystem
 	\end{itemize}
 	\item Vorteile:
 	\begin{itemize}
-		\item die erste Stufe ist nur hardwarespezifisch,jedoch völlig unabhängig von Filesystem und Betriebssystem
-		\item dadurch können diese Teile beliebig ausgetauscht und geändert werden
+		\item Die erste Stufe ist nur hardwarespezifisch, jedoch völlig unabhängig von Filesystem und Betriebssystem
+		\item Dadurch können diese Teile beliebig ausgetauscht und geändert werden
 	\end{itemize}
 \end{itemize}
 

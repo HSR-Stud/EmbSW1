@@ -18,8 +18,8 @@ In C$\sharp$ git es drei Kategorien von Typen.
 	\item Pointers
 \end{itemize}
 
-Unter \textbf{User-defined Types} versteht man Enums, Structs, Classes, Interface, Arrays and Delegates.
-Alle \textsl{Types} sind kompatiebel mit \textsl{objetct}
+Unter \textbf{User-defined Types} versteht man Enum, Struct, Class, Interface, Array und Delegate.
+Alle \emph{Types} sind kompatibel mit \emph{object}
 
 \subsubsection{Value vs. Reference}
 \begin{tabular}{|c|c|c|}
@@ -39,12 +39,14 @@ Eine vollwertige Kompatibilität besteht nur, wenn von einem kleinerem Type auf 
 	\caption{Typen Kompatibilität}
 \end{figure}
 
-folgende Beispiel sind gültig:\\
+folgende Beispiel sind gültig:
 
-intVar = shortVar;\\
-intVar = charVar;\\
-floatVar = charVar;\\
-decimalVar = (decimal)doubleVar;\\
+\begin{lstlisting}
+int var     = shortVar;
+int var     = charVar;
+float var   = charVar;
+decimal var = (decimal)doubleVar;
+\end{lstlisting}
 
 \subsubsection{Enumaration}
 \begin{lstlisting}
@@ -86,8 +88,8 @@ Hier sind die Einträge in jeder Zeile gleich lang, dadurch wird die Matrize Rec
 
 \textbf{Strings}
 \begin{itemize}
-	\item Können mit "+" verbunden werend z.B. "Don" + s
-	\item Könne selektiert werden: z.B. s[i]
+	\item Können mit "+" verbunden werden z.B. "Don" + s
+	\item Können selektiert werden: z.B. s[i]
 	\item Strings sind vom Type reference
 	\item Können mit == und != verglichen werden
 	\item und vieles mehr \ldots
@@ -157,7 +159,7 @@ Hier sind die Einträge in jeder Zeile gleich lang, dadurch wird die Matrize Rec
 	         may have a destructor          &                no destructor                 \\ \hline
 \end{tabular} 
 
-\subsubsection{Boxing Uniboxing}
+\subsubsection{Boxing Unboxing}
 \begin{figure}[h]
 	\centering
 	\includegraphics[height=3cm, ]{images/CSharp/BoxingUnboxing}
