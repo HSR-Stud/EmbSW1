@@ -1,2 +1,25 @@
 \section{.Net Micro Framework}
 \label{netmicro}
+\subsection{Übersicht}
+\begin{itemize}
+	\item Kleinerer Footprint (512kB ROM, 256kB RAM)
+	\item 32-Bit non-MMU $\rightarrow$ kleinere Kosten
+	\item Basiert auf den .NET Libraries
+	\item Programmiert wird mit Visual Studio und C$\sharp$
+	\item Unabhängige Code-Basis, im Gegensatz zum Compact Framework (.NET CF)
+	\item Bootbare CLR welche direkt auf der Hardware ohne Betriebssystem läuft
+\end{itemize}
+
+\subsection{Vorteile}
+\begin{itemize}
+	\item Hochsprache (C$\sharp$) auf HW
+	\item Sehr schnell implementiert (Prototyping)
+	\item Kein OS erforderlich
+\end{itemize}
+
+\subsection{Nachteile}
+\begin{itemize}
+	\item Tendenziell langsammer (interpretierter Code)
+	\item hohe HW-Anforderungen
+	\item Kein sehr direkter HW-Zugriff möglich
+\end{itemize}
