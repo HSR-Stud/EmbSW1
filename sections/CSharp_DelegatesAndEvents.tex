@@ -1,2 +1,65 @@
-
 \subsection{Delegates and Events}
+\subsubsection{Declaration of a delegate}
+\begin{lstlisting}
+delegate void Notifier (string sender);
+\end{lstlisting}
+
+\subsubsection{Delegate variable}
+Declaraciton
+\begin{lstlisting}
+Notifier greetings;
+\end{lstlisting}
+\begin{itemize}
+  \item A delegate variable can have the value "`null"'
+  \item If "`null"', a delegate must not be called (exception)
+  \item Delegate variables are first class objects, can be stored in data
+  structure, passed as a parameter etc.
+\end{itemize}
+
+\subsubsection{Assigning a method}
+\begin{lstlisting}
+void SayHello(string sender) {
+	Console.WriteLine("Hello from" + sender);
+}
+greetings = new Notifier(SayHello);
+//since C# 2.0 also possible:
+greetings = SayHello;
+\end{lstlisting}
+Every matching method can be assigned to a delegate variable.
+\begin{lstlisting}
+void SayGoodBye(string sender) {
+	Console.WriteLine("Good bye from" + sender);
+}
+greetings = SayGoodBye;
+
+greetings("John"); //console: "Good bye from John"
+\end{lstlisting}
+
+\subsubsection{Calling a delegate variable}
+\begin{lstlisting}
+greetings("John");
+\end{lstlisting}
+
+\subsubsection{Multicast Delegates}
+\begin{lstlisting}
+Notifier greetings
+greetings = SayHello;
+greetings += SayGoodBye;
+greetings("John");
+// "Hello from John"
+// "Good bye from John"
+\end{lstlisting}
+
+\subsubsection{Event}
+An event is a special delegate field. Reasons for events:
+\begin{itemize}
+  \item Only the class that declares the event can fire it
+  \item Other classes may change event fields only with += or -=
+\end{itemize}
+
+\subsubsection{Declaration of an event}
+\begin{lstlisting}
+delegate void SomeEvent(object source, SomeEventArgs e);
+\end{lstlisting}
+1. Parameter: Sender of the event (type object)
+2. Parameter: event info (subclass of System.EventArgs)
