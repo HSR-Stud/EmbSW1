@@ -51,3 +51,15 @@ greetings("John");
 \end{lstlisting}
 
 \subsubsection{Event}
+An event is a special delegate field. Reasons for events:
+\begin{itemize}
+  \item Only the class that declares the event can fire it
+  \item Other classes may change event fields only with += or -=
+\end{itemize}
+
+\subsubsection{Declaration of an event}
+\begin{lstlisting}
+delegate void SomeEvent(object source, SomeEventArgs e);
+\end{lstlisting}
+1. Parameter: Sender of the event (type object)
+2. Parameter: event info (subclass of System.EventArgs)
