@@ -84,7 +84,7 @@ Hier sind die Einträge in jeder Zeile gleich lang, dadurch wird die Matrize Rec
 	int x = a[0,1];
 \end{lstlisting}
 
-\textbf{Strings)}\\
+\textbf{Strings}
 \begin{itemize}
 	\item Können mit "+" verbunden werend z.B. "Don" + s
 	\item Könne selektiert werden: z.B. s[i]
@@ -97,19 +97,19 @@ Hier sind die Einträge in jeder Zeile gleich lang, dadurch wird die Matrize Rec
 \begin{multicols}{2}
 
 	\begin{lstlisting}
-		using System;
-		using System.Collections;
-		class Test {
-			static void Main() {
-			ArrayList a = new ArrayList();
-			a.Add("Charly");
-			a.Add("Delta");
-			a.Add("Alpha");
-			a.Sort();
-			for (int i = 0; i < a.Count; i++)
-				Console.WriteLine(a[i]);
-			}
-		};
+	using System;
+	using System.Collections;
+	class Test {
+		static void Main() {
+		ArrayList a = new ArrayList();
+		a.Add("Charly");
+		a.Add("Delta");
+		a.Add("Alpha");
+		a.Sort();
+		for (int i = 0; i < a.Count; i++)
+			Console.WriteLine(a[i]);
+		}
+	};
 	\end{lstlisting}
 	\columnbreak
 	
@@ -124,18 +124,18 @@ Hier sind die Einträge in jeder Zeile gleich lang, dadurch wird die Matrize Rec
 \begin{multicols}{2}
 
 	\begin{lstlisting}
-		using System;
-		using System.Collections;
-		class Test {
-			static void Main() {
-			Hashtable phone = new Hashtable();
-			phone["Karin"] = 7131;
-			phone["Peter"] = 7130;
-			phone["Wolfgang"] = 7132;
-			foreach (string key in phone.Keys)
-				Console.WriteLine("{0} = {1}", key, phone[key]);
-			}
-		};
+	using System;
+	using System.Collections;
+	class Test {
+		static void Main() {
+		Hashtable phone = new Hashtable();
+		phone["Karin"] = 7131;
+		phone["Peter"] = 7130;
+		phone["Wolfgang"] = 7132;
+		foreach (string key in phone.Keys)
+			Console.WriteLine("{0} = {1}", key, phone[key]);
+		}
+	};
 	\end{lstlisting}
 	\columnbreak
 	
