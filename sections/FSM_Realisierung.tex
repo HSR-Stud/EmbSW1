@@ -22,26 +22,6 @@
    \item Bei allen Varianten sind auch Variationen vorhanden
 \end{itemize}
 
-% \subsubsection{Relaisierung gemäss Balzert\buch{p.11}}
-% Diese Variante ist ungeeignet und sollte nicht eingesetzt werden, die FSM wird
-% besser an den Zuständen aufgehängt
-
-%\lstset{language=C}
-% \lstset{
-%     language=C,
-%     basicstyle=\small\sffamily,
-%     frame=tblr,
-%     backgroundcolor=\color{yellow!20},
-%     numbers=left,
-%     xleftmargin=5.0ex,
-%     numberstyle=\tiny,
-%     numbersep=4pt,
-%     stepnumber=2,
-%     %showstringspaces=false,
-%     keywordstyle=\color{blue}\bfseries
-%     }
-
-
 \subsubsection{Realisierung mit Steuerkonstrukt (prozedural in C)\buch{p. 12}}
 \begin{figure}[h]
   \centering
@@ -51,14 +31,14 @@
 \end{figure}
 \begin{itemize}
   \item Zustände (States) werden in einem eunum definiert (nicht public!)
-\begin{lstlisting}
+\begin{lstlisting}[style=C]
 typdef enum {idleState,         //idle state
              countUpState,      //counting up at each count event
              countDownState}    //counting down at each count event
              State;
 \end{lstlisting}
 \item Ereignisse (Events) werden in einem enum definiert (public!)
-\begin{lstlisting}
+	\begin{lstlisting}[style=C]
 typdef enum {cntEvUp,       //count upawards
              cntEvDown,     //count downwards
              cntEvCount,    //count (up or down)
@@ -66,7 +46,7 @@ typdef enum {cntEvUp,       //count upawards
              CntEvent;
 \end{lstlisting}
 \item Die FSM wird in zwei Funktionen implementiert
-\begin{lstlisting}
+	\begin{lstlisting}[style=C]
 void cntCtrlInit();
 //initalizes counter FSM
 
@@ -77,7 +57,7 @@ void cntCtrlProcess(CntEvent e);
 
 
 \item Der aktuelle Zustand der FSM wird in einer statischen Variablen gehalten
-\begin{lstlisting}
+	\begin{lstlisting}[style=C]
 typdef enum {idleState,         //idle state
              countUpState,      //counting up at each count event
              countDownState}    //counting down at each count event
@@ -95,7 +75,7 @@ void cntCtrlInit()
 \end{itemize}
 
 \subsubsection{Vollständiger Code für prozedurales Steuerkonstrukt}
-\begin{lstlisting}
+\begin{lstlisting}[style=C]
 // counterCtrl.h
 //
 // implements the Finite State Machine (FSM) of an up/down-Counter
@@ -121,7 +101,7 @@ void cntCtrlProcess(CntEvent e);
 
 #endif
 \end{lstlisting}
-\begin{lstlisting}
+\begin{lstlisting}[style=C]
 // counterCtrl.c
 //
 // implements the Finite State Machine (FSM) of an up/down-Counter
@@ -213,7 +193,7 @@ void cntCtrlProcess(CntEvent e)
 }
 \end{lstlisting}
 
-\begin{lstlisting}
+\begin{lstlisting}[style=C]
 // counterTest.c
 //
 // Test program for the Finite State Machine (FSM) of an up/down-Counter
@@ -288,21 +268,21 @@ C++)\buch{p.21}}
   \item Der Code wird eleganter, eine Performanceeinbusse ist nicht vorhanden
   \item States werden im \textbf{privaten-Teil} der Klasse mit einem enum
   definiert
-\begin{lstlisting}
+\begin{lstlisting}[style=Cpp]
 enum State {idleState,        // idle state 
             countUpState,     // counting up at each count event 
             countDownState};  //counting down at each count event
 \end{lstlisting}
 \item Events werden im \textbf{public-Teil} der klasse mit einem enum definiert
 (public, weil die Events zur Schnittstelle gehören)
-\begin{lstlisting}
+\begin{lstlisting}[style=Cpp]
 enum Event {evUp,     // count upwards
             evDown,   // count downwards 
             evCount,  // count (up or down)
             evStop};  // stop counting
 \end{lstlisting}
 \item Die FSM wird in zwei Funktionen implementiert
-\begin{lstlisting}
+\begin{lstlisting}[style=Cpp]
 CounterCtrl::CounterCtrl(); 
 // Ctor initializes counter FSM
 
@@ -328,7 +308,7 @@ codiert werden.
 \end{itemize}
 
 \subsubsection{Vollständiger Code für objektorientiertes Steuerkonstrukt}
-\begin{lstlisting}
+\begin{lstlisting}[style=Cpp]
 // counterCtrl.h
 //
 // implements the Finite State Machine (FSM) of an up/down-Counter
@@ -363,7 +343,7 @@ class CounterCtrl
 #endif
 \end{lstlisting}
 
-\begin{lstlisting}
+\begin{lstlisting}[style=Cpp]
 // counterCtrl.cpp
 //
 // implements the Finite State Machine (FSM) of an up/down-Counter
@@ -448,7 +428,7 @@ void CounterCtrl::process(Event e)
 }
 \end{lstlisting}
 
-\begin{lstlisting}
+\begin{lstlisting}[style=Cpp]
 // counter.h
 //
 // implements an up/down-Counter
@@ -479,7 +459,7 @@ class Counter
 #endif
 \end{lstlisting}
 
-\begin{lstlisting}
+\begin{lstlisting}[style=Cpp]
 // counter.cpp
 //
 // implements an up/down-Counter
@@ -509,7 +489,7 @@ void Counter::setCounter(int val)
 }
 \end{lstlisting}
 
-\begin{lstlisting}
+\begin{lstlisting}[style=Cpp]
 // counterTest.cpp
 //
 // Test program for the Finite State Machine (FSM) of an up/down-Counter
@@ -576,14 +556,14 @@ int main(void)
   Engine}, die in der Tabelle "`nachschaut"', was zu tun ist
   \item Die Execution Engine ändert sich nicht, wenn die FSM geändert wird
   \item Das Testprogramm ist völlig unverändert
-  \item Die Schnittstell von CounterCtrl (public-Teil) ist ebenfalls identisch
+  \item Die Schnittstelle von CounterCtrl (public-Teil) ist ebenfalls identisch
   \item Die Klasse Counter ändert auch nicht
   \item Die \textbf{einzige Änderung} liegt im privaten Teil der
   CounterCtrl-Klasse und natürlich in deren Implementation
   \item Alle (Tansitions-)Aktionen werden als Methoden deklariert,
   \textit{Action} wird als Funktionspointer definiert. Diese Methoden müssen
   alle mit dem Funktionspointer übereinstimmen
- \begin{lstlisting}
+ \begin{lstlisting}[style=Cpp]
  typedef void (CounterCtrl::*Action)(void);// ptr for action function
   // action functions 
   void actionIdleUp(void); 
@@ -601,7 +581,7 @@ int main(void)
    \item Nächster Zustand
  \end{itemize}
 fsm() wird als statischer Array deklariert.
-\begin{lstlisting}
+\begin{lstlisting}[style=Cpp]
 struct Transition
     {
       State currentState;   // current state
@@ -618,7 +598,7 @@ struct Transition
   \caption{Tabellendefinition}
   \label{fig:tabelle}}
 \end{figure}
-\begin{lstlisting}
+\begin{lstlisting}[style=Cpp]
 enum {transCount = 6}; // number of transitions (rows in following table)
 const CounterCtrl::Transition CounterCtrl::fsm[transCount] =  // this table defines the fsm
 {//currentState     triggering event  action function                 next state
@@ -631,7 +611,7 @@ const CounterCtrl::Transition CounterCtrl::fsm[transCount] =  // this table defi
 };
 \end{lstlisting}
 \item Aufbau einer Aktionsmethode
-\begin{lstlisting}
+\begin{lstlisting}[style=Cpp]
 void CounterCtrl::actionDownDown(void)
 {
   myCounter.count(-1);
@@ -639,7 +619,7 @@ void CounterCtrl::actionDownDown(void)
 }
 \end{lstlisting}
 \item Execution Engine
-\begin{lstlisting}
+\begin{lstlisting}[style=Cpp]
 void CounterCtrl::process(Event e)    // execution engine, this function never changes
 {
   for (int i=0; i<transCount; i++)
@@ -657,7 +637,7 @@ void CounterCtrl::process(Event e)    // execution engine, this function never c
 komplexe Prüfung (Event und Guard) ausgelöst wird, dann könnte der Eventeintrag
 in der Tabelle durch einen weiteren Funktionspointer auf eine Checkfunktion
 ersetzt werden
-\begin{lstlisting}
+\begin{lstlisting}[style=Cpp]
 typedef bool (CounterCtrl::*Checker)(Event);
 // function ptr for checker function 
 // checker functions
@@ -675,7 +655,7 @@ struct Transition
 \end{itemize}
 
 \subsubsection{Vollständiger Code für Tabellen-Realisation}
-\begin{lstlisting}
+\begin{lstlisting}[style=Cpp]
 // counterCtrl.h
 //
 // implements the Finite State Machine (FSM) of an up/down-Counter as a table
@@ -737,7 +717,7 @@ class CounterCtrl
 #endif
 \end{lstlisting}
 
-\begin{lstlisting}
+\begin{lstlisting}[style=Cpp]
 //
 // counterCtrl.cpp
 //
@@ -846,7 +826,7 @@ void CounterCtrl::actionDownDown(void)
 
 \end{lstlisting}
 
-\begin{lstlisting}
+\begin{lstlisting}[style=Cpp]
 //
 // counter.h
 //
@@ -878,7 +858,7 @@ class Counter
 #endif
 
 \end{lstlisting}
-\begin{lstlisting}
+\begin{lstlisting}[style=Cpp]
 //
 // counter.cpp
 //
@@ -910,7 +890,7 @@ void Counter::setCounter(int val)
 
 \end{lstlisting}
 
-\begin{lstlisting}
+\begin{lstlisting}[style=Cpp]
 //
 // counterTest.cpp
 //
@@ -1004,7 +984,7 @@ realisiert
   \label{fig:klassendiagramm}}
 \end{figure}
 \item counterCtrl.h : Schnittstelle zur FSM
-\begin{lstlisting}
+	\begin{lstlisting}[style=Cpp]
 // counterCtrl.h
 //
 // implements the Finite State Machine (FSM) of an up/down-Counter
@@ -1034,7 +1014,7 @@ class CounterCtrl
 #endif
 \end{lstlisting}
 \item counterCtrl.cpp
-\begin{lstlisting}
+	\begin{lstlisting}[style=Cpp]
 // counterCtrl.cpp
 //
 // implements the Finite State Machine (FSM) of an up/down-Counter
@@ -1057,7 +1037,7 @@ void CounterCtrl::process(Event e)
 }
 \end{lstlisting}
 \item class CounterState: Interface
-\begin{lstlisting}
+	\begin{lstlisting}[style=Cpp]
 //
 // counterState.h
 //
@@ -1136,7 +1116,7 @@ class CountDownState : public CounterState // it's a singleton
 
 \end{lstlisting}
 \item class CountUpState: Implementation
-\begin{lstlisting}
+	\begin{lstlisting}[style=Cpp]
 //
 // counterState.cpp
 //
@@ -1285,7 +1265,7 @@ void CountDownState::exitAction(void)
 
 \end{lstlisting}
 \item counter.h
-\begin{lstlisting}
+	\begin{lstlisting}[style=Cpp]
 //
 // counter.h
 //
@@ -1318,7 +1298,7 @@ class Counter
 
 \end{lstlisting}
 \item counter.cpp
-\begin{lstlisting}
+	\begin{lstlisting}[style=Cpp]
 //
 // counter.cpp
 //
@@ -1350,7 +1330,7 @@ void Counter::setCounter(int val)
 
 \end{lstlisting}
 \item counterTest.cpp
-\begin{lstlisting}
+	\begin{lstlisting}[style=Cpp]
 //
 // counterTest.cpp
 //
