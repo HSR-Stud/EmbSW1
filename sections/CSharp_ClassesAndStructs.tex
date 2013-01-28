@@ -240,13 +240,14 @@ f[10] = 'A'; // calls f.set(10, 'A')
 \end{lstlisting}
 
 \subsubsection{Operator Overloading}
-The following operators can be overloaded:
+The following operators can be overloaded:\\
 %TODO Zeichen ergänzen 
-\begin{itemize}
-	\item arithmetic:		+, - (unary and binary), *, /, \%, ++, --
-	\item relational:		==, !=, <, >, <=, >=
-	\item bit operators:				
-\end{itemize}
+\begin{tabular}{ll}
+	- arithmetic:    & $+, - (unary and binary), *, /, \%, ++, -- $ \\
+	- relational:    & $==, !=, <, >, <=, >=$                       \\
+	- bit operators: & $\&,|, \text{\textasciicircum}$              \\
+	- others:        & $!$ , \textasciitilde, $>>,<>, true, false$  \\
+\end{tabular}
 \begin{multicols}{2}
 \begin{lstlisting}
 struct Fraction {
