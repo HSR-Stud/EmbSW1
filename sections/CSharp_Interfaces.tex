@@ -1,6 +1,6 @@
 \subsection{Interfaces}
 \subsubsection{Syntax}
-\begin{lstlisting}[style=C]
+\begin{lstlisting}[style=Csharp]
   public interface IList: Icollection, IEnumerable
   {
     int Add (object value);             //methods
@@ -25,7 +25,7 @@
 \end{itemize}
 
 \subsubsection{Implementierung durch KLassen und Structs}
-\begin{lstlisting}[style=C]
+\begin{lstlisting}[style=Csharp]
   class Myclass: MyBaseLcass, IList, ISerializable
   {
     public int Add (object value){...}
@@ -49,7 +49,7 @@ deklariert werden.
 \end{itemize}
 
 \subsubsection{Working with Interfaces}
-\begin{lstlisting}[style=C]
+\begin{lstlisting}[style=Csharp]
   //Zuweisungen: 
   MyClass c = new MyClass(); 
   IList list = c; 
@@ -68,7 +68,7 @@ deklariert werden.
 \end{lstlisting}
 
 \subsubsection{Beispiel}
-\begin{lstlisting}[style=C]
+\begin{lstlisting}[style=Csharp]
   interface ISimpleReader
   {
     int Read();  

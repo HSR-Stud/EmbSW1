@@ -1,6 +1,6 @@
 \subsection{Inheritance}
 \subsubsection{Syntax}
-\begin{lstlisting}[style=C]
+\begin{lstlisting}[style=Csharp]
   class A //Basisklasse
   {
     int a; 
@@ -24,8 +24,8 @@
   Basisklasse erben 
   \item Ein Klasse kann \textbf{nur} von einer Klasse erben, \textbf{nicht} von
   einem Struct
-  \item Ein Klasse kann von mehreren Interfaces erben und diese auch
-  implementieren
+  \item Eine Klasse kann von mehreren Interfaces erben und 
+  muss diese somit implementieren
   \item Structs können \textbf{nicht} von anderen Typen erben, aber sie können
   diverse Interfaces implementieren
   \item Ein Klasse \textbf{ohne} explizite Basisklasse erbt von der Klasse
@@ -33,7 +33,7 @@
 \end{itemize}
  
 \subsubsection{Zuweisungen und Type Checks}
-\begin{lstlisting}[style=C]
+\begin{lstlisting}[style=Csharp]
   class A{...};
   class B:A{...};
   class C:B{...};
@@ -59,7 +59,7 @@
 \end{lstlisting}
 
 \subsubsection{Checked Type Casts}
-\begin{lstlisting}[style=C]
+\begin{lstlisting}[style=Csharp]
   A a = new C(); 
   B b = (B) a;    //NO IDEA???
   a = null; 
@@ -75,7 +75,7 @@
 
 \subsubsection{Overriding Methods}
 Nur \textbf{virtuelle} Methoden können ins Unterklassen überschrieben werden. 
-\begin{lstlisting}[style=C]
+\begin{lstlisting}[style=Csharp]
   class A
   {
     public         void F(){...} //Kann nicht ueberschrieben werden 
@@ -108,7 +108,7 @@ Nur \textbf{virtuelle} Methoden können ins Unterklassen überschrieben werden.
 \subsubsection{Hiding}
 Members können in einer Unterklasse als new deklariert werden. Sie verstecken
 vererbte Members mit dem gleichen Namen und derselben Signatur. 
-\begin{lstlisting}[style=C]
+\begin{lstlisting}[style=Csharp]
   class A
   {
     public int x; 
@@ -159,7 +159,7 @@ Weitere Beispiele: Siehe Folie 8 und 9 vom Foliensatz "`Inheritance"'
   erstellen. 
 \end{itemize}
 Beispiel: 
-\begin{lstlisting}[style=C]
+\begin{lstlisting}[style=Csharp]
   abstract class Stream
   {
     public abstract void Write(char ch);
@@ -184,7 +184,7 @@ Beispiel:
   get und set Methoden haben wie in der Basisklasse.
 \end{itemize}
 Beispiel: 
-\begin{lstlisting}[style=C]
+\begin{lstlisting}[style=Csharp]
   abstract class Sequence
   {
     public abstract void Add(object x);             //Methode
@@ -212,7 +212,7 @@ Beispiel:
   \end{itemize}
 \end{itemize}
 Beispiel: 
-\begin{lstlisting}[style=C]
+\begin{lstlisting}[style=Csharp]
   sealed class Account:Asset
   {
     long val; 
@@ -235,7 +235,7 @@ Beispiel:
   \end{itemize}
 \end{itemize}
 Oberste Basisklasse:
-\begin{lstlisting}[style=C]
+\begin{lstlisting}[style=Csharp]
 class Object
 {
   protected object      MemberwiseClone(){...}
@@ -246,7 +246,7 @@ class Object
 }
 \end{lstlisting}
 Direkt verwendbar: 
-\begin{lstlisting}[style=C]
+\begin{lstlisting}[style=Csharp]
 class Object
 {
   Type t = x.GetType();  //Returns a type descriptor
@@ -254,7 +254,7 @@ class Object
 }
 \end{lstlisting}
 Überschreibbar in Unterklassen: 
-\begin{lstlisting}[style=C]
+\begin{lstlisting}[style=Csharp]
   x.Equals(y)                 //Compare values of x and y
   y.ToString()                //Should return a string representation of x
   int code = x.GetHashCode(); //Should return a hashcode for x
