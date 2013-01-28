@@ -9,7 +9,21 @@
 \begin{itemize}
 	\item Typischer Bootvorgang
 	\begin{enumerate}
-		\item Beim 
+		\item Beim Aufstarten wird immer zuerst das
+		Bootloader-Programm gestartet
+		\item In diesem Programm wird eine Weile
+		gewartet, ob beispielsweise auf der RS-
+		232 ein neues Programm in den
+		Programmbereich geschrieben werden
+		soll
+		\item Wenn ein neues Programm geschrieben
+		werden soll, dann wird dieses mit Hilfe
+		eines definierten Protokolls übertragen
+		und geschrieben
+		\item Wenn das Programm fertig übertragen
+		wurde oder das bestehende ausgeführt
+		werden soll, wird mit der Ausführung an
+		dieser Stelle fortgefahren
 	\end{enumerate}
 	\item Um die sichere Übertragung zu gewährleisten, wird diese meist mittels CRC gesichert, bei jedem Datenblock wird zusätzlich eine Prüfsumme mitgeschickt
 	\item Teilweise wird die Übertragung auch verschlüsselt, damit eine bösartige Änderung des Programms verhindert werden kann
