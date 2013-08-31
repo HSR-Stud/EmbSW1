@@ -20,11 +20,11 @@
   Operatoren oder nested Types enthalten. 
   \item Interface Members sind implizit public abstract (virtual)
   \item Interface Members dürfen nicht statisch sein
-  \item Klassen und Strukts können mehrere Interfaces implementieren. 
+  \item Klassen und Structs können mehrere Interfaces implementieren. 
   \item Interfaces können von anderen Interfaces erben
 \end{itemize}
 
-\subsubsection{Implementierung durch KLassen und Structs}
+\subsubsection{Implementierung durch Klassen und Structs}
 \begin{lstlisting}[style=Csharp]
   class Myclass: MyBaseLcass, IList, ISerializable
   {
@@ -40,7 +40,7 @@
 \item Eine Klasse kann von einer einzelnen Basisklasse erben, kann aber mehrere
 Interfaces implementieren. Ein Struct kann nicht von einem Type erben, aber
 mehrere Interfaces implementieren. 
-\item Jedes Interfacemember (Methode, Property, Indexer) muss aus einer
+\item Jeder Interfacemember (Methode, Property, Indexer) muss aus einer
 Basisklasse implementiert oder vererbt sein. 
 \item Implementierte Interfacemethoden müssen \textbf{nicht} mit override
 deklariert werden. 
@@ -106,4 +106,24 @@ deklariert werden.
 \end{figure}
 
 \subsubsection{Name Clashes}
-Siehe Beispiel auf Folie 6. 
+Tritt auf wenn zwei Interfaces Methoden mit dem gleichen Namen haben.
+\begin{lstlisting}
+interface I1 { void F(); }
+interface I2 { void F(); }
+
+class B: I1, I2 {
+	// implementation by a single F method
+	public void F() { Console.WriteLine("B.F");}
+	// implementation by separate F methods
+	void I1.F() { Console.WriteLine("I1.F");} // Must not be public!
+	void I2.F() { Console.WriteLine("I2.F");} // Must not be public!
+}
+
+B b = new B();
+b.F(); // B.F
+
+I1 i1 = b;
+i1.F(); // I1.F
+
+(b as I2).F(); // I2.F
+\end{lstlisting} 

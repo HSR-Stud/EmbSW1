@@ -56,7 +56,7 @@ Thread inne hat, hat ein Prozess auch inne (aber NICHT umgekehrt)!\\
     \hline
     Buchhaltungsinformationen
   \end{tabular}
-\end{centering}
+\end{centering}\\
 Quasiparallelität:\\
 Prozesse/Threads können folgende Zustände und Übergänge erfahren: 
 \begin{center}
@@ -336,7 +336,7 @@ Signale:
     \begin{itemize}
       \item Jedes P(s) braucht ein V(s)
       \item Probleme treten auf, wenn V(s) vergessen geht!
-      \item Beim Auftreten einer Excewption kann das Freigeben ebenfalls
+      \item Beim Auftreten einer Exception kann das Freigeben ebenfalls
       schwierig sein. 
     \end{itemize}
    \end{itemize}
@@ -426,12 +426,12 @@ Wait und Pulse:
    gesperrten Bereich ist. 
    \item A kommt zu Wait, legt sich schlafen und gibt die Sperre frei. 
    \item B kommt zu lock(v) und erhält Eintritt, da die Sperre frei ist. 
-   \item B komm tzu Pulse und weckt damit A. Es kann (aber muss nicht) ein
+   \item B kommt zu Pulse und weckt damit A. Es kann (aber muss nicht) ein
    Thread-Wechsel statt finden. 
    \item A versucht, die Sperre wieder zu erlangen, was aber nicht gelingt, da B
    sie noch hat. 
-   \item B gibt am Ende des gesperrten bereichs die Sperre frei, A kann nun
-   wiede reintreten und weiter laufen. 
+   \item B gibt am Ende des gesperrten Bereichs die Sperre frei, A kann nun
+   wieder eintreten und weiter laufen. 
 \end{enumerate}
 Beachte: 
 \begin{itemize}
