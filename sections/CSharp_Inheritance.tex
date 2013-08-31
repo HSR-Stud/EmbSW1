@@ -74,7 +74,7 @@
 \end{lstlisting}
 
 \subsubsection{Overriding Methods}
-Nur \textbf{virtuelle} Methoden können ins Unterklassen überschrieben werden. 
+Nur \textbf{virtuelle} Methoden können in Unterklassen überschrieben werden. 
 \begin{lstlisting}[style=Csharp]
   class A
   {
@@ -134,11 +134,86 @@ vererbte Members mit dem gleichen Namen und derselben Signatur.
 Weitere Beispiele: Siehe Folie 8 und 9 vom Foliensatz "`Inheritance"'
 
 \subsubsection{Constructor in Subclasses}
-\begin{figure}[h]
-  \centering
-  \includegraphics[height=5cm, ]{images/CSharp/ConstructorsInSubclasses}
-  \caption{Konstruktoren in Unterklassen} 
-\end{figure}
+
+\begin{table}
+\lstset{numbers=none, tabsize=3, frame=None}
+\centering
+\begin{tabular}{|p{4cm}|p{4cm}|p{4cm}|p{4cm}|}
+\hline
+\multicolumn{3}{|c|}{Implicit call of the base class constructor} & Explicit call
+\\ \hline
+\begin{lstlisting}
+class A {
+	...
+
+}
+
+class B:A {
+	public B(int x) 
+	{...}
+}
+\end{lstlisting} &
+\begin{lstlisting}
+class A { 
+	public A() 
+	{...}
+}
+
+class B:A {
+	public B(int x) 
+	{...}
+}
+\end{lstlisting} &
+\begin{lstlisting}
+class A { 
+	public A(int x) 
+	{...}
+}
+
+class B:A {
+	public B(int x) 
+	{...}
+}
+\end{lstlisting} &
+\begin{lstlisting}
+class A { 
+	public A(int x) 
+	{...}
+}
+
+class B:A {
+	public B(int x)
+	:base(x) {...}
+}
+\end{lstlisting}
+\\ \hline
+\lstinline!B b = new B(3);! & \lstinline!B b = new B(3);! & \lstinline!B b = new B(3);! & \lstinline!B b = new B(3);!
+\\ \hline
+OK
+\begin{itemize}
+	\item Default Ctor \lstinline!A()!
+	\item \lstinline!B(int x)!
+\end{itemize}& 
+OK
+\begin{itemize}
+	\item \lstinline!A()!
+	\item \lstinline!B(int x)!
+\end{itemize}& 
+Error!
+\begin{itemize}
+	\item no explicit call of the \lstinline!A()! Ctor
+	\item default Ctor \lstinline!A()! does not exist
+\end{itemize}& 
+OK
+\begin{itemize}
+	\item \lstinline!A(int x)!
+	\item \lstinline!B(int x)!
+\end{itemize}
+\\ \hline
+\end{tabular}
+\caption{Kunstruktoren un Unterklassen}
+\end{table}
+
 
 \subsubsection{Visibility}
 \begin{itemize}
