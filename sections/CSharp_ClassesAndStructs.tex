@@ -2,9 +2,9 @@
 
 \begin{itemize}
 	\item Objekte werden im Heap erzeugt
-	\item Objekte werden mit \textit{new} erzeugt
-	\item eine Klasse kann nur von \textit{einer} anderen Klasse erben
-	\item eine Klasse kann von \textit{mehreren} interfaces erben
+	\item Objekte werden mit \textbf{new} erzeugt
+	\item eine Klasse kann nur von \textbf{einer} anderen Klasse erben
+	\item eine Klasse kann von \textbf{mehreren} Interfaces erben
 \end{itemize}
 
 \subsubsection{Fields and Constants}
@@ -13,7 +13,7 @@
 	\textbf{Field}           & int value = 0;          & - initial is optional                                     \\
 	                         &                         & - initialization value must be computable at compile time \\
 	                         &                         & - field of a struct must not be initialized               \\ \hline
-	\textbf{Constant}        & cons long size = 4;     & - must be initialized                                     \\
+	\textbf{Constant}        & const long size = 4;     & - must be initialized                                     \\
 	                         &                         & - value must be computable at compile time                \\ \hline
 	\textbf{Read-only field} & readonly DateTime date; & - value needs not be computable at compile time           \\
 	                         &                         & - value must not be changed later \\
@@ -88,7 +88,7 @@ F(i, i); // ambiguous between F(int x, long y) and F(long x, int y); => compilat
 \subsubsection{Constructor}
 \begin{itemize}
 	\item Constructors can be overloaded.
-	\item A construcor may call another constructor with this
+	\item A construcor may call another constructor with \textit{this}
 	\item Before a constructor is called, fields are possibly initialized.
 \end{itemize}
 
@@ -243,7 +243,7 @@ f[10] = 'A'; // calls f.set(10, 'A')
 The following operators can be overloaded:\\
 %TODO Zeichen ergänzen 
 \begin{tabular}{ll}
-	- arithmetic:    & $+, - (unary and binary), *, /, \%, ++, -- $ \\
+	- arithmetic:    & $+, -$ (unary and binary)$ , *, /, \%, ++, -- $ \\
 	- relational:    & $==, !=, <, >, <=, >=$                       \\
 	- bit operators: & $\&,|, \text{\textasciicircum}$              \\
 	- others:        & $!$ , \textasciitilde, $>>,<>, true, false$  \\

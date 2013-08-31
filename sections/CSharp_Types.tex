@@ -67,13 +67,13 @@ Wie in in der Programiersprache C, beginnt der Index auch hier bei der Stelle 0.
 \end{lstlisting}
 
 \textbf{Multi-dimensinal arrays (jagged)}\\
-Hier können die Zeileneinträge verschieden lang sein, das heiss die Matrize ist nicht Rechteckig!
+Hier können die Zeileneinträge verschieden lang sein, das heisst die Matrize ist nicht Rechteckig!
 \begin{lstlisting}
 	int[][] a = new int[2][]; // array of references to other arrays
 	a[0] = new int[] {1, 2, 3}; // cannot be initialized directly
-	a[1] = new int[] {4, 5, 6};
+	a[1] = new int[] {4, 5};
 	
-	int x = a[0][1];
+	int x = a[0][1]; // x = 2
 \end{lstlisting}
 
 \textbf{Multi-dimensinal arrays (rectangular)}\\
@@ -154,7 +154,7 @@ Hier sind die Einträge in jeder Zeile gleich lang, dadurch wird die Matrize Rec
 	           \textbf{Classes }            &               \textbf{Structs}               \\ \hline
 	            Reference types             &                 Value types                  \\ \hline
 	          support inheriance            &                no inheritance                \\ \hline
-	       can implements interfaces        &          can implements interfaces           \\ \hline
+	       can implement interfaces        &          can implement interfaces           \\ \hline
 	may declare a parameterless constructor & must not declare a parameterless constructor \\ \hline
 	         may have a destructor          &                no destructor                 \\ \hline
 \end{tabular} 
