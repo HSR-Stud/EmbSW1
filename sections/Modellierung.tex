@@ -22,7 +22,7 @@ Agile Softwareentwicklung ist der Oberbegriff für den Einsatz von Agilität (fl
 \end{itemize} 
 
 
-\textbf{Model Driven Development}\\
+\textbf{Model Driven Development (MDD)}\\
 Bei der modellbasierten Entwicklung kommen in allen Entwicklungsphasen durchgängig Modelle zur Anwendung.
 
 \begin{multicols}{2}
@@ -30,24 +30,25 @@ Bei der modellbasierten Entwicklung kommen in allen Entwicklungsphasen durchgän
 	\begin{itemize}
 		\item Aktivitätsdiagramm
 		\item Sequenzdiagramm
-		\item Zustandsdiagramm
+		\item Zustandsdiagramm (Statecharts)
 		\item Klassendiagramm
 		\item Use Case Diagramm
-		\item Verteilungsdiagramme
+		\item Verteilungsdiagramme (Deployment Diagram)
 	\end{itemize}
 	\columnbreak
 	
-	\textbf{Vorgehen bei Modellierung:}
+	\textbf{Vorgehen bei Modellierung:}\\
 	\begin{enumerate}
 		\item Systemgrenze Definieren
 		\item Systemprozesse finden
-		\item Verteilung festlegen
+		\item Verteilung festlegen 
 		\item Systemprozesse detaillieren
 	\end{enumerate}
 \end{multicols}
 
 \subsection{Systemgrenze definieren \buch{p.14}}
 Das wichtigste und allererste bei sämtlichen Systemen ist die Festlegung der Systemgrenze (System boundary)
+mittels Use-case oder auch Sequenzdiagramm.
 \begin{itemize}
 	\item Was macht das System, d.h was liegt innerhalb der Systemgrenze
 	\item Mit welchen Teilen ausserhalb des Systems kommuniziert das System
@@ -63,9 +64,9 @@ Das wichtigste und allererste bei sämtlichen Systemen ist die Festlegung der Sy
 
 \textbf{Systemprozesse finden}\\
 Die Aufteilung in Hardware und Software sollte erst nach der Analyse der grundlegenden Anforderungen erfolgen.
-RTE-Systeme bestehen meistens nur aus einem einzigen Systemprozess, speziell wen das System im Prinzip "nur" ein
+RTE-Systeme bestehen meistens nur aus einem einzigen Systemprozess, speziell wen das System im Prinzip 'nur' ein
 Regler ist. Dieser Schritt ist in der Analysephase. Wenn hier von Prozessen die Rede ist, bedeutet das nicht unbedingt ein
-Betriebssystem Prozess ist.\newline
+Betriebssystem Prozess ist. Wichtig ist, dass es nicht zuviele Funktionsblöcke gibt (nicht ins Detail gehen).
 
 \subsection{Verteilung Festlegen \buch{p.23}}
 Bei Systemen bei denen die Grenze durch Nachrichtenflüsse charakterisiert werden können, eignen sich Sequenzdiagramme
