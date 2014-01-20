@@ -5,6 +5,7 @@ Ein Embedded System \ldots
   \item \ldots ist ein System, das einen Computer beinhaltet, aber keiner ist
   \item \ldots besteht üblicherweise aus HW und SW
   \item \ldots ist häufig ein Control System\\
+\end{itemize}
 Charakterisierung von Embedded Systems
   \begin{itemize}
     \item \textbf{Reaktive Systeme} : Interagieren mit ihrer Umgebung
@@ -19,14 +20,13 @@ Charakterisierung von Embedded Systems
       \item Lärm, Vibration, Feuchtigkeit etc\ldots
     \end{itemize}
   \end{itemize}
-\end{itemize}
 
 Verfügbarkeit: \buch{p.26}\\ 
 Anteil der Betriebsdauer, in  der das System seine Funktion
 erfüllt: 
 
 \begin{equation}
-\frac{Gesamtzeit-Ausfallzeit}{Gesamtzeit}
+Verfuegbarkeit = \frac{Gesamtzeit-Ausfallzeit}{Gesamtzeit}
 \end{equation}
 
 \subsection{Real-time Systems\buch{p.30}}
@@ -35,6 +35,7 @@ erfüllt:
 Antwortzeiten.\\
 \textbf{Antwortzeit} : Zeit vom Stimulus (Vorhandensein
 Eingangswert) bis zum Erscheinen des Ausgangswert\\
+\textbf{Fehlerhaftes System:} es werden nicht alle formal definierten Systemspezifikationen erfüllt.\\
 \textbf{Soft real-time system}: System wird durch das verletzen von
 Antwortzeiten nicht ernsthaft beeinflusst $\rightarrow$ Komforteinbussen (Bsp.:
 Geldautomat)\\
@@ -46,7 +47,9 @@ Rasenmäher)\\
 System ernsthaft beeinflusst $\rightarrow$ kompletter Ausfall, katastrophales
 Fehlverhalten (Bsp.: Helikoptersteuerung)\\
 \textbf{Determinismus}: Für jeden möglichen Zustand und alle möglichen
-Eingabewerte ist jederzeit der nächste Zustand und die Ausgabewerte definiert.\\
+Eingabewerte ist jederzeit der nächste Zustand und die Ausgabewerte definiert.
+
+\begin{multicols}{2}
 \textbf{Auslastung/Utilization}: 
 Auslastung pro Prozess:
 \begin{center}  
@@ -57,14 +60,18 @@ Task i\\
 & $p_\text{i}$ = Executionperiode des Task i
 \end{tabular}\\
 \end{center}
+
+\columnbreak
+
 Für n periodische Tasks erhalten wir die gesamte Auslastung U: 
 \begin{center}
 \begin{equation}
 U = \sum_{i=1}^{n}u_\text{i} = \sum_{i=1}^{n}\frac{e_\text{i}}{p_\text{i}}
 \end{equation}
 \end{center}
+\end{multicols}
 
-\subsection{Rate monotonic scheduling\buch{p.45}}
+\subsection{Rate monotonic scheduling (RMS)\buch{p.45}}
 \textbf{Cooperative Scheduling}
   \begin{itemize}
     \item Aktiver Task entscheidet selbst, wann er den Prozessor für anderen
@@ -87,7 +94,7 @@ U = \sum_{i=1}^{n}u_\text{i} = \sum_{i=1}^{n}\frac{e_\text{i}}{p_\text{i}}
       \end{itemize}
     \item Viele RTOS verwenden preemptive static-priority Algorithmen 
   \end{itemize}
-Allgemein:\\ Eine Menge von Tasks ist dann schedulable, wenn alle Tasks zu
+Schedulability:\\ Eine Menge von Tasks ist dann schedulable, wenn alle Tasks zu
 allen Zeiten ihre Deadlines einhalten können.\\
 \textbf{Rate-monotonic scheduling}\\
 \textbf{Theorem:}\\
@@ -99,29 +106,37 @@ Oder:\\
 Ein Set von n periodischen Tasks ist dann rate-monotonic schedulable, wenn die
 gesamte Systemauslastung U folgenden Wert nicht überschreitet: 
 \begin{equation}
-U = n\cdot(2^\frac{1}{n}-1)
+U \leq n\cdot(2^\frac{1}{n}-1)
 \end{equation}
-Beispiele:\\
-\begin{tabular}{l | l}
-\hline
-n & U in \%\\
-\hline
-2 & 82.4\\
-\hline
-3 & 78.0\\
-\hline
-4 & 75.7\\
-\hline
-5 & 74.4\\
-\hline
-10 & 71.7\\
-\hline
-$\infty$ & $\sim$69.3
-\end{tabular}\\
+%Beispiele:\\
+%\begin{tabular}{l | l}
+%\hline
+%n & U in \%\\
+%\hline
+%2 & 82.4\\
+%\hline
+%3 & 78.0\\
+%\hline
+%4 & 75.7\\
+%\hline
+%5 & 74.4\\
+%\hline
+%10 & 71.7\\
+%\hline
+%$\infty$ & $\sim$69.3
+%\end{tabular}\\
 Die maximale Systemauslastung beträgt: 
 \begin{equation}
 \lim_{n \to \infty}n\cdot(2^\frac{1}{n}-1) = \ln 2 \approx 0.69
 \end{equation}
 Folgerung aus diesem Grenzwert: Das theoretische Limit der Systemauslastung
-liegt bei 69\%. 
+liegt bei 69\%. \\
+
+\textbf{Interrupts:} \\
+Da die ISR von der Hardware getrieben wird, ist auch der niederwerdigst priorisierte Interrupt
+immer noch höher priorisiert als der höchst priorisierte Task. Für die RM-Analyse stehen 2 Lösungsvarianten zur Verfügung:
+\begin{itemize}
+  \item[1.]  Der ISR-Code wird nicht mittels Interrupt ausgelöst, sondern in einem Polling-Loop.
+  \item[2.]  Für die RM-Analyse wird mit der Periode der höchsten Priorität gerechnet.
+\end{itemize}
 

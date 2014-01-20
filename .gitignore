@@ -35,3 +35,4 @@
 *.fls
 /tmp/*
 revision.tex
+/*.tex.bak
