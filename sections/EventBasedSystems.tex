@@ -20,8 +20,8 @@ Ein Reaktives System befindet sich in ständiger Interaktion mit der Umgebung, w
 	\begin{itemize}
 		\item[+] einfach zu implementieren
 		\item sehr viele Leerabfragen $\rightarrow$ unnötige Prozessorbelastung
-		\item Leerabfragen können durch periodisches Abfragen (Kopplung an Timer) reduziert aber nicht vermieden werden.
-		\item Die maximale Reaktionszeit wird durch die Abfrageperiode und die Anzahl Abfragen definiert
+		\item[$\bullet$] Leerabfragen können durch periodisches Abfragen (Kopplung an Timer) reduziert aber nicht vermieden werden.
+		\item[$\bullet$] Die maximale Reaktionszeit wird durch die Abfrageperiode und die Anzahl Abfragen definiert
 	\end{itemize}
 	\item Interrupt
 	\begin{itemize}
@@ -55,4 +55,5 @@ int Foo_registerCb(Foo_Event e,Foo_CbFunction f);
 		\item An und für sich sind alle registrierten Funktionen nichts anderes als Eventhanler eines bestimmten Events
 		\item Dadurch wird die Darstellung(die Definition der registrierten Funktionen) sauber von den Daten (Model) entkoppelt
 	\end{itemize} 
+	\item Observer Pattern
 \end{itemize}
