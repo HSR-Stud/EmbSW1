@@ -55,23 +55,21 @@ mittels Use-case oder auch Sequenzdiagramm.
 	\item Welches sind die Schnittstellen zu den Nachbarsystemen
 \end{itemize}
 
-\begin{figure}[h]
-	\centering
-	\includegraphics[height=8cm, width = 10cm,]{images/Modellierung/Systemgrenze}
-	\caption{Aktoren sind: Menschen, Sensoren, Ein- und Ausgabegeräte, Nachbarsysteme, Zeit.}
-\end{figure}
-
-
 \textbf{Systemprozesse finden}\\
 Die Aufteilung in Hardware und Software sollte erst nach der Analyse der grundlegenden Anforderungen erfolgen.
 RTE-Systeme bestehen meistens nur aus einem einzigen Systemprozess, speziell wen das System im Prinzip 'nur' ein
 Regler ist. Dieser Schritt ist in der Analysephase. Wenn hier von Prozessen die Rede ist, bedeutet das nicht unbedingt ein
-Betriebssystem Prozess ist. Wichtig ist, dass es nicht zuviele Funktionsblöcke gibt (nicht ins Detail gehen).
+Betriebssystem Prozess ist. Wichtig ist, dass es nicht zuviele Funktionsblöcke gibt (nicht ins Detail gehen). \newline
+Bei Systemen bei denen die Grenze durch Nachrichtenflüsse charakterisiert werden können, eignen sich Sequenzdiagramme
+für Kontextbeschreibung.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[height=6cm]{images/Modellierung/Systemgrenze}
+	\caption{Kontextdiagramm mittels Use-Case}
+\end{figure}
 
 \subsection{Verteilung Festlegen \buch{p.23}}
-Bei Systemen bei denen die Grenze durch Nachrichtenflüsse charakterisiert werden können, eignen sich Sequenzdiagramme
-für Kontextbeschreibung.\\
-
 Bei Embedded System werden häufig mehrere Rechner Systeme verwendet um die Aufgaben zu erledigen. Diese liegen meistens 
 geographisch (cm bis km) verteilt und sind mit einem Kommunikationskanal verbunden. Diese Systeme heissen Verteilte Systeme 
 (Distributed System). Zur Darstellung eignet sich in UML das Verteilungsdiagramm (Deployment Diagramm).\\
@@ -90,7 +88,7 @@ geographisch (cm bis km) verteilt und sind mit einem Kommunikationskanal verbund
 \end{figure}
 
 \subsection{Systemprozesse Detaillieren \buch{p.27}}
-Die Systemprozesse nicht detaillierter spezifizieren als sinnvoll. Je weiter Detaillierung soll einen "`added value"' liefern. 
+Die Systemprozesse nicht detaillierter spezifizieren als sinnvoll. Jede weiter Detaillierung soll einen "`added value"' liefern. 
 Leitidee: Lieber weniger als mehr Detail\\
 
 \textbf{Detaillierungsgrad}
@@ -129,9 +127,11 @@ Für die Detaillierung eignen sich Sequenzdiagramm, Aktivitätsdiagramm, Statech
 	\label{Bild2}
 \end{minipage}
 
+\textbf{Diagram nicht überladen!} 
+
 \newpage
 \subsubsection{Kommunikationsdiagramm \buch{41}}
-Das Kommunikationsdiagramm zeit dieselbe Information wie das Sequenzdiagramm. Der Schwerpunkt liegt aber
+Das Kommunikationsdiagramm zeigt dieselbe Information wie das Sequenzdiagramm. Der Schwerpunkt liegt aber
 nicht auf dem zeitlichen Ablauf, sondern auf dem Informationsfluss zwischen den Objekten.
 
 \begin{figure}[h]
@@ -168,7 +168,7 @@ nicht auf dem zeitlichen Ablauf, sondern auf dem Informationsfluss zwischen den 
 \hfill
 \begin{minipage}[hbt]{8cm}
 	\centering
-	\includegraphics[height=5cm, width = 8cm,]{images/Modellierung/Aktivitaetsdiagramm1}
+	\includegraphics[height=5cm, width = 8cm,]{images/Modellierung/Aktivitaetsdiagramm2}
 	\label{Bild4}
 \end{minipage}
 
