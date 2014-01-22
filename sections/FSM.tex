@@ -6,7 +6,7 @@
 \begin{itemize}
   \item Bei (elektronisch implementierten) asynchronen FSMs führen geänderte
   Inputsignale direkt zu Zustandsänderungen. Sie sind deshalb "`schneller"',
-  jedch äusserst empfindlich auf Glitches und kaum tastbar.
+  jedoch äusserst empfindlich auf Glitches und kaum tastbar.
   \item Bei synchronen FSMs werden die Inputsignale nur zu diskreten Zeitpunkten
   betrachtet, diese Systeme sind getaktet.
   \item Softwareimplementationen sind eigentlich immer synchron, da die Rechner
@@ -72,13 +72,18 @@ Störung&RESET-Taste&AUS&Motor ausschalten\\
 
 \subsubsection{Nachteile von Zustandsdiagrammen \buch{p.19}}
 \begin{itemize}
-  \item Die Transition k führt von jedem Zustand in den Zustand Z. Das ist
-typischerwerise ein Fehlerevent, Reset, etc.
-Das Diagramm wird dadurch unnötigerweise kompliziert
-\item Da Zustandsdiagramme flach sind (es gibt keine Hierarchie), werden sie bei
-praktisch relevanten Aufgaben schnell unübersichtlich
-\item In Zustandsdiagrammen kann keine zeitliche Parallelität modelliert werden
+  \item Für einen Resetzustand muss von jedem State zum Resetstate eine Transition gezeichnet werden.
+  \item Da Zustandsdiagramme flach sind (es gibt keine Hierarchie), werden sie bei
+        praktisch relevanten Aufgaben schnell unübersichtlich
+  \item In Zustandsdiagrammen kann keine zeitliche Parallelität modelliert werden
 \end{itemize}
+
+\begin{figure}[h]
+  \centering
+  {\includegraphics[width = 10cm]{images/FSM/reset_state}
+  \caption{Nachteile bei einem Resetzustand}
+  \label{fig:nachteile_reset_state}}
+\end{figure}
 
 
 \newcommand{\kreis}[1]{\unitlength1ex\begin{picture}(2.5,2.5)%
@@ -125,7 +130,7 @@ $\otimes$&Austrittspunkt (exit point)\\
 \end{itemize}
 \subsubsection{Parallälität (Concurrency)\buch{p.28}}
 \begin{itemize}
-  \item AND-super-states
+  \item AND-super-states: Die FSM ist in allen sub-states einer super-state (siehe Abbildung \ref{fig:AND_super_state})
 \end{itemize}
 \begin{figure}[h]
   \centering
@@ -134,7 +139,7 @@ $\otimes$&Austrittspunkt (exit point)\\
   \label{fig:AND_super_state}}
 \end{figure} 
 
-\subsubsection{Timers\buch{p.31}}
+\subsubsection{Timers (nicht wait states)\buch{p.31}}
 \begin{figure}[h]
   \centering
   {\includegraphics[scale = 0.2]{images/FSM/timer}  
