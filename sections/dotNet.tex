@@ -16,17 +16,29 @@ Plattform für vernetzte und integrierte Anwendung - auch mobil, basierend auf W
 \end{itemize}
 
 \subsection{Common Language Runtime (CLR)}
+\begin{multicols}{2}
+
+	\begin{itemize}
+		\item Laufzeitumgebung für .NET Sprachen
+			\begin{itemize}
+				\item Exceptions
+				\item gemeinsames Typensystem (\textbf{C}ommon \textbf{T}ype \textbf{S}ystem)
+				\item Thread-Verwaltung
+				\item Speicherverwaltung mit Garbage Collection
+				\item Just-In-Time Compiler (JIT-Compiler)
+				\item Code Access Security
+				\item Sprachübergreifenes Debugging
+				\item COM-Interoperabilität
+				\item Basisklassen mit System-Funktionen
+			\end{itemize}
+	\end{itemize}
+	
+	\columnbreak
+	
+	\includegraphics[width=9cm]{images/CSharp/aufbau_dotNet}
+	
+\end{multicols}
 \begin{itemize}
-	\item Laufzeitumgebung für .NET Sprachen
-		\begin{itemize}
-			\item Exceptions
-			\item Thread-Verwaltung
-			\item Speicherverwaltung mit Garbage Collection
-			\item JIT-Compiler
-			\item Code Access Security
-			\item Sprachübergreifenes Debugging
-			\item COM-Interoperabilität
-		\end{itemize}
 	\item Common Type System (CTS): Gemeinsame Typen für alle Sprachen
 		\label{csharpCTS}
 		\begin{itemize}
@@ -60,7 +72,7 @@ in echten Maschinencode übersetzt
 		\end{itemize}
 	\item Nachteile
 		\begin{itemize}
-			\item Laufzeiteffizienz? Wird mitigiert durch JIT-Compiler, welcher zur Laufzeit auf den Prozessortyp optimiert
+			\item Laufzeiteffizienz? Wird optimiert durch JIT-Compiler, welcher zur Laufzeit auf den Prozessortyp optimiert
 		\end{itemize}
 
 \end{itemize}
@@ -69,13 +81,14 @@ in echten Maschinencode übersetzt
 \begin{itemize}
 	\item Kompilation von .NET Sprachen erzeugt ein Modul mit IL-Code \emph{und} Metadaten
 	\item Beschreibt Class-, Methods-, Type-definitions
-	\item Zugriff über definierte Schnittstellen für Reflection
-	\item Anwengungen
+	\item Zugriff über definierte Schnittstellen (Reflection) \newline
+	      (Reflections erlauben den Zugriff auf die Metadaten)
+	\item Anwendungen
 		\begin{itemize}
 			\item CLR: Verifikation (Type-Safety) und Memory Management
 			\item IDE (z.B. VS IntelliSense)
-			\item Generische Ansätze, dynamic binding
-			\item Analyse der Assemblies (ILDASM)
+			\item dynamic binding, erweiterbare Programmsysteme
+			\item Analyse eines Modules/Assemblies (z.B ILDASM)
 		\end{itemize}
 \end{itemize}
 
@@ -90,9 +103,9 @@ Compiler erzeugen Module und Assemblies
 	\item Kleinste versionierbare Einheit
 	\item Einheit für Security-Überprüfung
 \end{itemize}
-\paragraph{Aufbau}
+\paragraph{Aufbau eines Singlefile-Assembly}
 \begin{itemize}
-	\item Manifest und ein Modul mit Metadata und IL-Code
+	\item Manifest und ein Modul mit Metadata und IL-Code. (Manifest = Assembly Metadaten)
 	\item Manifest beschreibt Name, Version, Schnittstelle und Abhängigkeiten zu anderen Assemblies, Sicherheitsattribute, Liste der Typen, \dots
 	\item Hat einen Einstiegspunkt (Main, WinMain oder DllMain)
 	\item Private Assembly
@@ -104,7 +117,7 @@ Compiler erzeugen Module und Assemblies
 		\begin{itemize}
 			\item Von mehreren Applikationen genutzt
 			\item eindeutiger Name (Key)
-			\item Werdem im Global Assembly Cache (GAC) abgelegt (gacutil.exe)
+			\item Werdem im Global Assembly Cache (GAC) abgelegt (Tool gacutil.exe)
 			\item Version im Manifest
 			\item Mehrere Versionen können parallel existieren, jede Applikation verwendet spezifische Version
 		\end{itemize}
@@ -122,15 +135,19 @@ Compiler erzeugen Module und Assemblies
 		\end{itemize}
 \end{itemize}
 
-\subsection{.NET Framework}
+\subsection{.NET Framework Class Library}
 Umfangreiche Klassenbibliothek
 \begin{itemize}
 	\item Gemeinsam für alle .NET Sprachen
-	\item Basis Klassen Bibliotheken, ADO.NET, XML, \dots
-	\item Windows Forms für Win32-Applikationen
 	\item Bestandteil von .NET als shared Assemblies
-	\item Verwenden nur managed code
-	\item Sind in hirarchischem Namespace verwaltet
+	\item Verwenden nur als managed code
+	\item Namespaces
+	\begin{itemize}
+  	\item Sind in hirarchischem Namespace verwaltet	
+  	\item Typname muss eindeutig sein innerhalb eines Namespaces
+  	\item default Namespace: falls kein expliziter Namespace angegeben ist,
+  	      gehört die Typ-Definition zum "Default-Namespace"
+	\end{itemize}
 \end{itemize}
 
 \subsection{Web Applikations-Plattform ASP.NET}
