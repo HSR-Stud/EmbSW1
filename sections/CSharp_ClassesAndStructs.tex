@@ -20,6 +20,22 @@
 	                         &                         & - must be initialized in their declaration or in a constructor \\
 \end{tabular} 
 
+\subsubsection{statische Methoden und Felder}
+\begin{lstlisting}
+  class Rectangle {
+    static Color defaultColor;    //once per class
+    static readonly int scale;
+    static void resetColor{
+      defaultColor = Color.white;
+    }
+  }
+\end{lstlisting}
+\begin{tabular}{ll}
+  Zugriff aus der Klasse Rectangle:  & resetColor();\\
+  Zugriff aus anderen Klassen: & Rectangle.resetColor();
+\end{tabular}\\
+
+
 \subsubsection{Parameters}
 
 \textbf{value Parameters}
@@ -56,6 +72,40 @@
 	\end{itemize}
 \end{multicols}
 
+\textbf{out Parameters}
+\begin{multicols}{2}
+  \begin{lstlisting}
+    void Read(out int data){
+      a = Console.Read();}
+    void F(){
+      int c;
+      Read(out c);}
+  \end{lstlisting}
+
+\columnbreak
+  
+  \begin{itemize}
+    \item Similar to ref parameter but no value is passed by the caller.
+    \item Compiler ensures that tey are assigned in the callee.
+  \end{itemize}
+\end{multicols}
+
+\textbf{Variable Number of Parameters}
+\begin{multicols}{2}
+	\begin{lstlisting}
+	  void Add(out int sum, params int[] val){
+	    sum = 0;
+	    foreach(int i in val) sum = sum + i;
+	  }
+	  
+	  //Aufruf
+	  Add(out sum, 3, 4, 6); //sum = 13
+	\end{lstlisting}
+
+\columnbreak
+
+  \textit{params} kann nicht gebraucht werden für \textit{ref} oder \textit{out} Parameter.
+\end{multicols}
 
 \subsubsection{Function Overloading}
 \begin{multicols}{2}
@@ -75,6 +125,7 @@ F(i, n); // F(int x, long y)
 F(n, s); // F(long x, int y);
 F(i, s); // ambiguous between F(int x, long y) and F(long x, int y); => compilation error
 F(i, i); // ambiguous between F(int x, long y) and F(long x, int y); => compilation error
+//help further with typecast!
 \end{lstlisting}
 	\columnbreak
 	Methods of a class may have the same name
@@ -82,6 +133,8 @@ F(i, i); // ambiguous between F(int x, long y) and F(long x, int y); => compilat
 		\item if they have different numbers of parameters, or
 		\item if they have different parameter types, or
 		\item if they have different parameter kinds (value, ref/out)
+		\item Overloaded methods must not differ only in theier function types, in the presence of params
+		      or in ref versus out.
 	\end{itemize}
 \end{multicols}
 
@@ -213,12 +266,16 @@ string s = d.FileName; // calls get()
 	\item Allow read-only and write-only fields.
 	\item Can validate a field when it is accessed.
 \end{itemize}
+
 \columnbreak
+
 \begin{itemize}
 	\item Interface / implementation of the data can differ.
 	\item Substitute for fields in interfaces.
 \end{itemize}
 \end{multicols}
+Für eine Read-only Variable muss nur die \textit{get} Property deklariert werden. Die \textit{set} Property
+kann komplett weggelassen werden.
 
 \subsubsection{Indexer}
 \begin{itemize}
@@ -239,15 +296,22 @@ int x = f[10]; // calls f.get(10)
 f[10] = 'A'; // calls f.set(10, 'A')
 \end{lstlisting}
 
+\newpage
 \subsubsection{Operator Overloading}
 The following operators can be overloaded:\\
-%TODO Zeichen ergänzen 
-\begin{tabular}{ll}
-	- arithmetic:    & $+, -$ (unary and binary)$ , *, /, \%, ++, -- $ \\
-	- relational:    & $==, !=, <, >, <=, >=$                       \\
-	- bit operators: & $\&,|, \text{\textasciicircum}$              \\
-	- others:        & $!$ , \textasciitilde, $>>,<>, true, false$  \\
-\end{tabular}
+\begin{multicols}{2}
+	\begin{tabular}{lp{5cm}}
+		- arithmetic:    & $+, -$ (unary and binary)$ , *, /,\%, ++, -- $ \\
+		- relational:    & $==, !=, <, >, <=, >=$                       \\
+		- bit operators: & $\&,|, \text{\textasciicircum}$              \\
+		- others:        & $!$ , \textasciitilde, $>>,<>, true, false$  \\
+	\end{tabular}
+
+\columnbreak
+  If $==, <, <=, true$ is overloaded, then $!=, >, >=, false$ must be overloaded too.
+
+\end{multicols}	
+	
 \begin{multicols}{2}
 \begin{lstlisting}
 struct Fraction {

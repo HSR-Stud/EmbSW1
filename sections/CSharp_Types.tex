@@ -66,7 +66,7 @@ Wie in in der Programiersprache C, beginnt der Index auch hier bei der Stelle 0.
 	SomeStruct[] e = new SomeStruct[10]; // array of values (directly in the array)
 \end{lstlisting}
 
-\textbf{Multi-dimensinal arrays (jagged)}\\
+\textbf{Multi-dimensional arrays (jagged)}\\
 Hier können die Zeileneinträge verschieden lang sein, das heisst die Matrize ist nicht Rechteckig!
 \begin{lstlisting}
 	int[][] a = new int[2][]; // array of references to other arrays
@@ -88,11 +88,11 @@ Hier sind die Einträge in jeder Zeile gleich lang, dadurch wird die Matrize Rec
 
 \textbf{Strings}
 \begin{itemize}
-	\item Können mit \textit{+} verbunden werden z.B. \textit{Don} + s
+	\item Können mit \textbf{+} verbunden werden z.B. \textit{''Don''} + s
 	\item Können selektiert werden: z.B. s[i]
 	\item Strings sind vom Type reference
 	\item Können mit == und != verglichen werden
-	\item und vieles mehr \ldots
+	\item Die String Länge kann mittels \textbf{s.Lenght()} ermittelt werden.
 \end{itemize}
 
 \subsubsection{Variable-length Array}
@@ -151,13 +151,38 @@ Hier sind die Einträge in jeder Zeile gleich lang, dadurch wird die Matrize Rec
 \subsubsection{Classes vs. Structs}
 \begin{tabular}{|c|c|}
 	\hline
-	           \textbf{Classes }            &               \textbf{Structs}               \\ \hline
-	            Reference types             &                 Value types                  \\ \hline
-	          support inheriance            &                no inheritance                \\ \hline
-	       can implement interfaces        &          can implement interfaces           \\ \hline
-	may declare a parameterless constructor & must not declare a parameterless constructor \\ \hline
-	         may have a destructor          &                no destructor                 \\ \hline
-\end{tabular} 
+    \textbf{Classes }&
+    \textbf{Structs}\\
+  \hline
+	  Reference types (are allocated on the heap) &
+	  Value types (are allocated on the stack)\\
+  \hline
+	  support inheritance &
+	  no inheritance \\
+	\hline
+    can implement interfaces &
+    can implement interfaces \\
+  \hline
+	  may declare a parameterless constructor & 
+	  must not declare a parameterless constructor \\ 
+	\hline
+    may have a destructor &
+    no destructor \\
+  \hline
+\end{tabular}
+
+\subsubsection{System.Object}
+System.Object ist die Basisklasse für alle Referenztypen.
+\begin{lstlisting}
+  object obj;
+  obj = new Rectangle();  //obj kann Rectangle zugewiesen werden
+  obj = new int[3];       //obj kann aber auch ein int array zugewiesen werden
+\end{lstlisting}
+  System.Object bietet noch weitere Funktionen an:
+  \begin{itemize}
+    \item  bool Equals(object o) $\rightarrow$ vergleicht zwei Objekte
+    \item  string ToString() $\rightarrow$ gibt den Klassennamen als String aus
+  \end{itemize}
 
 \subsubsection{Boxing Unboxing}
 \begin{figure}[h]
