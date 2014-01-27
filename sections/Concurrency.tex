@@ -9,6 +9,18 @@
     \item Echte Parallelität durch Mehrprozessorsystem
   \end{itemize}
 \end{itemize}
+Richtwert: Aufgaben welche länger als 100ms dauern, sollten in den Worker-Thread ausgelagert werden.
+
+\textbf{Nachteile von Nebenläufigkeit}
+\begin{itemize}
+  \item  Concurrency (mit Prozessen, Tasks, Threads) kosten immer
+  \begin{itemize}
+    \item  Stack
+    \item  Kontext switch
+    \item  Zugriffe auf gemeinsame Ressourcen muss synchronisiert werden.
+  \end{itemize}
+  \item  Komplexität steigt. Sequentielle Programme sind einfache zu verstehen als parallele.
+\end{itemize}
 
 \subsection{Threads in CSharp \buch{p.7}}
 Prozesse und Threads aus OS-Sicht:\\
@@ -57,6 +69,7 @@ Thread inne hat, hat ein Prozess auch inne (aber NICHT umgekehrt)!\\
     Buchhaltungsinformationen
   \end{tabular}
 \end{centering}\\
+
 Quasiparallelität:\\
 Prozesse/Threads können folgende Zustände und Übergänge erfahren: 
 \begin{center}
@@ -94,6 +107,24 @@ Prozesse/Threads können folgende Zustände und Übergänge erfahren:
 {\includegraphics[width=0.5\textwidth]{images/Concurrency/Zustandsuebergaenge.png}}
 %\label{Fig: Zustandübergänge}
 \end{center}
+
+Thread-Zustände:
+\begin{lstlisting}[style=CSharp]
+Thread t = new Thread(P);
+Console.WriteLine("name={0}, priority={1}, state={2}", t.Name, t.Priority, t.ThreadState);
+t.Name = "Worker"; t.Priority = ThreadPriority.BelowNormal;
+t.Start();
+Thread.Sleep(1);
+Console.WriteLine("name={0}, priority={1}, state={2}", t.Name, t.Priority, t.ThreadState);
+t.Suspend();
+Thread.Sleep(1);
+Console.WriteLine("state={0}", t.ThreadState);
+t.Resume();
+Console.WriteLine("state={0}", t.ThreadState);
+t.Abort();
+Thread.Sleep(1);
+Console.WriteLine("state={0}", t.ThreadState);
+\end{lstlisting}
 
 
 
@@ -163,7 +194,7 @@ Beispiel für Join:
   
 Threads abbrechen:
 \begin{itemize}
-  \item Automatisches abbrechen, sobald der Thread das Ende seiner Methode
+  \item Automatisches abbrechen, sobald der Worker-Thread das Ende seiner Methode
   erreicht hat. 
   \item Ein Thread kann explizit mit Abort() abgebrochen werden
   $\rightarrow$ Dabei wird eine ThreadAbortException ausgelöst, die in der
@@ -217,7 +248,7 @@ Threads abbrechen:
     //done
 \end{lstlisting}
 
-\subsection{Synchonisation: Zugriff auf gemeinsame Ressourcen \buch{p.20}}
+\subsection{Synchonisation: Zugriff auf gemeinsame Ressourcen \buch{p.21}}
 Definition kritischer Bereich: 
 \begin{itemize}
   \item Codebereich, in dem nebenläufige Prozesse auf gemeinsame Ressource
@@ -255,7 +286,8 @@ Forderungen an die Synchronisation (Dijkstra, 1965)
         wait(); 
       CS; //Eintritt in Critical Section  
       grant = 1; 
-    \end{lstlisting} \\\\
+    \end{lstlisting} \\
+    Forderung 2 nicht erfüllt, da sich alle Prozesse selbst daran hindern 2mal nacheinander daran zu kommen.\\\\
     
   Synchro-Versuch 2\\
    \>{\bf Prozess 1} \> \> \>{\bf Prozess 2}\\
@@ -272,7 +304,8 @@ Forderungen an die Synchronisation (Dijkstra, 1965)
       in2 = true; 
       CS; //Eintritt in Critical Section 
       in2 = false; 
-    \end{lstlisting} \\\\
+    \end{lstlisting} \\
+    Initialisierung ist nicht gelöst.\\\\
 
   Synchro-Versuch 3\\
    \>{\bf Prozess 1} \> \> \>{\bf Prozess 2}\\
@@ -321,7 +354,7 @@ Signale:
     \end{lstlisting} \\\\
  \end{tabbing}
  
- \subsection{Semaphoren \buch{p.30}}
+ \subsection{Semaphoren \buch{p.31}}
  \begin{itemize}
    \item Das Signal für den Zutritt in den kritischen Bereich = Semaphor
    \item Ein Semaphor s hat zwei atomare (= nicht unterbrechbare)
@@ -342,8 +375,8 @@ Signale:
    \end{itemize}
  \end{itemize}
  
- \subsection{Thread-Synchronisation in CSharp \buch{p.35}}
- Das Monitorprinzip
+
+ \subsection{Das Monitorprinzip \buch{p.35}}
  \begin{itemize}
    \item Grundprinzip: Abstrakten Datenyp definieren, der genau die Funktionen
    in der Schnittstelle anbietet, die notwendig sind. 
@@ -354,8 +387,10 @@ Signale:
    \item Problem wird einmal im Monitor gelöst, die Aufrufer müssen sich nicht
    mehr darum kümmern. 
  \end{itemize}
- 
+
+ \subsection{Thread-Synchronisation in CSharp \buch{p.36}} 
 Beispiel Mutual Exclusion 
+\begin{multicols}{2}
 \begin{lstlisting}[style=C]
   //lock(Variable) Statement
   class Account
@@ -363,26 +398,36 @@ Beispiel Mutual Exclusion
     long val = 0; 
     public void Deposit(long x)
     {
-      lock(this)
-      {
-        val += x; 
-      }
+      lock(this){val += x;} //jeweils nur 1 Thread darf diese Anweisung ausfuehren.
     }
     public void Withdraw(long x)
     {
-      lock(this)
-      {
-        val -= x; 
-      }
+      lock(this){val -= x; }
     }
   }
 \end{lstlisting} 
+
+\columnbreak
+
+\textit{lock(this)} innerhalb eines Thread gilt nur den eigenen Thread, für andere Threads gilt dies nicht mehr.
+
+\end{multicols}
+
 Lock lässt sich auf beliebiges anderes Objekt setzen
+\begin{multicols}{2}
+
 \begin{lstlisting}[style=C]
   object semaphore = new object(); 
   ...
   lock (semaphore){..critical section...}
 \end{lstlisting} 
+\columnbreak
+
+Die Anweisung \textit{lock} geht nur wenn es von System.Object erbt. z.B ein int kann nicht gelockt werden.
+Eine Semaphore muss \textit{static} und ein \textit{Object} sein.
+
+\end{multicols}
+
 Klasse Monitor:\\
 \begin{lstlisting}[style=C]
   lock(v) 
@@ -455,6 +500,9 @@ Beachte:
   den gesperrten Bereich. Der nächste darf erst rein, wenn der Vorgänger die
   Sperre frei gibt.
 \end{itemize}
+
+\subsubsection{Beispiel: Bufferverwaltung}
+\begin{multicols}{2}
 \begin{lstlisting}[style=C]
   class Buffer
   {
@@ -492,6 +540,9 @@ Beachte:
     }
   }      
 \end{lstlisting}
+
+\columnbreak
+
 Ablauf, wenn Producer schneller:\\
 Put\\
 Put\\
@@ -508,3 +559,21 @@ Get\\
 Put\\
 Get\\
 \ldots
+
+\end{multicols}
+
+\subsection{Petri-Netze \buch{p.42}}
+\subsubsection{Elemente \buch{p.45}}
+  \includegraphics[width=15cm]{images/Concurrency/PetriNetzeElemente}
+  
+\subsubsection{Feuern von Transitionen \buch{p.46}}
+  Eine Transistion kann nur dann feuern, wenn alle Stellen, die in die Transition hineinführen mit min.
+  1 Marke belegt sind. Bei den Eingabestellen wird dann 1 Marke entzogen und bei den Ausgabestellen eine hinzugefügt.
+
+\begin{description}
+  \item[Race Condition]  Das Ergebnis einer Operation hängt von zeitlichen Verhalten bestimmter Einzeloperationen ab.
+  \item[Starvation]      Ist ein Zustand, bei dem ein Prozess nie dran kommt (er verhungert). 
+  \item[Deadlock]        Ist eine Situation in denen sich zwei Prozesse gegenseitig blockieren.
+\end{description}
+
+
