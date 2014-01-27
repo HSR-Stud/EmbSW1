@@ -1,4 +1,4 @@
-\subsection{Inheritance}
+\subsection{Vererbung (Inheritance)}
 \subsubsection{Syntax}
 \begin{lstlisting}[style=Csharp]
   class A //Basisklasse
@@ -16,7 +16,7 @@
   }
 \end{lstlisting}
 \begin{itemize}
-  \item B erbt a und F()
+  \item B erbt die Funktionen/Variablen a und F()
   \item B fügt b und G() hinzu
   \item Konstruktoren werden nicht weiter vererbt
   \item Vererbte Methoden können überschrieben werden
@@ -61,13 +61,13 @@
 \subsubsection{Checked Type Casts}
 \begin{lstlisting}[style=Csharp]
   A a = new C(); 
-  B b = (B) a;    //NO IDEA???
+  B b = (B) a;    //if (a is B) static type (a) is B in this expression, else exception
   a = null; 
   C c = (C) a;    //null can be casted to any reference tpye
   
   //With "as"
   A a = new C();  
-  B b = a as B;   //NO IDEA???
+  B b = a as B;   //if (a is B) b=(B)a; else b=null;
   
   a = null; 
   C c = a as C;   //c == null
@@ -94,6 +94,7 @@ Nur \textbf{virtuelle} Methoden können in Unterklassen überschrieben werden.
     }
   }
 \end{lstlisting}
+
 \begin{itemize}
   \item Die Eigenschaften (Signatur) der Methode müssen gleich bleiben 
   \begin {itemize}
@@ -132,6 +133,27 @@ vererbte Members mit dem gleichen Namen und derselben Signatur.
   ((A)b).G();     //(Obwohl der dynamische Typ von (A)b B ist!)
 \end{lstlisting}
 Weitere Beispiele: Siehe Folie 8 und 9 vom Foliensatz "`Inheritance"'
+
+\textbf{ein komplexeres Beispiel}
+\begin{lstlisting}[style=Csharp]
+	class Animal {
+	  public virtual void WhoAreYou() { Console.WriteLine("I am an animal"); }
+	}
+	class Dog : Animal {
+	  public override void WhoAreYou() { Console.WriteLine("I am a dog"); }
+	}
+	class Beagle : Dog {
+	  public new virtual void WhoAreYou() { Console.WriteLine("I am a beagle"); }
+	}
+	class AmericanBeagle : Beagle {
+	  public override void WhoAreYou() { Console.WriteLine("I am an american beagle"); }
+	}
+	
+	Beagle pet = new AmericanBeagle();
+	pet.WhoAreYou();	// "I am an american beagle"
+	Animal pet = new AmericanBeagle();
+	pet.WhoAreYou(); 	// "I am a dog" !!
+\end{lstlisting}
 
 \subsubsection{Constructor in Subclasses}
 
@@ -320,7 +342,7 @@ class Object
 Überschreibbar in Unterklassen: 
 \begin{lstlisting}[style=Csharp]
   x.Equals(y)                 //Compare values of x and y
-  y.ToString()                //Should return a string representation of x
+  y.ToString()                //Should return a string representation of y
   int code = x.GetHashCode(); //Should return a hashcode for x
 \end{lstlisting}
 
