@@ -26,7 +26,7 @@
 
 \subsubsection{Implementierung durch Klassen und Structs}
 \begin{lstlisting}[style=Csharp]
-  class Myclass: MyBaseLcass, IList, ISerializable
+  class MyClass: MyBaseLcass, IList, ISerializable
   {
     public int Add (object value){...}
     public bool Contain (object value){...}
@@ -37,17 +37,20 @@
   }
 \end{lstlisting}
 \begin{itemize}
-\item Eine Klasse kann von einer einzelnen Basisklasse erben, kann aber mehrere
-Interfaces implementieren. Ein Struct kann nicht von einem Type erben, aber
-mehrere Interfaces implementieren. 
-\item Jeder Interfacemember (Methode, Property, Indexer) muss aus einer
-Basisklasse implementiert oder vererbt sein. 
-\item Implementierte Interfacemethoden müssen \textbf{nicht} mit override
-deklariert werden. 
-\item Implementierte Interfacemethoden können als abstract deklariert werden.
-(Ein interface kann also aus einer abstrakten Klasse implementiert werden)
+	\item Eine Klasse kann von einer einzelnen Basisklasse erben, kann aber mehrere
+	      Interfaces implementieren. Ein Struct kann nicht von einem Type erben, aber
+	      mehrere Interfaces implementieren. 
+	\item Jeder Interfacemember (Methode, Property, Indexer) muss aus einer
+	      Basisklasse implementiert oder vererbt sein. 
+	\item Implementierte Interfacemethoden müssen \textbf{nicht} mit override
+	      deklariert werden. 
+	\item Implementierte Interfacemethoden können als abstract deklariert werden.
+	      (Ein interface kann also aus einer abstrakten Klasse implementiert werden)
+	\item Wird eine Funktion z.B Add() in einer abgeleiteten Klasse von MyClass überschrieben,
+	      muss sie mit \textbf{virtual} deklariert werden (obwohl Add() schon implizit virtual ist in IList).
 \end{itemize}
 
+\begin{multicols}{2}
 \subsubsection{Working with Interfaces}
 \begin{lstlisting}[style=Csharp]
   //Zuweisungen: 
@@ -67,6 +70,13 @@ deklariert werden.
   ISerializable ser = (ISerializable)list;
 \end{lstlisting}
 
+\columnbreak
+
+\includegraphics[width=8cm]{images/CSharp/Interface}
+
+\end{multicols}
+
+\begin{multicols}{2}
 \subsubsection{Beispiel}
 \begin{lstlisting}[style=Csharp]
   interface ISimpleReader
@@ -99,11 +109,12 @@ deklariert werden.
  IReader r = new File(); 
  sr = r; 
 \end{lstlisting}
-\begin{figure}[h]
-  \centering
-  \includegraphics[height=5cm, ]{images/CSharp/InterfaceExample}
-  \caption{Beispiel zu Interface} 
-\end{figure}
+
+\columnbreak
+
+  \includegraphics[height=5cm]{images/CSharp/InterfaceExample}
+
+\end{multicols}
 
 \subsubsection{Name Clashes}
 Tritt auf wenn zwei Interfaces Methoden mit dem gleichen Namen haben.
