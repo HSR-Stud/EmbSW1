@@ -1,9 +1,14 @@
 \section{Bootstrap}
 \subsection{Programmdownload \buch{p.3}}
 \begin{itemize}
-	\item Während der Entwicklung ist das Embedded System häufig über eine JTAG-Verbindung mit der Entwicklungsumgebung verbunden 
-	\item JTAG-Schnittstellen erfordern häufig (teure) Adapter, die für die Entwicklung akzeptabel, im Betrieb aber zu teuer sind
+	\item Während der Entwicklung ist das Embedded System häufig über eine JTAG-Verbindung mit der 
+	      Entwicklungsumgebung verbunden 
+	\item JTAG-Schnittstellen erfordern häufig (teure) Adapter, die für die Entwicklung akzeptabel, 
+	      im Betrieb aber zu teuer sind
 	\item Für den Programmdownload im Betrieb steht häufig nur eine serielle Schnittstelle zur Verfügung
+	\item Der Bootloader ist für die erste Initialisierung zuständig und für das Starten des eigentlichen
+	      Programms (OS)
+  \item Der Bootloader muss immer auf einem bootfähigen und nichtflüchtigen Medium gespeichert werden.
 \end{itemize}
 \subsection{Startvorgang (Booting) \buch{p.4}}
 \begin{itemize}
