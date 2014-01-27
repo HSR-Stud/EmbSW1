@@ -43,12 +43,29 @@ greetings("John");
 \subsubsection{Multicast Delegates}
 \begin{lstlisting}
 Notifier greetings
-greetings = SayHello;
-greetings += SayGoodBye;
+greetings = SayHello;  //reine Zuweisung (alle anderen Funktionen werden wieder geloescht)
+greetings += SayGoodBye;  //Funktion hinzufuegen
 greetings("John");
 // "Hello from John"
 // "Good bye from John"
+greetings -= SayHello;  //Funktion entfernen
 \end{lstlisting}
+
+\begin{itemize}
+  \item  Eine delegate Variable beinhaltet Funktionen und ihre Empfänger, aber nicht ihre Parameter!\newline
+         \textit{new Notifier(myObj.SayHello);}
+  \item  \textit{obj} kann \textit{this} sein \newline
+         \textit{new Notifier(SayHello);}
+  \item  Eine Funktion kann statisch sein. In diesem Fall muss der Klassen spezifiziert werden. \newline
+         \textit{new Notifier(MyClass.StaticSayHello);}
+  \item  Eine Funktion darf nicht abstrakt sein, aber virtual, override und new sind erlaubt.
+  \item  Die Signatur der Funktion muss mit der Signatur vom Delegate Typ übereinstimmen:
+			   \begin{itemize}
+			     \item gleiche Anzahl von Parameter
+			     \item gleiche Parametertypen
+			     \item gleiche Parameter Art (value, ref/out)
+			   \end{itemize}
+\end{itemize}
 
 \subsubsection{Event}
 An event is a special delegate field. Reasons for events:
@@ -57,11 +74,114 @@ An event is a special delegate field. Reasons for events:
   \item Other classes may change event fields only with += or -=
 \end{itemize}
 
+\textbf{Beispiel}
+\begin{lstlisting}[style=Csharp]
+	class Model {
+	  public event Notifier notifyViews;
+	  public void Change() { ... notifyViews("Model"); }
+	}
+	
+	class View {
+  	public View(Model m) { m.notifyViews += Update; }
+	  void Update(string sender) { Console.WriteLine(sender + " was changed"); }
+	}
+	
+	class Test {
+  	static void Main() {
+    	Model model = new Model();
+	    new View(model); new View(model); ...
+	    model.Change();
+	  }
+	}
+\end{lstlisting}
+
 \subsubsection{Declaration of an event}
 \begin{lstlisting}
 delegate void SomeEvent(object source, SomeEventArgs e);
 \end{lstlisting}
 1. Parameter: Sender of the event (type object)
 2. Parameter: event info (subclass of System.EventArgs)
+
+
+\subsubsection{Einfaches erstellen von Delegates}
+\begin{lstlisting}[style=CSharp]
+	delegate void Printer(string s);
+	void Foo(string s) {
+	  Console.WriteLine(s);
+	}
+	Printer print;
+	print = new Printer(this.Foo);
+	print = this.Foo;
+	print = Foo;
+	
+	delegate double Function(double x);
+	double Foo(double x) {
+	  return x * x;
+	}
+	Printer print = Foo;    //assigns Foo(string s)
+	Function square = Foo;  //assigns Foo(double x)
+\end{lstlisting}
+
+
+\subsubsection{Ordinary Delegates}
+\begin{multicols}{2}
+	
+\begin{lstlisting}[style=CSharp]
+delegate void Visitor(Node p);
+class List {
+  Node[] data = ...;
+  ...
+  public void ForAll(Visitor visit) {
+  for (int i = 0; i < data.Length; i++)
+  visit(data[i]);
+}
+\end{lstlisting}
+
+\columnbreak
+  
+\begin{lstlisting}[style=CSharp]
+class C {
+  int sum = 0;
+  void SumUp(Node p) { sum += p.value; }
+  void Print(Node p) { Console.WriteLine(p.value); }
+  void Foo() {
+    List list = new List();
+    list.ForAll(SumUp);
+    list.ForAll(Print);
+  }
+}
+  \end{lstlisting}
+
+\end{multicols}
+
+\subsubsection{Anonymus Methods}
+\begin{lstlisting}[style=CSharp]
+delegate void Visitor(Node p);
+class C {
+  void Foo() {
+    List list = new List();
+    int sum = 0;
+    list.ForAll(delegate (Node p) { Console.WriteLine(p.value); });
+    list.ForAll(delegate (Node p) { sum += p.value; });
+  }
+}
+
+class List {
+  ...
+  public void ForAll(Visitor visit) {
+  ...
+  }
+}
+\end{lstlisting}
+\begin{itemize}
+  \item  Der Funktions Body (\textit{sum += p.value;}) ist an der Stelle definiert.
+  \item  Es braucht keine Funktionsdeklaration
+  \item  Die Anynume Funktion hat Zugriff auf \textit{Foo's} lokale Variable \textit{sum}
+  \item  Im oberen Beispiel ist die Anonyme Funktion vom Typ Visitor
+  \item  Anonyme Funktionen dürfen keine formalen Parameter vom Typ \textit{params T[]} haben.
+  \item  Anonyme Funktionen haben keinen Zugriff auf \textit{ref} oder \textit{out}
+         Parameter der umschliessenden Funktion.
+\end{itemize}
+
 \subsubsection{Komplettes Beispiel}
 \lstinputlisting{snippets/Main.cs}
