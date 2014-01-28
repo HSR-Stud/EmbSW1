@@ -35,7 +35,7 @@
   Zugriff aus anderen Klassen: & Rectangle.resetColor();
 \end{tabular}\\
 
-
+\newpage
 \subsubsection{Parameters}
 
 \textbf{value Parameters}
@@ -204,22 +204,23 @@ Gilt für Klassen und Stuct
 	\item Used for initialization of static fields.
 \end{itemize}
 
+\newpage
 \begin{multicols}{2}
 \begin{lstlisting}
 class Rectangle {
-	...
-	static Rectangle() {
-	Console.WriteLine("Rectangle initialized");
-	}
+  ...
+  static Rectangle() {
+  Console.WriteLine("Rectangle initialized");
+  }
 }
 \end{lstlisting}
 \columnbreak
 \begin{lstlisting}
 struct Point {
-	...
-	static Point() {
-	Console.WriteLine("Point initialized");
-	}
+  ...
+  static Point() {
+  Console.WriteLine("Point initialized");
+  }
 }
 \end{lstlisting}
 \end{multicols}
@@ -260,6 +261,8 @@ d.FileName = "myFile.txt"; // calls set("myFile.txt")
 string s = d.FileName; // calls get()
 \end{lstlisting}
 
+\newpage
+
 \textbf{Benefit of properties}
 \begin{multicols}{2}
 \begin{itemize}
@@ -296,7 +299,7 @@ int x = f[10]; // calls f.get(10)
 f[10] = 'A'; // calls f.set(10, 'A')
 \end{lstlisting}
 
-\newpage
+
 \subsubsection{Operator Overloading}
 The following operators can be overloaded:\\
 \begin{multicols}{2}
@@ -311,15 +314,16 @@ The following operators can be overloaded:\\
   If $==, <, <=, true$ is overloaded, then $!=, >, >=, false$ must be overloaded too.
 
 \end{multicols}	
-	
+
+\newpage
 \begin{multicols}{2}
 \begin{lstlisting}
 struct Fraction {
-	int x, y;
-	public Fraction (int x, int y) { this.x = x; this.y = y; }
-	public static Fraction operator + (Fraction a, Fraction b) {
-		return new Fraction(a.x * b.y + b.x * a.y, a.y * b.y);
-	}
+  int x, y;
+  public Fraction (int x, int y) { this.x = x; this.y = y; }
+  public static Fraction operator + (Fraction a, Fraction b) {
+    return new Fraction(a.x * b.y + b.x * a.y, a.y * b.y);
+  }
 }
 \end{lstlisting}
 \columnbreak
