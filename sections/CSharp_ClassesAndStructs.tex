@@ -35,7 +35,6 @@
   Zugriff aus anderen Klassen: & Rectangle.resetColor();
 \end{tabular}\\
 
-\newpage
 \subsubsection{Parameters}
 
 \textbf{value Parameters}
@@ -75,7 +74,7 @@
 \textbf{out Parameters}
 \begin{multicols}{2}
   \begin{lstlisting}
-    void Read(out int data){
+    void Read(out int a){
       a = Console.Read();}
     void F(){
       int c;
@@ -86,10 +85,11 @@
   
   \begin{itemize}
     \item Similar to ref parameter but no value is passed by the caller.
-    \item Compiler ensures that tey are assigned in the callee.
+    \item Compiler ensures that they are assigned in the callee.
   \end{itemize}
 \end{multicols}
 
+\newpage
 \textbf{Variable Number of Parameters}
 \begin{multicols}{2}
 	\begin{lstlisting}
@@ -116,8 +116,6 @@ void F (int x, long y) {...}
 void F (long x, int y) {...}
 void F (ref int x) {...}
 
-
-
 int i; long n; short s;
 F(i); // F(int x)
 F('a'); // F(char x)
@@ -133,7 +131,7 @@ F(i, i); // ambiguous between F(int x, long y) and F(long x, int y); => compilat
 		\item if they have different numbers of parameters, or
 		\item if they have different parameter types, or
 		\item if they have different parameter kinds (value, ref/out)
-		\item Overloaded methods must not differ only in theier function types, in the presence of params
+		\item Overloaded methods must not differ only in their function types, in the presence of params
 		      or in ref versus out.
 	\end{itemize}
 \end{multicols}
@@ -167,11 +165,11 @@ Rectangle r3 = new Rectangle(2, 2, 10, 5);
 If no constructor was declared in a class, the compiler generates a parameterless default constructor\\
 If a constructor was declared, no default constructor is generated\\ 
 
-
+\newpage
 \textbf{Constructor of Struct}
 \begin{itemize}
 	\item For every struct the compiler generates a parameterless default constructor (even if there are other constructors).
-		  The default constructor zeroes all fields.
+		  The default constructor zeros all fields.
 	\item A constructor of a struct must initialize all fields.
 	\item Programmers must not declare a parameterless constructor for structs (for implementation reasons of the CLR).
 \end{itemize}
@@ -196,7 +194,7 @@ Complex c3 = new Complex(10, 3); // c3.re == 10, c3.im == 3
 
 
 \textbf{Static Constructor}\\ \\
-Gilt für Klassen und Stuct
+Gilt für Klassen und Struct
 \begin{itemize}
 	\item Must be parameterless (also for structs) and have no public or private modifier.
 	\item There must be just one static constructor per class/struct.
@@ -204,7 +202,6 @@ Gilt für Klassen und Stuct
 	\item Used for initialization of static fields.
 \end{itemize}
 
-\newpage
 \begin{multicols}{2}
 \begin{lstlisting}
 class Rectangle {
@@ -252,7 +249,6 @@ class Test {
 \begin{figure}[h]
 	\centering
 	\includegraphics[height=5cm, ]{images/CSharp/Properties}
-	\caption{Properties}
 \end{figure}
 
 \begin{lstlisting}
@@ -261,7 +257,6 @@ d.FileName = "myFile.txt"; // calls set("myFile.txt")
 string s = d.FileName; // calls get()
 \end{lstlisting}
 
-\newpage
 
 \textbf{Benefit of properties}
 \begin{multicols}{2}
@@ -290,7 +285,6 @@ kann komplett weggelassen werden.
 \begin{figure}[h]
 	\centering
 	\includegraphics[height=5cm, ]{images/CSharp/Indexer}
-	\caption{Indexer}
 \end{figure}
 
 \begin{lstlisting}
@@ -299,9 +293,9 @@ int x = f[10]; // calls f.get(10)
 f[10] = 'A'; // calls f.set(10, 'A')
 \end{lstlisting}
 
-
+\newpage
 \subsubsection{Operator Overloading}
-The following operators can be overloaded:\\
+The following operators can be overloaded:
 \begin{multicols}{2}
 	\begin{tabular}{lp{5cm}}
 		- arithmetic:    & $+, -$ (unary and binary)$ , *, /,\%, ++, -- $ \\
@@ -315,7 +309,6 @@ The following operators can be overloaded:\\
 
 \end{multicols}	
 
-\newpage
 \begin{multicols}{2}
 \begin{lstlisting}
 struct Fraction {

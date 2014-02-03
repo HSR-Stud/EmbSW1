@@ -1,17 +1,21 @@
 \section{Modularisierung}
 \subsection{Motivation \buch{p.9}}
-\begin{center}
-{\includegraphics[width=0.5\textwidth]{images/Modularisierung/SchlechtesBeispielModularisierung.png}}
+\begin{minipage}{0.4\textwidth}
+{\includegraphics[width=\textwidth]{images/Modularisierung/SchlechtesBeispielModularisierung.png}}
 %\label{Fig: Schlechtes Beispiel für Modularisierung}
-\end{center}
-Bei Kleinstsoftware braucht es kein systematisches Design, da man diese meist
-auch nicht ausbauen möchte. Vernünftige SW-Projekte will man jedoch meist noch
-weiter ausbauen können.\\
-Wichtig ist daher:\\
-\begin{itemize}
-  \item Schnittstellen definieren
-  \item Modularisierung
-\end {itemize}
+\end{minipage}
+\hspace{0.05\textwidth}
+\begin{minipage}{0.5\textwidth}
+	Bei Kleinstsoftware braucht es kein systematisches Design, da man diese meist
+	auch nicht ausbauen möchte. Vernünftige SW-Projekte will man jedoch meist noch
+	weiter ausbauen können.\\
+	Wichtig ist daher:
+	\begin{itemize}
+  	\item Schnittstellen definieren
+  	\item Modularisierung
+	\end{itemize}
+\end{minipage}
+
 \subsection{Grundprinzip}
 \begin{itemize}
   \item Divide et impera
@@ -51,6 +55,8 @@ Wichtig ist daher:\\
   \item Bild a: Hohe Kohäsion, niedrige Kopplung (gut)
   \item Bild b: Niedrige Kohäsion, hohe Kopplung (schlecht)
 \end{itemize}
+
+\begin{multicols}{2}
 \subsection{Definitionen Kopplung}
 \begin{itemize}
   \item Keine direkte Kopplung (Schwache Kopplung $\rightarrow$ \textbf{GUT})
@@ -79,6 +85,7 @@ Wichtig ist daher:\\
     \item \textbf{Todsünde}
   \end{itemize}
 \end{itemize}
+\columnbreak
 \subsection{Definitionen Kohäsion}
 \begin{itemize}
   \item Funktionale Kohäsion (Starke Kohäsion $\rightarrow$ \textbf{GUT})
@@ -113,16 +120,18 @@ Wichtig ist daher:\\
     \item Teilfunktionen einer Einheit haben keinen sinnvollen Zusammenhang
   \end{itemize}
 \end{itemize}
+\end{multicols}
+
+\subsubsection{Ziele bezüglich Kohäsion}
 \begin{multicols}{2}
-Bestimmung der Kohäsion:
-\begin{center}
-{\includegraphics[width=0.5\textwidth]{images/Modularisierung/Kohaesionsbestimmung.png}}
-%\label{Fig: Schlechtes Beispiel für Modularisierung}
-\end{center}
+%Bestimmung der Kohäsion:
+%\begin{center}
+%{\includegraphics[width=0.5\textwidth]{images/Modularisierung/Kohaesionsbestimmung.png}}
+%%\label{Fig: Schlechtes Beispiel für Modularisierung}
+%\end{center}
+%
+%\columnbreak
 
-\columnbreak
-
-Ziele bezüglich Kohäsion
 \begin{itemize}
   \item Kohäsion maximieren
   \item Idealerweise führt eine Unit nur eine Aufgabe (Funktion) aus
@@ -135,9 +144,10 @@ Ziele bezüglich Kohäsion
   \item \textbf{Zusammengehörendes zusammen nehmen!}
   \item \textbf{Starke Kohäsion führt zu schwacher Kopplung, aber nicht umgekehrt!!}
 \end{itemize}
-\end{multicols}
+\columnbreak
 \begin{center}
-Beispiel guter Modularisierung:
-{\includegraphics[width=0.5\textwidth]{images/Modularisierung/GutesBeispielModularisierung.png}}
+Beispiel guter Modularisierung:\\
+\includegraphics[width=0.4\textwidth]{images/Modularisierung/GutesBeispielModularisierung.png}
 %\label{Fig: Schlechtes Beispiel für Modularisierung}
 \end{center}
+\end{multicols}

@@ -60,11 +60,7 @@ greetings -= SayHello;  //Funktion entfernen
          \textit{new Notifier(MyClass.StaticSayHello);}
   \item  Eine Funktion darf nicht abstrakt sein, aber virtual, override und new sind erlaubt.
   \item  Die Signatur der Funktion muss mit der Signatur vom Delegate Typ übereinstimmen:
-			   \begin{itemize}
-			     \item gleiche Anzahl von Parameter
-			     \item gleiche Parametertypen
-			     \item gleiche Parameter Art (value, ref/out)
-			   \end{itemize}
+			     gleiche Anzahl von Parameter, gleiche Parametertypen, gleiche Parameter Art (value, ref/out)
 \end{itemize}
 
 \subsubsection{Event}
@@ -99,8 +95,6 @@ An event is a special delegate field. Reasons for events:
 \begin{lstlisting}
 delegate void SomeEvent(object source, SomeEventArgs e);
 \end{lstlisting}
-1. Parameter: Sender of the event (type object)
-2. Parameter: event info (subclass of System.EventArgs)
 
 
 \subsubsection{Einfaches erstellen von Delegates}
@@ -123,7 +117,6 @@ delegate void SomeEvent(object source, SomeEventArgs e);
 \end{lstlisting}
 
 
-\newpage
 \subsubsection{Ordinary Delegates}
 \begin{multicols}{2}
 	

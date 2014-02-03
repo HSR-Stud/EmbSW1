@@ -81,7 +81,6 @@ void cntCtrlInit()
 // implements the Finite State Machine (FSM) of an up/down-Counter
 //
 // (C) R. Bonderer, HSR Hochschule Rapperswil, Nov. 2010
-//
 
 #ifndef COUNTERCTRL_H__
 #define COUNTERCTRL_H__
@@ -106,8 +105,7 @@ void cntCtrlProcess(CntEvent e);
 //
 // implements the Finite State Machine (FSM) of an up/down-Counter
 //
-// (C) R. Bonderer, HSR Hochschule Rapperswil, Okt. 2011
-//
+// (C) R. Bonderer, HSR Hochschule Rapperswil, Nov. 2010
 
 #include <stdio.h>
 #include "counterCtrl.h"
@@ -125,7 +123,6 @@ void cntCtrlInit()
   currentState = idleState;
   cntInit(0);
 }
-
 
 void cntCtrlProcess(CntEvent e)
 {
@@ -201,7 +198,6 @@ void cntCtrlProcess(CntEvent e)
 // Test program for the Finite State Machine (FSM) of an up/down-Counter
 //
 // (C) R. Bonderer, HSR Hochschule Rapperswil, Nov. 2010
-//
 
 #include <stdio.h>
 #include "counterCtrl.h"
@@ -245,7 +241,6 @@ int main(void)
         break;
     }
   } while (answer != 'q');
-  
   return 0;
 }
 \end{lstlisting}
@@ -255,7 +250,7 @@ C++)\buch{p.21}}
 
 \begin{figure}[h]
   \centering
-  {\includegraphics[scale = 0.4]{images/FSM/Up_down_counter_obj}  
+  {\includegraphics[scale = 0.45]{images/FSM/Up_down_counter_obj}  
   \caption{Beispiel für die Betrachtungen: Up/Down-Counter (objektorientiert)}
   \label{fig:up_down_counter_obj}}
 \end{figure}
@@ -264,6 +259,14 @@ C++)\buch{p.21}}
   \item Logisch gesehen funktioniert die objektorientierte Variante völlig
   identisch wie die prozedurale
   \item Dank des Klassenkonstrukts kann die FSM sauber gekapselt werden
+  \item Der aktuelle Zustand der FSM (currentState) wird in einem Attribut der
+  Klasse gehalten
+  \begin{figure}[h]
+    \centering
+    {\includegraphics[scale = 0.5]{images/FSM/klasseCounter}  
+    \caption{Klasse Counter}
+    \label{fig:klasseCounter}}
+  \end{figure}
   \item Mehrere Instanzen derselben FSM können einfach erstellt werden
   \item Ein Modulkürzel ist nicht notwendig, da alle Namen im Kontext von
   Klassen definiert werden
@@ -292,15 +295,8 @@ void CounterCtrl::process(CounterCtrl::Event e);
 // changes the state of the FSM based on the event 'e' 
 // starts the actions
 \end{lstlisting}
-\item Der aktuelle Zustand der FSM (currentState wird in einem Attribut der
-Klasse gehalten)
-\begin{figure}[h]
-  \centering
-  {\includegraphics[scale = 0.4]{images/FSM/klasseCounter}  
-  \caption{Klasse Counter}
-  \label{fig:klasseCounter}}
-\end{figure}
-\item \textbf{Entry-Actions} müssen überall dor hinzugefügt werden, wo in einen
+
+\item \textbf{Entry-Actions} müssen überall dort hinzugefügt werden, wo in einen
 neuen Zustand gewechselt wird. Üblicherweise muss die Entry-Action für einen
 bestimmten Zustand bei mehreren Transitionen codiert werden.
 \item \textbf{Exit-Actions} müssen überall dort hinzugefügt werden, wo ein
@@ -317,7 +313,6 @@ codiert werden.
 // implements the Finite State Machine (FSM) of an up/down-Counter
 //
 // (C) R. Bonderer, HSR Hochschule Rapperswil, Nov. 2010
-//
 
 #ifndef COUNTERCTRL_H__
 #define COUNTERCTRL_H__
@@ -352,7 +347,6 @@ class CounterCtrl
 // implements the Finite State Machine (FSM) of an up/down-Counter
 //
 // (C) R. Bonderer, HSR Hochschule Rapperswil, Okt. 2011
-//
 
 #include <iostream>
 #include "counterCtrl.h"
@@ -437,7 +431,6 @@ void CounterCtrl::process(Event e)
 // implements an up/down-Counter
 //
 // (C) R. Bonderer, HSR Hochschule Rapperswil, Nov. 2010
-//
 
 #ifndef COUNTER_H__
 #define COUNTER_H__
@@ -493,13 +486,11 @@ void Counter::setCounter(int val)
 \end{lstlisting}
 
 \begin{lstlisting}[style=Cpp]
-//
 // counterTest.cpp
 //
 // Test program for the Finite State Machine (FSM) of an up/down-Counter
 //
 // (C) R. Bonderer, HSR Hochschule Rapperswil, Oct. 2013
-//
 
 #include <iostream>
 #include "counterCtrl.h"
@@ -548,10 +539,10 @@ int main(void)
 
 \subsubsection{Realisierung mit Tabelle\buch{p.33}}
 \begin{itemize}
-  \item Die Tablle kann sowohl prozedural als auch objektorientiert implementiert werden.
+  \item Die Tabelle kann sowohl prozedural als auch objektorientiert implementiert werden.
   \item Die objektorientierte Variante verwendet einzig die Datenkapselung,
         Vererbung und Polymorphismus werden nicht benötigt
-  \item Die objektorientierte Variante kann klarer und schäner strukturiert
+  \item Die objektorientierte Variante kann klarer und schöner strukturiert
         implementiert werden. Im folgenden wird nur diese Variante gezeigt, die
         C-Version kann jedoch einfach davon abgeleitet werden
   \item Die ganze FSM ist in einer Tabelle gespeichert
@@ -600,7 +591,7 @@ struct Transition
 \item Tabellendefinition in CounterCtrl.cpp
 \begin{figure}[h]
   \centering
-  {\includegraphics[scale = 0.4]{images/FSM/tabelle}  
+  {\includegraphics[scale = 0.5]{images/FSM/tabelle}  
   \caption{Tabellendefinition}
   \label{fig:tabelle}}
 \end{figure}
@@ -667,7 +658,6 @@ struct Transition
 // implements the Finite State Machine (FSM) of an up/down-Counter as a table
 //
 // (C) R. Bonderer, HSR Hochschule Rapperswil, Okt. 2011
-//
 
 #ifndef COUNTERCTRL_H__
 #define COUNTERCTRL_H__
@@ -730,7 +720,6 @@ class CounterCtrl
 // implements the Finite State Machine (FSM) of an up/down-Counter as a table
 //
 // (C) R. Bonderer, HSR Hochschule Rapperswil, Okt. 2011
-//
 
 #include <iostream>
 #include "counterCtrl.h"
@@ -748,9 +737,9 @@ const CounterCtrl::Transition CounterCtrl::fsm[transCount] =  // this table defi
   {countDownState,  &CounterCtrl::checkDownIdle,  &CounterCtrl::actionDownIdle, idleState}
 };
 
-CounterCtrl::CounterCtrl() : 
+CounterCtrl::CounterCtrl(int initValue) : 
   currentState(idleState),
-  myCounter(0)
+  myCounter(initValue)
 {
 }
 
@@ -853,7 +842,7 @@ Die Implementierung für counter.h, counter.cpp und counterTest.cpp sind im Kapi
   genau einen Zustand (ist Singleton)
  \begin{figure}[h]
   \centering
-  {\includegraphics[scale = 0.4]{images/FSM/state_pattern}  
+  {\includegraphics[scale = 0.3]{images/FSM/state_pattern}  
   \caption{Teile des State Pattern}
   \label{fig:state_pattern}}
 \end{figure}
@@ -874,13 +863,11 @@ realisiert
 \end{figure}
 \item counterCtrl.h : Schnittstelle zur FSM
 	\begin{lstlisting}[style=Cpp]
-//
 // counterCtrl.h
 //
 // implements the Finite State Machine (FSM) of an up/down-Counter
 //
 // (C) R. Bonderer, HSR Hochschule Rapperswil, Oct. 2013
-//
 
 #ifndef COUNTERCTRL_H__
 #define COUNTERCTRL_H__
@@ -908,14 +895,12 @@ class CounterCtrl
 \end{lstlisting}
 \item counterCtrl.cpp
 	\begin{lstlisting}[style=Cpp]
-//
 // counterCtrl.cpp
 //
 // implements the Finite State Machine (FSM) of an up/down-Counter
 // CounterCtrl is the Context class in the State pattern
 //
 // (C) R. Bonderer, HSR Hochschule Rapperswil, Oct. 2013
-//
 
 #include "counterCtrl.h"
 #include "counterState.h"
@@ -933,7 +918,6 @@ void CounterCtrl::process(Event e)
 \end{lstlisting}
 \item class CounterState: Interface
 	\begin{lstlisting}[style=Cpp]
-//
 // counterState.h
 //
 // implements an up/down-Counter
@@ -941,7 +925,6 @@ void CounterCtrl::process(Event e)
 // it may make sense to have separate files for each state
 //
 // (C) R. Bonderer, HSR Hochschule Rapperswil, Oct. 2011
-//
 
 #ifndef COUNTERSTATE_H__
 #define COUNTERSTATE_H__
@@ -1012,7 +995,6 @@ class CountDownState : public CounterState // it's a singleton
 \end{lstlisting}
 \item class CounterState: Implementation
 	\begin{lstlisting}[style=Cpp]
-//
 // counterState.cpp
 //
 // implements all states of an up/down-Counter
@@ -1020,14 +1002,12 @@ class CountDownState : public CounterState // it's a singleton
 // it may make sense to have separate files for each state
 //
 // (C) R. Bonderer, HSR Hochschule Rapperswil, Oct. 2011
-//
 
 #include <iostream>
 #include "counterState.h"
 #include "counterCtrl.h"
 #include "counter.h"
 using namespace std;
-
 
 //class CounterState
 Counter CounterState::myCounter(0);  // initialize static data
@@ -1056,7 +1036,6 @@ void CounterState::countDown()
   myCounter.count(-1);
   cout << "counter = " << myCounter.getCounter() << endl;
 }
-
 
 // class IdleState
 IdleState IdleState::instance;
@@ -1090,7 +1069,6 @@ void IdleState::exitAction(void)
 {
   cout << "Exit from idleState" << endl;
 }
-
 
 // class CountUpState
 CountUpState CountUpState::instance;
@@ -1159,6 +1137,5 @@ void CountDownState::exitAction(void)
 }
 \end{lstlisting}
 \end{itemize}
-
 Die Implementierung für counter.h, counter.cpp und counterTest.cpp sind im Kapitel \ref{subsec:oo_code} zu finden.\\
 

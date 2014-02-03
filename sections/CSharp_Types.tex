@@ -1,6 +1,7 @@
-\subsection{Types}
 
-In C$\sharp$ git es drei Kategorien von Typen. 
+\subsection{Types}
+In C\# gibt es drei Kategorien von Typen. 
+\begin{multicols}{2}
 \begin{itemize}
 	\item Value Types
 	\begin{itemize}
@@ -8,6 +9,7 @@ In C$\sharp$ git es drei Kategorien von Typen.
 		\item Enums
 		\item Structs
 	\end{itemize}
+	\item Pointers
 	\item Reference Types
 	\begin{itemize}
 		\item Class
@@ -15,8 +17,8 @@ In C$\sharp$ git es drei Kategorien von Typen.
 		\item Arrays
 		\item Delegates
 	\end{itemize}
-	\item Pointers
 \end{itemize}
+\end{multicols}
 
 Unter \textbf{User-defined Types} versteht man Enum, Struct, Class, Interface, Array und Delegate.
 Alle \emph{Types} sind kompatibel mit \emph{object}
@@ -30,23 +32,26 @@ Alle \emph{Types} sind kompatibel mit \emph{object}
 	   initialization    &        0, false        &           null           \\ \hline
 	     assignment      &    copies the value    &   copies the reference   \\ \hline
 \end{tabular} 
+
+
 \subsubsection{Kompatibilität}
 Eine vollwertige Kompatibilität besteht nur, wenn von einem kleinerem Type auf einen grösseren Type gewechselt wird.
 
-\begin{figure}[h]
-	\centering
-	\includegraphics[height=3cm, ]{images/CSharp/TypenKompatibilitaet}
-	\caption{Typen Kompatibilität}
-\end{figure}
-
-folgende Beispiel sind gültig:
-
-\begin{lstlisting}
+\begin{minipage}{0.6\textwidth}
+	\includegraphics[width=\textwidth]{images/CSharp/TypenKompatibilitaet}
+\end{minipage}
+\hspace{0.1\textwidth}
+\begin{minipage}{0.3\textwidth}
+	folgende Beispiel sind gültig:
+	\begin{lstlisting}
 int var     = shortVar;
 int var     = charVar;
 float var   = charVar;
 decimal var = (decimal)doubleVar;
-\end{lstlisting}
+	\end{lstlisting}
+\end{minipage}
+
+
 
 \subsubsection{Enumaration}
 \begin{lstlisting}
@@ -149,6 +154,7 @@ Hier sind die Einträge in jeder Zeile gleich lang, dadurch wird die Matrize Rec
 
 
 \subsubsection{Classes vs. Structs}
+\setArrayStretch{1.5}
 \begin{tabular}{|c|c|}
 	\hline
     \textbf{Classes }&
@@ -195,4 +201,4 @@ System.Object ist die Basisklasse für alle Referenztypen.
 Boxing ist wenn man eine Variable vom Stack auf den Heap legt. Das heisst man macht aus einer \textit{Value Type} einen \textit{Reference Type}.\\ 
 
 \textbf{Unboxing}\\
-Unboxing ist genau das gegenteil. Hier holt man eine Variable vom Heap und legt sie auf den Stack. Das heisst man macht aus einem \textit{Reference Type} einen \textit{Value Type}.
+Unboxing ist genau das Gegenteil. Hier holt man eine Variable vom Heap und legt sie auf den Stack. Das heisst man macht aus einem \textit{Reference Type} einen \textit{Value Type}.

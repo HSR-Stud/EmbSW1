@@ -124,22 +124,23 @@ Wobei beides dasselbe ist.
 
 
 Weitere Properties sind:\\
-\begin{tabular}{lp{10cm}}
+\setArrayStretch{1.2}
+\begin{tabular}{lp{12cm}}
   Fill="Red" & Füllt die Fläche mit einer Farbe \\
   Width="100" & definiert die Breite (Pixel) \\
   Height="30" & definiert die Höhe (Pixel) \\
   Content="Text" & Inhalt (z.B Button Label) \\
-  x:Name=''mCountValue'' IsReadOnly="True" & definiert die Variable mCountValue zum entsprechenden Objekt.
-                         Diese Variable kann dann im MainWindow.xaml.cs weiterverwendet werden.\\
+  x:Name=''mCountValue'' & definiert die Variable mCountValue zum entsprechenden Objekt.
+                         Diese Variable kann im MainWindow.xaml.cs weiterverwendet werden.\\
   Margin="5 0 0 0" & definiert den Abstand um das Objekt\\
 \end{tabular}
 
 \subsection{Funktionsaufruf mittels Button}
-In MainWindow.xaml
+In MainWindow.xaml, wobei XXX\_Click der Name der aufzurufenden Funktion ist.
 \begin{lstlisting}[style=CSharp]
 <Button Click="XXX_Click">--</Button>
 \end{lstlisting}
-Wobei XXX\_Click der Name der aufzurufenden Funktion ist.\\
+
 
 Im File MainWindow.xaml.cs muss dann die Funktion wie folgt definiert werden
 \begin{lstlisting}[style=CSharp]
@@ -180,12 +181,64 @@ Möchte man eine Applikation beenden kann die Funktion \textit{Close();} aufgeru
 \end{minipage}
 
 
+\subsubsection{Layout-DockPanel}
+\begin{minipage}{14cm}
+\begin{lstlisting}[style=CSharp]
+  Title="Layouts" Height="188" Width="300"
+  >
+  <Grid>
+    <DockPanel>
+      <Button DockPanel.Dock="Left">Button links</Button>
+      <Button DockPanel.Dock="Right">Button rechts</Button>
+      <Button DockPanel.Dock="Top">Button oben</Button>
+      <Button DockPanel.Dock="Bottom">Button unten</Button>
+    </DockPanel>
+  </Grid>
+\end{lstlisting}
+\end{minipage}
+\begin{minipage}{4cm}
+  \includegraphics[width=4cm]{images/XAML/DockPanel}
+\end{minipage}
+
+\subsubsection{Layout-Viewbox}
+\begin{minipage}{14cm}
+\begin{lstlisting}[style=CSharp]
+  Title="Layouts - Viewbox" Height="100" Width="500">
+  <Grid>
+    <Viewbox>
+      <TextBlock>
+        Franz jagt im komplett verwahrlosten Taxi quer durch Bayern.
+        Franz jagt im komplett verwahrlosten Taxi quer durch Bayern.
+      </TextBlock>
+    </Viewbox>
+  </Grid>
+\end{lstlisting}
+\end{minipage}
+\begin{minipage}{4cm}
+  \includegraphics[width=4cm]{images/XAML/Viewbox}
+\end{minipage}
+
+\subsubsection{Layout-WrapPanel}
+\begin{minipage}{14cm}
+\begin{lstlisting}[style=CSharp]
+  Title="Layouts" Height="100" Width="250"
+  >
+  <Grid>
+    <WrapPanel Orientation="Horizontal">
+      <Button Width="100" Height="30">Button</Button>
+      <Button Width="100" Height="30">Button</Button>
+      <Button Width="100" Height="30">Button</Button>
+    </WrapPanel>
+  </Grid>
+\end{lstlisting}
+\end{minipage}
+\begin{minipage}{4cm}
+  \includegraphics[width=4cm]{images/XAML/WrapPanel}
+\end{minipage}
+
 \subsubsection{Layout-StackPanel}
 \begin{minipage}{14cm}
 \begin{lstlisting}[style=CSharp]
-<Window x:Class="Layouts.StackPanel"
-  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   Title="Layouts - StackPanel" Height="150" Width="250">
   <Grid>
     <StackPanel Orientation="Vertical">
@@ -199,64 +252,15 @@ Möchte man eine Applikation beenden kann die Funktion \textit{Close();} aufgeru
       </StackPanel>
     </StackPanel>
   </Grid>
-</Window>
 \end{lstlisting}
 \end{minipage}
 \begin{minipage}{4cm}
   \includegraphics[width=4cm]{images/XAML/StackPanel}
 \end{minipage}
 
-\subsubsection{Layout-DockPanel}
-\begin{minipage}{14cm}
-\begin{lstlisting}[style=CSharp]
-<Window x:Class="Layouts.DockPanel"
-  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-  Title="Layouts" Height="188" Width="300"
-  >
-  <Grid>
-    <DockPanel>
-      <Button DockPanel.Dock="Left">Button links</Button>
-      <Button DockPanel.Dock="Right">Button rechts</Button>
-      <Button DockPanel.Dock="Top">Button oben</Button>
-      <Button DockPanel.Dock="Bottom">Button unten</Button>
-    </DockPanel>
-  </Grid>
-</Window>
-\end{lstlisting}
-\end{minipage}
-\begin{minipage}{4cm}
-  \includegraphics[width=4cm]{images/XAML/DockPanel}
-\end{minipage}
-
-\subsubsection{Layout-WrapPanel}
-\begin{minipage}{14cm}
-\begin{lstlisting}[style=CSharp]
-<Window x:Class="Layouts.WrapPanel"
-  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-  Title="Layouts" Height="100" Width="250"
-  >
-  <Grid>
-    <WrapPanel Orientation="Horizontal">
-      <Button Width="100" Height="30">Button</Button>
-      <Button Width="100" Height="30">Button</Button>
-      <Button Width="100" Height="30">Button</Button>
-    </WrapPanel>
-  </Grid>
-</Window>
-\end{lstlisting}
-\end{minipage}
-\begin{minipage}{4cm}
-  \includegraphics[width=4cm]{images/XAML/WrapPanel}
-\end{minipage}
-
 \subsubsection{Layout-TabPanel}
 \begin{minipage}{14cm}
 \begin{lstlisting}[style=CSharp]
-<Window x:Class="Layouts.TabPanel"
-  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   Title="Layouts - TabPanel" Height="100" Width="300">
   <Grid>
     <TabPanel>
@@ -270,41 +274,15 @@ Möchte man eine Applikation beenden kann die Funktion \textit{Close();} aufgeru
       </TabControl>
     </TabPanel>
   </Grid>
-</Window>
 \end{lstlisting}
 \end{minipage}
 \begin{minipage}{4cm}
   \includegraphics[width=4cm]{images/XAML/TabPanel}
 \end{minipage}
 
-\subsubsection{Layout-Viewbox}
-\begin{minipage}{14cm}
-\begin{lstlisting}[style=CSharp]
-<Window x:Class="Layouts.ViewBox"
-  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-  Title="Layouts - Viewbox" Height="100" Width="500">
-  <Grid>
-    <Viewbox>
-      <TextBlock>
-        Franz jagt im komplett verwahrlosten Taxi quer durch Bayern.
-        Franz jagt im komplett verwahrlosten Taxi quer durch Bayern.
-      </TextBlock>
-    </Viewbox>
-  </Grid>
-</Window>
-\end{lstlisting}
-\end{minipage}
-\begin{minipage}{4cm}
-  \includegraphics[width=4cm]{images/XAML/Viewbox}
-\end{minipage}
-
 \subsubsection{Layout-Grid}
 \begin{minipage}{14cm}
 \begin{lstlisting}[style=CSharp]
-<Window x:Class="Layouts.Grid"
-  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   Title="Layouts - Grid" Height="300" Width="300">
   <Grid><Grid.RowDefinitions>
     <RowDefinition Height="20" />
@@ -324,11 +302,10 @@ Möchte man eine Applikation beenden kann die Funktion \textit{Close();} aufgeru
     Grid.Column="0" Grid.RowSpan="2">
     Button3 </Button>
   </Grid>
-</Window>
 \end{lstlisting}
 \end{minipage}
 \begin{minipage}{4cm}
   \includegraphics[width=4cm]{images/XAML/Grid}
 \end{minipage}
 
-
+\newpage

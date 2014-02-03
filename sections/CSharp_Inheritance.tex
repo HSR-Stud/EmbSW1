@@ -28,7 +28,7 @@
   muss diese somit implementieren
   \item Structs können \textbf{nicht} von anderen Typen erben, aber sie können
   diverse Interfaces implementieren
-  \item Ein Klasse \textbf{ohne} explizite Basisklasse erbt von der Klasse
+  \item Eine Klasse \textbf{ohne} explizite Basisklasse erbt von der Klasse
   \textbf{Object}
 \end{itemize}
  
@@ -43,7 +43,7 @@
                   //(here A)
                   //Dynamic type of a: the type of the object in a (here also A)
   a = new B();    //Dynamic type of a is B
-  b = new C();    //Dynamic type of a is C
+  a = new C();    //Dynamic type of a is C
   
   B b = a;        //Forbidden, compilation Error
   
@@ -58,7 +58,6 @@
   if(a is C)...   //False: If a==null, a is T always returns false
 \end{lstlisting}
 
-\newpage
 \subsubsection{Checked Type Casts}
 \begin{lstlisting}[style=Csharp]
   A a = new C(); 
@@ -156,11 +155,53 @@ Weitere Beispiele: Siehe Folie 8 und 9 vom Foliensatz "`Inheritance"'
 	pet.WhoAreYou(); 	// "I am a dog" !!
 \end{lstlisting}
 
+
+
+\subsubsection{Visibility}
+\begin{itemize}
+  \item \textbf{protected}: Sichtbar in der deklarierten Klasse und ihren
+  Unterklassen
+  \item \textbf{internal}: Sichtbar im deklarierten Assembly
+  \item \textbf{protected internal}: Sichtbar in der deklarierten Klasse, ihren
+  Unterklassen und im deklarierten Assembly. 
+\end{itemize}
+
+\subsubsection{Astrakte Klassen und Methoden}
+\begin{itemize}
+  \item Abstrakte Methoden haben \textbf{keine} Implementation
+  \item Abstrakte Methoden sind implizit \textbf{virtuell}
+  \item Wenn eine Klasse abstrakte Methoden (deklariert oder vererbt), muss sie
+  selber \textbf{auch} abstrakt sein. 
+  \item Aus einer abstrakten Klasse lassen sich \textbf{keine} Objekte
+  erstellen. 
+\end{itemize}
+Beispiel: 
+\begin{lstlisting}[style=Csharp]
+  abstract class Stream
+  {
+    public abstract void Write(char ch);
+    public void WirteString(string s)
+    {
+      foreach(char ch in s) 
+        Write(ch); 
+    }
+  }
+  class File:Stream
+  {
+    public override void Write(char ch)
+    {
+      ...write ch to disk...
+    }
+  }
+\end{lstlisting}
+
+
 \subsubsection{Constructor in Subclasses}
 
-\begin{table}
+\begin{table}[h!]
 \lstset{numbers=none, tabsize=3, frame=None}
 \centering
+\setArrayStretch{1.2}
 \begin{tabular}{|p{4cm}|p{4cm}|p{4cm}|p{4cm}|}
 \hline
 \multicolumn{3}{|c|}{Implicit call of the base class constructor} & Explicit call
@@ -234,47 +275,8 @@ OK
 \end{itemize}
 \\ \hline
 \end{tabular}
-\caption{Kunstruktoren un Unterklassen}
 \end{table}
 
-
-\subsubsection{Visibility}
-\begin{itemize}
-  \item \textbf{protected}: Sichtbar in der deklarierten Klasse und ihren
-  Unterklassen
-  \item \textbf{internal}: Sichtbar im deklarierten Assembly
-  \item \textbf{protected internal}: Sichtbar in der deklarierten Klasse, ihren
-  Unterklassen und im deklarierten Assembly. 
-\end{itemize}
-
-\subsubsection{Astrakte Klassen und Methoden}
-\begin{itemize}
-  \item Abstrakte Methoden haben \textbf{keine} Implementation
-  \item Abstrakte Methoden sind implizit \textbf{virtuell}
-  \item Wenn eine Klasse abstrakte Methoden (deklariert oder vererbt), muss sie
-  selber \textbf{auch} abstrakt sein. 
-  \item Aus einer abstrakten Klasse lassen sich \textbf{keine} Objekte
-  erstellen. 
-\end{itemize}
-Beispiel: 
-\begin{lstlisting}[style=Csharp]
-  abstract class Stream
-  {
-    public abstract void Write(char ch);
-    public void WirteString(string s)
-    {
-      foreach(char ch in s) 
-        Write(ch); 
-    }
-  }
-  class File:Stream
-  {
-    public override void write(char ch)
-    {
-      ...write ch to disk...
-    }
-  }
-\end{lstlisting}
 
 \subsubsection{Astrakte Properties und Indexers}
 \begin{itemize}
