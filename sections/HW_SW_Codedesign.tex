@@ -1,1 +1,45 @@
-\section{Hardware/Software Codedesign - Lukas}
+\section{Hardware/Software Codedesign}
+\subsection{Ziele}
+	\begin{itemize}
+		\item Entwurf (Design) soll so lange wie sinnvoll (nicht so lange wie möglich) lösungsneutral erfolgen
+		\item Systemdesign fördern, statt separate Designs für Mechanik, Elektronik, Firmware, Software, etc., die sich unter Umständen auch widersprechen können
+		\item Die Systemspezifikation erfolgt idealerweise mit Hilfe einer eindeutigen Spezifikationssprache, nicht in Prosa		
+		\item Die Spezifikation kann simuliert (ausgeführt) werden
+		\item Implementationen können einfach geändert werden, z.B. von HW zu SW oder umgekehrt. 		
+	\end{itemize}
+	
+\subsection{Anforderungen für praktische Anwendung}
+	\begin{itemize}
+		\item Methoden und Tools sollten beim Systemdesign nicht zu fachlastig sein, d.h. die Methoden sollten für Elektronik-, Firmware- und wenn möglich auch Mechanikentwickler anwendbar sein
+		\item Falls möglich gute Toolunterstützung und automatische Synthese
+	\end{itemize}
+	
+\subsection{Spezifikationssprachen}
+	\begin{itemize}
+		\item Formale Sprachen sind eindeutig
+		\item Beispiele für Spezifikationssprachen: SystemC, SysML, SpecC, SystemVerilog, Esterel, Matlab/Simulink, Statecharts
+	\end{itemize}
+	
+\subsection{Virtuelle Prototypen}
+	\begin{itemize}
+		\item Die Simulation des Systems kann unterschiedlich stark detailliert werden		
+		\item Die simulierten Systeme sind Virtuelle Prototypen
+		\item Während der Entwicklung können einzelne (virtuelle) Teile des Prototypen laufend durch physische Teile ersetzt werden		
+	\end{itemize}
+	
+\subsection{X-in-the-loop}
+	\begin{multicols}{2}	
+		\includegraphics[height=9cm]{images/HWSWCodesign/X-in-the-loop}
+		\columnbreak
+		\begin{itemize}
+			\item Bei einem vollständig als Modell vorliegenden virtuellen Prototyp spricht man auch von Model-in-the-Loop (MIL)				
+			\item Je mehr der Prototyp durch konkretere Implementationen ersetzt wird, spricht man von
+			\begin{itemize}	
+				\item Software-in-the loop (SIL)
+				\item Processor-in-the loop (PIL)
+				\item Hardware-in-the loop (HIL)
+			\end{itemize}
+		\end{itemize}
+	\end{multicols} 
+	
+	
