@@ -1,6 +1,6 @@
-\section{Fine State Machine Realisierung - Lukas}
+\section{Fine State Machine Realisierung}
 
-\subsection{Realisierung von Flachen FSMs\buch{p.8}}
+\subsection{Realisierung von Flachen FSMs}
 \begin{itemize}
   \item Steuerkonstrukt (typischerweise mit switch-case)
   \begin{itemize}
@@ -22,237 +22,39 @@
    \item Bei allen Varianten sind auch Variationen vorhanden
 \end{itemize}
 
-\subsubsection{Realisierung mit Steuerkonstrukt (prozedural in C)\buch{p. 12}}
+\subsection{Realisierung mit Steuerkonstrukt (prozedural in C)\buch{p. 12}}
 \begin{figure}[h]
   \centering
-  {\includegraphics[scale = 0.4]{images/FSM/Up_down_counter}  
-  \caption{Beispiel für die Betrachtungen: Up/Down-Counter (prozedural)}
-  \label{fig:up_down_counter}}
+  \includegraphics[scale = 0.4]{images/FSM/Up_down_counter}  
 \end{figure}
 \begin{itemize}
   \item Zustände (States) werden in einem eunum definiert (nicht public!)
-\begin{lstlisting}[style=C]
-typdef enum {idleState,         //idle state
-             countUpState,      //counting up at each count event
-             countDownState}    //counting down at each count event
-             State;
-\end{lstlisting}
+\lstinputlisting[style=C, firstline=13, lastline=16]{snippets/Ctrl_C/counterCtrl.c}
+
 \item Ereignisse (Events) werden in einem enum definiert (public!)
-	\begin{lstlisting}[style=C]
-typdef enum {cntEvUp,       //count upawards
-             cntEvDown,     //count downwards
-             cntEvCount,    //count (up or down)
-             cntEvStop}     //stop counting
-             CntEvent;
-\end{lstlisting}
+\lstinputlisting[style=C, firstline=12, lastline=16]{snippets/Ctrl_C/counterCtrl.h}
+
 \item Die FSM wird in zwei Funktionen implementiert
-	\begin{lstlisting}[style=C]
-void cntCtrlInit();
-//initalizes counter FSM
-
-void cntCtrlProcess(CntEvent e);
-//changes the state of the FSM based on the event 'e'
-//starts the actions
-\end{lstlisting}
-
+\lstinputlisting[style=C, firstline=18, lastline=23]{snippets/Ctrl_C/counterCtrl.h}
 
 \item Der aktuelle Zustand der FSM wird in einer statischen Variablen gehalten
-	\begin{lstlisting}[style=C]
-typdef enum {idleState,         //idle state
-             countUpState,      //counting up at each count event
-             countDownState}    //counting down at each count event
-             State;
-             
-static State currentState = idlState; //current state of the FSM
-
-void cntCtrlInit()
-{
-  currentState = idleState; //init state
-  cntInit(0);
-}
-\end{lstlisting}
+\lstinputlisting[style=C, firstline=18, lastline=18]{snippets/Ctrl_C/counterCtrl.c}
 
 \end{itemize}
 
 \subsubsection{Vollständiger Code für prozedurales Steuerkonstrukt}
-\begin{lstlisting}[style=C]
-// counterCtrl.h
-//
-// implements the Finite State Machine (FSM) of an up/down-Counter
-//
-// (C) R. Bonderer, HSR Hochschule Rapperswil, Nov. 2010
+\lstinputlisting[style=C]{snippets/Ctrl_C/counterCtrl.h}
+\lstinputlisting[style=C]{snippets/Ctrl_C/counterCtrl.c}
+\lstinputlisting[style=C]{snippets/Ctrl_C/counter.h}
+\lstinputlisting[style=C]{snippets/Ctrl_C/counter.c}
+\lstinputlisting[style=C]{snippets/Ctrl_C/counterTest.c}
 
-#ifndef COUNTERCTRL_H__
-#define COUNTERCTRL_H__
-
-typedef enum {cntEvUp,       // count upwards
-              cntEvDown,     // count downwards
-              cntEvCount,    // count (up or down)
-              cntEvStop}     // stop counting
-             CntEvent;
-
-void cntCtrlInit();
-// initializes counter FSM
-
-void cntCtrlProcess(CntEvent e);
-// changes the state of the FSM based on the event 'e'
-// starts the actions
-
-#endif
-\end{lstlisting}
-\begin{lstlisting}[style=C]
-// counterCtrl.c
-//
-// implements the Finite State Machine (FSM) of an up/down-Counter
-//
-// (C) R. Bonderer, HSR Hochschule Rapperswil, Nov. 2010
-
-#include <stdio.h>
-#include "counterCtrl.h"
-#include "counter.h"
-
-typedef enum {idleState,        // idle state
-              countUpState,     // counting up at each count event
-              countDownState}   // counting down at each count event
-             State;
-
-static State currentState = idleState; // holds the current state of the FSM
-
-void cntCtrlInit()
-{
-  currentState = idleState;
-  cntInit(0);
-}
-
-void cntCtrlProcess(CntEvent e)
-{
-  switch (currentState)
-  {
-    case idleState:
-      printf("State: idleState\n");
-      if (cntEvUp == e)
-      {
-        // actions; Exit-Actions von idleState
-        printf("State: idleState, counter = %d\n", cntGetCounter());
-        // state transition; Entry-Actions von countUpState
-        printf("Changing to State: countUpState\n");
-        currentState = countUpState;
-      }
-      if (cntEvDown == e)
-      {
-        // actions; Exit-Actions von idleState
-        printf("State: idleState, counter = %d\n", cntGetCounter());
-        // state transition; Entry-Actions von countDownState
-        printf("Changing to State: countDownState\n");
-        currentState = countDownState;
-      }
-      break;
-      
-    case countUpState:
-      printf("State: countUpState\n");
-      if (cntEvCount == e)
-      {
-        // actions
-        cntCount(1);
-        printf("State: countUpState, counter = %d\n", cntGetCounter());
-        // state transition
-      }
-      if (cntEvStop == e)
-      {
-        // actions
-        // state transition
-        printf("Changing to State: idleState\n");
-        currentState = idleState;
-      }
-      break;
-      
-    case countDownState:
-      printf("State: countDownState\n");
-      if (cntEvCount == e)
-      {
-        // actions
-        cntCount(-1);
-        printf("State: countDownState, counter = %d\n", cntGetCounter());
-        // state transition
-      }
-      if (cntEvStop == e)
-      {
-        // actions
-        // state transition
-        printf("Changing to State: idleState\n");
-        currentState = idleState;
-      }
-      break;
-      
-    default:
-      break;
-  }
-}
-\end{lstlisting}
-
-\subsubsection{counterTest.c}
-\label{subsec:counterTest}
-\begin{lstlisting}[style=C]
-// counterTest.c
-//
-// Test program for the Finite State Machine (FSM) of an up/down-Counter
-//
-// (C) R. Bonderer, HSR Hochschule Rapperswil, Nov. 2010
-
-#include <stdio.h>
-#include "counterCtrl.h"
-
-int main(void)
-{
-  char answer;
-  
-  cntCtrlInit();
-  
-  do
-  {
-    printf("\n-------------------------------------------\n");
-    printf("    u   Count up\n");
-    printf("    d   Count down\n");
-    printf("    c   Count\n");
-    printf("    s   Stop counting\n");
-    printf("    q   Quit\n");
-
-    printf("\nPlease press key: ");
-    scanf("%c", &answer);
-    getchar();  // nach scanf() ist noch ein '\n' im Inputbuffer: auslesen und wegwerfen
-
-    printf("\n");
-    
-    switch (answer)
-    {
-      case 'u':
-        cntCtrlProcess(cntEvUp);
-        break;
-      case 'd':
-        cntCtrlProcess(cntEvDown);
-        break;
-      case 'c':
-        cntCtrlProcess(cntEvCount);
-        break;
-      case 's':
-        cntCtrlProcess(cntEvStop);
-        break;
-      default:
-        break;
-    }
-  } while (answer != 'q');
-  return 0;
-}
-\end{lstlisting}
-
-\subsubsection{Realisierung mit Steuerkonstrukt (Objektorientiert in
-C++)\buch{p.21}}
+\subsection{Realisierung mit Steuerkonstrukt (Objektorientiert in
+C++)}
 
 \begin{figure}[h]
   \centering
-  {\includegraphics[scale = 0.45]{images/FSM/Up_down_counter_obj}  
-  \caption{Beispiel für die Betrachtungen: Up/Down-Counter (objektorientiert)}
-  \label{fig:up_down_counter_obj}}
+  \includegraphics[scale = 0.45]{images/FSM/Up_down_counter_obj}  
 \end{figure}
 
 \begin{itemize}
@@ -263,9 +65,7 @@ C++)\buch{p.21}}
   Klasse gehalten
   \begin{figure}[h]
     \centering
-    {\includegraphics[scale = 0.5]{images/FSM/klasseCounter}  
-    \caption{Klasse Counter}
-    \label{fig:klasseCounter}}
+    \includegraphics[scale = 0.5]{images/FSM/klasseCounter}  
   \end{figure}
   \item Mehrere Instanzen derselben FSM können einfach erstellt werden
   \item Ein Modulkürzel ist nicht notwendig, da alle Namen im Kontext von
@@ -273,28 +73,14 @@ C++)\buch{p.21}}
   \item Der Code wird eleganter, eine Performanceeinbusse ist nicht vorhanden
   \item States werden im \textbf{privaten-Teil} der Klasse mit einem enum
   definiert
-\begin{lstlisting}[style=Cpp]
-enum State {idleState,        // idle state 
-            countUpState,     // counting up at each count event 
-            countDownState};  //counting down at each count event
-\end{lstlisting}
+  \lstinputlisting[style=Cpp, firstline=26, lastline=28]{snippets/Ctrl_Cpp/counterCtrl.h}
+
 \item Events werden im \textbf{public-Teil} der klasse mit einem enum definiert
 (public, weil die Events zur Schnittstelle gehören)
-\begin{lstlisting}[style=Cpp]
-enum Event {evUp,     // count upwards
-            evDown,   // count downwards 
-            evCount,  // count (up or down)
-            evStop};  // stop counting
-\end{lstlisting}
-\item Die FSM wird in zwei Funktionen implementiert
-\begin{lstlisting}[style=Cpp]
-CounterCtrl::CounterCtrl(); 
-// Ctor initializes counter FSM
+\lstinputlisting[style=Cpp, firstline=16, lastline=19]{snippets/Ctrl_Cpp/counterCtrl.h}
 
-void CounterCtrl::process(CounterCtrl::Event e); 
-// changes the state of the FSM based on the event 'e' 
-// starts the actions
-\end{lstlisting}
+\item Die FSM wird in zwei Funktionen implementiert
+\lstinputlisting[style=Cpp, firstline=20, lastline=23]{snippets/Ctrl_Cpp/counterCtrl.h}
 
 \item \textbf{Entry-Actions} müssen überall dort hinzugefügt werden, wo in einen
 neuen Zustand gewechselt wird. Üblicherweise muss die Entry-Action für einen
@@ -306,236 +92,11 @@ codiert werden.
 \end{itemize}
 
 \subsubsection{Vollständiger Code für objektorientiertes Steuerkonstrukt}
-\label{subsec:oo_code}
-\begin{lstlisting}[style=Cpp]
-// counterCtrl.h
-//
-// implements the Finite State Machine (FSM) of an up/down-Counter
-//
-// (C) R. Bonderer, HSR Hochschule Rapperswil, Nov. 2010
-
-#ifndef COUNTERCTRL_H__
-#define COUNTERCTRL_H__
-#include "counter.h"
-
-class CounterCtrl
-{
-  public:
-    enum Event{evUp,       // count upwards
-               evDown,     // count downwards
-               evCount,    // count (up or down)
-               evStop};    // stop counting
-    CounterCtrl();
-    void process(Event e);
-    // changes the state of the FSM based on the event 'e'
-    // starts the actions
-
-  private:
-    enum State{idleState,        // idle state
-               countUpState,     // counting up at each count event
-               countDownState};  // counting down at each count event
-
-    State currentState;     // holds the current state of the FSM
-    Counter myCounter;
-};
-#endif
-\end{lstlisting}
-
-\begin{lstlisting}[style=Cpp]
-// counterCtrl.cpp
-//
-// implements the Finite State Machine (FSM) of an up/down-Counter
-//
-// (C) R. Bonderer, HSR Hochschule Rapperswil, Okt. 2011
-
-#include <iostream>
-#include "counterCtrl.h"
-#include "counter.h"
-using namespace std;
-
-CounterCtrl::CounterCtrl() : 
-  currentState(idleState),
-  myCounter(0)
-{
-}
-
-void CounterCtrl::process(Event e)
-{
-  switch (currentState)
-  {
-    case idleState:
-      cout << "State: idleState" << endl;
-      if (evUp == e)
-      {
-        // actions
-        cout << "State: idleState, counter = " << myCounter.getCounter() << endl;
-        // state transition
-        cout << "Changing to State: countUpState" << endl;
-        currentState = countUpState;
-      }
-      if (evDown == e)
-      {
-        // actions
-        cout << "State: idleState, counter = " << myCounter.getCounter() << endl;
-        // state transition
-        cout << "Changing to State: countDownState" << endl;
-        currentState = countDownState;
-      }
-      break;
-      
-    case countUpState:
-      cout << "State: countUpState" << endl;
-      if (evCount == e)
-      {
-        // actions
-        myCounter.count(1);
-        cout << "State: countUpState, counter = " << myCounter.getCounter() << endl;
-        // state transition
-      }
-      if (evStop == e)
-      {
-        // actions
-        // state transition
-        cout << "Changing to State: idleState" << endl;
-        currentState = idleState;
-      }
-      break;
-      
-    case countDownState:
-      cout << "State: countDownState" << endl;
-      if (evCount == e)
-      {
-        // actions
-        myCounter.count(-1);
-        cout << "State: countDownState, counter = " << myCounter.getCounter() << endl;
-        // state transition
-      }
-      if (evStop == e)
-      {
-        // actions
-        // state transition
-        cout << "Changing to State: idleState" << endl;
-        currentState = idleState;
-      }
-      break;
-      
-    default:
-      break;
-  }
-}
-\end{lstlisting}
-
-\begin{lstlisting}[style=Cpp]
-// counter.h
-//
-// implements an up/down-Counter
-//
-// (C) R. Bonderer, HSR Hochschule Rapperswil, Nov. 2010
-
-#ifndef COUNTER_H__
-#define COUNTER_H__
-
-class Counter
-{
-  public:
-    Counter(int val);
-
-    void count(int step);
-    // counts the counter up (step>0) or down (step<0) by step
-
-    int getCounter() const;
-    // returns the counter value
-
-    void setCounter(int val);
-    // sets the counter to val
-  private:
-    int countValue;
-};
-
-#endif
-\end{lstlisting}
-
-\begin{lstlisting}[style=Cpp]
-// counter.cpp
-//
-// implements an up/down-Counter
-//
-// (C) R. Bonderer, HSR Hochschule Rapperswil, Nov. 2010
-//
-
-#include "counter.h"
-
-Counter::Counter(int val): countValue(val)
-{
-}
-
-void Counter::count(int step)
-{
-  countValue += step;
-}
-
-int Counter::getCounter() const
-{
-  return countValue;
-}
-
-void Counter::setCounter(int val)
-{
-  countValue = val;
-}
-\end{lstlisting}
-
-\begin{lstlisting}[style=Cpp]
-// counterTest.cpp
-//
-// Test program for the Finite State Machine (FSM) of an up/down-Counter
-//
-// (C) R. Bonderer, HSR Hochschule Rapperswil, Oct. 2013
-
-#include <iostream>
-#include "counterCtrl.h"
-using namespace std;
-
-int main(void)
-{
-  char answer;
-  CounterCtrl myFsm(0);  // initValue of counter == 0
-  
-  do
-  {
-    cout << endl << "-------------------------------------------" << endl;
-    cout << "    u   Count up" << endl;
-    cout << "    d   Count down" << endl;
-    cout << "    c   Count" << endl;
-    cout << "    s   Stop counting" << endl;
-    cout << "    q   Quit" << endl;
-
-    cout << endl << "Please press key: ";
-    cin >> answer;
-    cout << endl;
-    
-    switch (answer)
-    {
-      case 'u':
-        myFsm.process(CounterCtrl::evUp);
-        break;
-      case 'd':
-        myFsm.process(CounterCtrl::evDown);
-        break;
-      case 'c':
-        myFsm.process(CounterCtrl::evCount);
-        break;
-      case 's':
-        myFsm.process(CounterCtrl::evStop);
-        break;
-      default:
-        break;
-    }
-  } while (answer != 'q');
-  
-  return 0;
-}
-\end{lstlisting}
+\lstinputlisting[style=Cpp]{snippets/Ctrl_Cpp/counterCtrl.h}
+\lstinputlisting[style=Cpp]{snippets/Ctrl_Cpp/counterCtrl.cpp}
+\lstinputlisting[style=Cpp]{snippets/Ctrl_Cpp/counter.h}
+\lstinputlisting[style=Cpp]{snippets/Ctrl_Cpp/counter.cpp}
+\lstinputlisting[style=Cpp]{snippets/Ctrl_Cpp/counterTest.cpp}
 
 \subsubsection{Realisierung mit Tabelle\buch{p.33}}
 \begin{itemize}
