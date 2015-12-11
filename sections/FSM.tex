@@ -1,4 +1,4 @@
-\section{Fine State Machine - Marco}
+\section{Finite State Machine (FSM)}
 
 \subsection{Zustandsbasierte Systeme}
 
@@ -6,17 +6,28 @@
 \begin{itemize}
   \item Bei (elektronisch implementierten) asynchronen FSMs führen geänderte
   Inputsignale direkt zu Zustandsänderungen. Sie sind deshalb "`schneller"',
-  jedoch äusserst empfindlich auf Glitches und kaum tastbar.
+  jedoch äusserst empfindlich auf Glitches und kaum testbar.
   \item Bei synchronen FSMs werden die Inputsignale nur zu diskreten Zeitpunkten
   betrachtet, diese Systeme sind getaktet.
   \item Softwareimplementationen sind eigentlich immer synchron, da die Rechner
   getaktet sind. Wenn die Inputsignale mittels Interrupts behandelt werden, ist
-  darauf zu achten, dass die Interrupts nicht fälschlicherweise gesetzt werden (
-  ist Aufgabe der Elektronik)
+  darauf zu achten, dass die Interrupts nicht fälschlicherweise gesetzt werden (ist Aufgabe der Elektronik)
   \item Rein softwareseitig besteht die Problematik der Asynchronizität nicht
 \end{itemize}
 
-\subsubsection{State-Event-Diagram}
+\subsubsection{Finite State Machine (FSM)}
+\begin{itemize}
+  \item Eine FSM befindet sich immer in einem definierten Zustand
+  \item Die Inputs X bezeichnen üblicherweise Ereignisse (Events)
+  \item Die Outputs Y werden oft auch Actions genannt
+  \item Eine FSM benötigt immer Speicherelemente zur Speicherung des internen Zustands
+  \item In der Praxis sind zwei FSM-Varianten bekannt: \begin{itemize}
+			\item der Mealy-Automat
+			\item der Moore-Automat
+  			\end{itemize}
+\end{itemize}
+  
+\subsubsection{Zustands-Ereignis-Diagramm (State-Event-Diagram)}
 \begin{itemize}
   \item Die Zustände werden mit einem Kreis gekennzeichnet
   \item Die Ereignisse werden mit Pfeilen zwischen den Zuständen bezeichnet
@@ -30,20 +41,21 @@
 
 \subsubsection{Mealy-Automat}
 \begin{itemize}
-  \item Der nächste Zustand $Z_{n+1}$ ist abhängig vom Input X und von $Z_n$:
-  $Z_{n+1}=f(Z_n,X)$
-  \item Der Output Y ist abhängig vom inneren Zustand $Z_n$ \textbf{und vom
-  Input X}: $Y=g(Z_n, X)$
-  \item Die Actions liegen deshalb bei den Transitionen
+  	\item Der nächste Zustand $Z_{n+1}$ ist abhängig vom Input X und von $Z_n$:
+  	$Z_{n+1}=f(Z_n,X)$
+  	\item Der Output Y ist abhängig vom inneren Zustand $Z_n$ \textbf{und vom
+ 	 Input X}: $Y=g(Z_n, X)$
+  	\item Die Actions liegen deshalb bei den Transitionen
 \end{itemize}
 
-\subsubsection{Moor-Automat}
+\subsubsection{Moore-Automat}
 \begin{itemize}
-  \item Der nächste Zustand $Z_{n+1}$ ist abhängig vom Input X und von $Z_n$:
-  $Z_{n+1}=f(Z_n,X)$
-  \item Der Output Y ist \textbf{nur} abhängig vom inneren Zustand $Z_n$: $Y=g(Z_n)$
-  \item Die Actions liegen deshalb bei den Zuständen
+	\item Der nächste Zustand $Z_{n+1}$ ist abhängig vom Input X und von $Z_n$:
+  	$Z_{n+1}=f(Z_n,X)$
+  	\item Der Output Y ist \textbf{nur} abhängig vom inneren Zustand $Z_n$: $Y=g(Z_n)$
+  	\item Die Actions liegen deshalb bei den Zuständen
 \end{itemize}
+
 
 \subsubsection{Zustandstabelle}
 
@@ -78,13 +90,7 @@ Störung&RESET-Taste&AUS&Motor ausschalten\\
   \item In Zustandsdiagrammen kann keine zeitliche Parallelität modelliert werden
 \end{itemize}
 
-\begin{figure}[h]
-  \centering
-  {\includegraphics[width = 10cm]{images/FSM/reset_state}
-  \caption{Nachteile bei einem Resetzustand}
-  \label{fig:nachteile_reset_state}}
-\end{figure}
-
+{\includegraphics[width = 10cm]{images/FSM/reset_state}
 
 \newcommand{\kreis}[1]{\unitlength1ex\begin{picture}(2.5,2.5)%
 \put(0.75,0.75){\circle{3.5}}\put(0.75,0.75){\makebox(0,0){#1}}\end{picture}}
@@ -104,12 +110,7 @@ Zustände bis in die unterste Hierarchie\\
 $\otimes$&Austrittspunkt (exit point)\\
 \end{tabular}
 
-\begin{figure}[h]
-  \centering
-  {\includegraphics[scale = 0.3]{images/FSM/history_default_state_mechanism}  
-  \caption{Combining history and default state mechanism}
-  \label{fig:history_default_state_mechanism}}
-\end{figure} 
+\includegraphics[scale = 0.3]{images/FSM/history_default_state_mechanism}  
 
 \subsubsection{Definitonen}
 \begin{itemize}
