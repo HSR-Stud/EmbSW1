@@ -1,12 +1,11 @@
-\section{Modellierung - Marco \buch{p.1}}
-\subsection{Modellierung eines Embedded Systems \buch{p.3}}
+\section{Modellierung - Marco}
+\subsection{Modellierung eines Embedded Systems}
 
+\textbf{Model Driven Approach (MDA)}
 \begin{itemize}
-	\item Modelle werden als Werkzeuge der Dokumentation angesehen. Dadruch 
-	wird unter Umständen dasselbe zweimal beschrieben (als Code und als Diagramme)
+	\item Modelle werden als Werkzeuge der Dokumentation angesehen. Dadurch wird unter Umständen dasselbe zweimal beschrieben (als Code und als Diagramme)
 	
-	\item Ziel ist es aus formalen Modellen lauffähige Software zu erzeugen. Bei 
-	State Machine ist dies durch Statechart der Automaten vollständig möglich.
+	\item Ziel ist es aus formalen Modellen lauffähige Software zu erzeugen. Bei State Machine ist dies durch Statechart der Automaten vollständig möglich.
 \end{itemize}
 
 \textbf{Agile Softwareentwicklung}\\
@@ -15,7 +14,7 @@ Agile Softwareentwicklung ist der Oberbegriff für den Einsatz von Agilität (fl
 	\item Eher offen für Änderungen als starres Festhalten an Plänen
 	\item Eher Menschen und Kommunikation als Prozesse und Tools
 	\item Eher "`darüber miteinander reden"' als "`gegeneinander schreiben"'
-	\item Eher Vertrauen als Kontrollieren
+	\item Eher Vertrauen als Kontrolle
 	\item Eher "`Best Practices"' aus Erfahrung als verordnete Vorgaben
 	\item Eher Angemessenheit als Extremismus
 	\item \textbf{Aber keine Anarchie!}
@@ -37,18 +36,18 @@ Bei der modellbasierten Entwicklung kommen in allen Entwicklungsphasen durchgän
 	\end{itemize}
 	\columnbreak
 	
-	\textbf{Vorgehen bei Modellierung:}\\
+	\textbf{Generelles Vorgehen bei der Modellierung:}\\
 	\begin{enumerate}
-		\item Systemgrenze Definieren
-		\item Systemprozesse finden
-		\item Verteilung festlegen 
-		\item Systemprozesse detaillieren
+		\item Systemgrenze definieren (statischer Aspekt)
+		\item Systemprozesse finden (statischer Aspekt)
+		\item Verteilung festlegen (statischer Aspekt)
+		\item Systemprozesse detaillieren (dynamischer Aspekt)
 	\end{enumerate}
 \end{multicols}
 
-\subsection{Systemgrenze definieren \buch{p.14}}
-Das wichtigste und allererste bei sämtlichen Systemen ist die Festlegung der Systemgrenze (System boundary)
-mittels Use-case oder auch Sequenzdiagramm.
+\subsection{Systemgrenze definieren und Systemprozesse finden}
+\textbf{Systemgrenze definieren}\\
+Das wichtigste und allererste bei sämtlichen Systemen ist die Festlegung der Systemgrenze (system boundary) mittels Kontextdiagramm (Use Case oder auch Sequenzdiagramm).
 \begin{itemize}
 	\item Was macht das System, d.h was liegt innerhalb der Systemgrenze
 	\item Mit welchen Teilen ausserhalb des Systems kommuniziert das System
@@ -57,49 +56,41 @@ mittels Use-case oder auch Sequenzdiagramm.
 
 \textbf{Systemprozesse finden}\\
 Die Aufteilung in Hardware und Software sollte erst nach der Analyse der grundlegenden Anforderungen erfolgen.
-RTE-Systeme bestehen meistens nur aus einem einzigen Systemprozess, speziell wen das System im Prinzip 'nur' ein
+RTE-Systeme bestehen meistens nur aus einem einzigen Systemprozess, speziell wenn das System im Prinzip 'nur' ein
 Regler ist. Dieser Schritt ist in der Analysephase. Wenn hier von Prozessen die Rede ist, bedeutet das nicht unbedingt ein
-Betriebssystem Prozess ist. Wichtig ist, dass es nicht zuviele Funktionsblöcke gibt (nicht ins Detail gehen). \newline
+Betriebssystem Prozess ist. Wichtig ist, dass es nicht zuviele Funktionsblöcke gibt (nicht ins Detail gehen). \newline\newline
 Bei Systemen bei denen die Grenze durch Nachrichtenflüsse charakterisiert werden können, eignen sich Sequenzdiagramme
-für Kontextbeschreibung.
+für Kontextbeschreibung.\\
 
-\begin{figure}[h]
-	\centering
-	\includegraphics[height=6cm]{images/Modellierung/Systemgrenze}
-	\caption{Kontextdiagramm mittels Use-Case}
-\end{figure}
+\includegraphics[height=6cm]{images/Modellierung/Systemgrenze}
 
-\subsection{Verteilung Festlegen \buch{p.23}}
-Bei Embedded Systems werden häufig mehrere Rechner Systeme verwendet um die Aufgaben zu erledigen. Diese liegen meistens 
-geographisch (cm bis km) verteilt und sind mit einem Kommunikationskanal verbunden. Diese Systeme heissen Verteilte Systeme 
-(Distributed System). Zur Darstellung eignet sich in UML das Verteilungsdiagramm (Deployment Diagramm).\\
+\subsection{Verteilung festlegen}
+Bei Embedded Systems werden häufig mehrere Rechnersysteme verwendet um die Aufgaben zu erledigen. Diese liegen meistens 
+geographisch (cm bis km) verteilt und sind mit einem Kommunikationskanal verbunden. Diese Systeme heissen Verteilte Systeme (Distributed Systems). Zur Darstellung eignet sich in UML das Verteilungsdiagramm (Deployment Diagram).\\
 
-\textbf{Verteilungsdiagramm (Distributed System)}
+\textbf{Verteilungsdiagramm (Deployment Diagram)}
 \begin{itemize}
 	\item Die Knoten werden zur Darstellung der geographischen Orten oder Subsysteme verwendet
-	\item Die physikalische Verbindung zwischen zwei Knoten werden als Linien dargestellt.
+	\item Die physikalische Verbindung zwischen den Knoten (Netzwerke, Kabel, Wireless, etc.) werden als Linien dargestellt.
 	\item Die Knoten können auch hierarchisch aufgebaut sein.
 \end{itemize}
 
-\begin{figure}[h]
-	\centering
-	\includegraphics[height=6cm, width = 9cm,]{images/Modellierung/Verteilungsdiagramm}
-	\caption{Verteilungsdiagramm}
-\end{figure}
+\includegraphics[height=6cm, width = 9cm,]{images/Modellierung/Verteilungsdiagramm}
 
-\subsection{Systemprozesse Detaillieren \buch{p.27}}
-Die Systemprozesse nicht detaillierter spezifizieren als sinnvoll. Jede weitere Detaillierung soll einen "`added value"' liefern. 
-Leitidee: Lieber weniger als mehr Detail\\
 
-\textbf{Detaillierungsgrad}
+\subsection{Systemprozesse Detaillieren}
+Die gefundenen Systemprozesse müssen nun genauer spezifiziert werden. Dabei nicht detaillierter spezifizieren als sinnvoll. Jede weitere Detaillierung soll einen "`added value"' liefern. 
+Leitidee: Lieber weniger als mehr Details\\
+
+\textbf{Verschiedene Detaillierungsstufen}
 \begin{itemize}
-	\item \textbf{Überblick: } z.B in Form von normalem umgangssprachlichem Text. Diese Form sollte immer erstellt werden
-	\item \textbf{Normale Schicht: } Sie ist für den Systementwickler gedacht und enthält mehr Details  
+	\item \textbf{Überblick: } z.B in Form von normalem umgangssprachlichem Text. Diese Form sollte immer erstellt werden.
+	\item \textbf{Normale Sicht: } Sie ist für den Systementwickler gedacht und enthält mehr Details.  
 \end{itemize}
 
-Für die Detaillierung eignen sich Sequenzdiagramm, Aktivitätsdiagramm, Statecharts und Umgangssprachlicher Text.
+Für die Detaillierung eignen sich Sequenzdiagramme, Aktivitätsdiagramme, Statecharts und umgangssprachlicher Text.
 
-\subsubsection{Sequenzdiagramme \buch{p.30}}
+\subsubsection{Sequenzdiagramme}
 
 \begin{multicols}{2}
 	\textbf{Zweck:}
@@ -125,23 +116,21 @@ Für die Detaillierung eignen sich Sequenzdiagramm, Aktivitätsdiagramm, Statech
 	\centering
 	\includegraphics[height=6cm, width = 8cm,]{images/Modellierung/Sequenzdiagramm2}
 	\label{Bild2}
-\end{minipage}
+\end{minipage}\\\\
+
+\includegraphics[width = 8cm]{images/Modellierung/Pfeiltypen_Aktivitaetsdiagramm}\\
 
 \textbf{Diagram nicht überladen!} 
 
 \newpage
-\subsubsection{Kommunikationsdiagramm \buch{41}}
+\subsubsection{Kommunikationsdiagramm}
 Das Kommunikationsdiagramm zeigt dieselbe Information wie das Sequenzdiagramm. Der Schwerpunkt liegt aber
 nicht auf dem zeitlichen Ablauf, sondern auf dem Informationsfluss zwischen den Objekten.
 
-\begin{figure}[h]
-	\centering
-	\includegraphics[height=8cm, width = 10cm,]{images/Modellierung/Kommunikationsdiagramm}
-	\caption{Kommunikationsdiagramm}
-\end{figure}
+\includegraphics[height=8cm, width = 10cm,]{images/Modellierung/Kommunikationsdiagramm}
 
 
-\subsubsection{Aktivitätsdiagramme \buch{p.42}}
+\subsubsection{Aktivitätsdiagramme}
 
 \begin{multicols}{2}
 	\textbf{Wird gebraucht für:}
@@ -160,7 +149,7 @@ nicht auf dem zeitlichen Ablauf, sondern auf dem Informationsfluss zwischen den 
 	\end{itemize}
 \end{multicols}
 
-\begin{minipage}[hbt]{1cm}
+\begin{minipage}[hbt]{8cm}
 	\centering
 	\includegraphics[height=5cm, width = 8cm,]{images/Modellierung/Aktivitaetsdiagramm1}
 	\label{Bild3}
