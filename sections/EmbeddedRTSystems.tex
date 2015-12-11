@@ -1,12 +1,12 @@
-\section{Embedded RT Systems - Lukas \buch{p.1}}
-\subsection{Charakterisierung Embedded Systems \buch{p.5,p.6}}
+\section{Embedded RT Systems}
+\subsection{Charakterisierung Embedded Systems}
 Ein Embedded System \ldots
 \begin{itemize}
   \item \ldots ist ein System, das einen Computer beinhaltet, aber keiner ist
   \item \ldots besteht üblicherweise aus HW und SW
-  \item \ldots ist häufig ein Control System\\
+  \item \ldots ist häufig ein Control System
 \end{itemize}
-Charakterisierung von Embedded Systems
+\subsubsection{Charakterisierung von Embedded Systems}
   \begin{itemize}
     \item \textbf{Reaktive Systeme} : Interagieren mit ihrer Umgebung
     \item \textbf{Echtzeitsysteme/Real-time systems} : Definierbare zeitliche
@@ -17,11 +17,11 @@ Charakterisierung von Embedded Systems
     \begin{itemize}
       \item Kleiner Energieverbrauch
       \item Kleine physikalische Abmessungen
-      \item Lärm, Vibration, Feuchtigkeit etc\ldots
+      \item Lärm, Vibration, Feuchtigkeit etc.
     \end{itemize}
   \end{itemize}
 
-Verfügbarkeit: \buch{p.26}\\ 
+\subsubsection{Verfügbarkeit}
 Anteil der Betriebsdauer, in  der das System seine Funktion
 erfüllt: 
 
@@ -29,8 +29,8 @@ erfüllt:
 Verfuegbarkeit = \frac{Gesamtzeit-Ausfallzeit}{Gesamtzeit}
 \end{equation}
 
-\subsection{Real-time Systems\buch{p.30}}
-\textbf{Definition} : System, das Informationen innerhalb einer defierten Zeit
+\subsection{Real-time Systems}
+\textbf{Definition} : System, das Informationen innerhalb einer definierten Zeit
 (deadline) bearbeiten muss. Es erfüllt explizite Anforderungen an die
 Antwortzeiten.\\
 \textbf{Antwortzeit} : Zeit vom Stimulus (Vorhandensein
@@ -71,16 +71,16 @@ U = \sum_{i=1}^{n}u_\text{i} = \sum_{i=1}^{n}\frac{e_\text{i}}{p_\text{i}}
 \end{center}
 \end{multicols}
 
-\subsection{Rate monotonic scheduling (RMS)\buch{p.45}}
-\textbf{Cooperative Scheduling}
+\subsection{Rate monotonic scheduling (RMS)}
+\subsubsection{Cooperative Scheduling}
   \begin{itemize}
     \item Aktiver Task entscheidet selbst, wann er den Prozessor für anderen
     Task frei gibt. 
-    \item Ein unfairer Task blockiert
-    \item Nächster Task aussuchen via: FCFS, Round Robin, random, Prioritäten
+    \item Ein unfairer Task blockiert dabei die anderen
+    \item Nächster Task aussuchen via: FCFS, Round Robin, zufällig, Prioritäten, etc.
     \item Einfach zu implementieren
   \end{itemize}
-\textbf{Preemptive Scheduling}
+\subsubsection{Preemptive Scheduling}
   \begin{itemize}
     \item Task mit höherer Priorität wird ausgeführt
     \item Task mit niederer Priorität wird verdrängt (preempt)
@@ -89,50 +89,49 @@ U = \sum_{i=1}^{n}u_\text{i} = \sum_{i=1}^{n}\frac{e_\text{i}}{p_\text{i}}
         \item Dynamic-priority algorithm: Prioritäten werden zur Laufzeit
         aufgrund vorhandener Deadlines angepasst. 
         \item Static-priority algorithm: Prioritäten werden zur Entwicklungszeit
-        festgelegt und nicht mehr geändert. $\rightarrow$ Einfacher als
-        dynamic-priority
+        festgelegt und nicht mehr geändert. $\rightarrow$ Einfacher als dynamic-priority
       \end{itemize}
     \item Viele RTOS verwenden preemptive static-priority Algorithmen 
   \end{itemize}
-Schedulability:\\ Eine Menge von Tasks ist dann schedulable, wenn alle Tasks zu
-allen Zeiten ihre Deadlines einhalten können.\\
-\textbf{Rate-monotonic scheduling}\\
-\textbf{Theorem:}\\
+\subsubsection{Schedulability}
+ Eine Menge von Tasks ist dann schedulable, wenn alle Tasks zu allen Zeiten ihre Deadlines einhalten können.
+\subsubsection{Rate-monotonic scheduling}
+\textbf{Theorem:} 
 Hat man ein Set periodischer Task und preemptive static-priority scheduling,
 erhält man optimales Scheduling, wenn man die Prioritäten so verteilt, dass die
 Tasks mit kürzester Periodizität die höhere Prioriät erhalten (rate
 monotonic).\\
-Oder:\\ 
-Ein Set von n periodischen Tasks ist dann rate-monotonic schedulable, wenn die
-gesamte Systemauslastung U folgenden Wert nicht überschreitet: 
+\textbf{Oder:}
+Ein Set von n periodischen Tasks ist dann rate-monotonic schedulable, wenn die gesamte Systemauslastung U folgenden Wert nicht überschreitet: 
 \begin{equation}
 U \leq n\cdot(2^\frac{1}{n}-1)
 \end{equation}
-%Beispiele:\\
-%\begin{tabular}{l | l}
-%\hline
-%n & U in \%\\
-%\hline
-%2 & 82.4\\
-%\hline
-%3 & 78.0\\
-%\hline
-%4 & 75.7\\
-%\hline
-%5 & 74.4\\
-%\hline
-%10 & 71.7\\
-%\hline
-%$\infty$ & $\sim$69.3
-%\end{tabular}\\
+
 Die maximale Systemauslastung beträgt: 
 \begin{equation}
 \lim_{n \to \infty}n\cdot(2^\frac{1}{n}-1) = \ln 2 \approx 0.69
 \end{equation}
 Folgerung aus diesem Grenzwert: Das theoretische Limit der Systemauslastung
-liegt bei 69\%. \\
+liegt bei 69\%. 
+\subsubsection{Beispiel RMS}
+\begin{minipage}[t]{4 cm}
+	\begin{tabular}{| l | l | l | l |}
+		\hline
+		$\tau_i$ & $e_i$ & $p_i$ & $u_i=\frac{e_i}{p_i}$ \\
+		\hline
+		$\tau_1$ & 1 & 4 & 0.25 \\
+		\hline
+		$\tau_2$ & 2 & 5 & 0.4 \\
+		\hline
+		$\tau_3$ & 5 & 20 & 0.25 \\
+		\hline
+	\end{tabular}
+\end{minipage} 
+\begin{minipage}[c]{14 cm}		
+	\includegraphics[height=3.5cm]{images/RT/RMS}
+\end{minipage}
 
-\textbf{Interrupts:} \\
+\subsubsection{Interrupts}
 Da die ISR von der Hardware getrieben wird, ist auch der niederwerdigst priorisierte Interrupt
 immer noch höher priorisiert als der höchst priorisierte Task. Für die RM-Analyse stehen 2 Lösungsvarianten zur Verfügung:
 \begin{itemize}
