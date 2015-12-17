@@ -1,41 +1,70 @@
-\section{Style guide und Language Linkage - Marco}
+\section{Style guide und Language Linkage}
 \subsection{Style guide}
 \begin{itemize}
 	\item Programme werden für Progammierer geschrieben, nicht für Compiler
+	\item Programmierkonventionen erleichtern einen konsistenten Stil, der auch von anderen verstanden wird
 	\item Unwichtiges nicht überbewerten
+	\item Alles, was der Compiler entdeckt und mit Warningsmeldet (z.B. nicht initialisierte Variablen) muss nicht explizit in den Codierrichtlinien erwähnt werden
 	\item Seien Sie konsistent und konsequent!
 \end{itemize}
 
+\subsubsection{Namenskonventionen}
+\begin{itemize}
+	\item Wenige Underscores (\_) verwenden
+	\item Keine Namen mit Underscore (\_) beginnen
+	\item Zusammengesetzte Namen mit \lstinline{camelCase} betonen, nicht \lstinline{camel_case}
+	\item Präfixe bei Variablen sehr zurückhaltend einsetzen oder ganz vermeiden (z.B. \lstinline{i_myVariable} für Integer)
+	\item Selbstdefinierte Typen und Klassen mit Grossbuchstaben beginnen
+	\item Funktionen und Methoden mit Kleinbuchstaben beginnen
+	\item Variablen und Objekte mit Kleinbuchstaben beginnen
+	\item Makros (\lstinline{#define}) ausschliesslich mit Grossbuchstaben definieren, Trennung falls notwendig mit Underscores, z.B. \lstinline{MY_UGLY_MACRO}
+\end{itemize}
+
+\subsubsection{Typen mit genauer Breite}
+\begin{itemize}
+	\item Ab C99 werden im Headerfile \lstinline{<stdint.h>} verschiedene Typen mit genauer Breite definiert. Wenn solche Typen benötigt werden, sollen genau diese Namen verwendet werden oder sind allenfalls mittels \lstinline{typedef} zu definieren.
+	\item Die Konventionen lauten wie folgt:
+	\begin{itemize}
+		\item \lstinline{intN_t}, wobei N = 8, 16, 32 für \lstinline{signed int}-Typen \\
+		Beispiele: \lstinline{int8_t}, \lstinline{int16_t}, \lstinline{int32_t}
+		\item \lstinline{uintN_t}, wobei N = 8, 16, 32 für \lstinline{unsigned int}-Typen \\
+		Beispiele: \lstinline{uint8_t}, \lstinline{uint16_t}, \lstinline{uint32_t} 
+	\end{itemize}
+\end{itemize}
 
 \subsection{Language Linkage}
-  \textbf{Plain Old Datatypes (POD):} dazu gehören char, short, int, long, jeweils signed und unsigned, float und double.
-  
-  Beim Übersetzten in Assembler müssen eindeutige Labels entstehen. In C ist dies kein Problem,
-  da die Funktionsnamen bereits eindeutig sind. Hingegen in C++ ist dies nicht der Fall. Deshalb weist der
-  Compiler den Funktionen einen eindeutigen Namen zu (dieser Prozess wird als Mangling bezeichnet).\\
-  
-  Beispiele für Mangling:\\
+\subsubsection{Plain Old Data Types (POD Types)}
+\begin{itemize}
+	\item Datentypen, die bereits in C vorhanden sind, werden als POD Typesbezeichnet
+	\item Dazu gehören \lstinline{char}, \lstinline{short}, \lstinline{int}, \lstinline{long}, jeweils \lstinline{signed} und \lstinline{unsigned}, \lstinline{float} und \lstinline{double}
+	\item POD types funktionieren in C++ identisch zu C
+\end{itemize}
+
+\subsubsection{Name Mangling} 
+\begin{multicols}{2} 
+	Beim Übersetzten in Assembler müssen eindeutige Labels entstehen. In C ist dies kein Problem, da die Funktionsnamen bereits eindeutig sind. Hingegen ist dies in C++ ist nicht der Fall. Deshalb weist der Compiler den Funktionen einen eindeutigen Namen zu (dieser Prozess wird als Mangling bezeichnet).
+\columnbreak
   \begin{tabular}{|l|lll|}
   \hline
-    C   & foo() & $\rightarrow$ & \_foo \\
+    C   & {\lstinline!foo()!} & $\rightarrow$ & \_foo \\
   \hline
-    C++ & foo(int) & $\rightarrow$ & \_foo\_i \\
-        & foo(double, int) & $\rightarrow$ & \_foo\_d\_i \\
-        & MyClass::foo(int) & $\rightarrow$ & \_MyClass\_foo\_i \\
+    C++ & {\lstinline!foo(int)!} & $\rightarrow$ & \_foo\_i \\
+        & {\lstinline!foo(double, int)!} & $\rightarrow$ & \_foo\_d\_i \\
+        & {\lstinline!MyClass::foo(int)!} & $\rightarrow$ & \_MyClass\_foo\_i \\
   \hline
   \end{tabular}
+\end{multicols}
   
-  Wird in C++ eine Funktion foo(int) aufgerufen welche in einer compilierten C-Library vorliegt, sucht der
-  Compiler nach einer Funktion \_foo\_i. Diese exisiert aber nicht da sie \_foo heisst. Deshalb muss dem Compiler
-  mitgeteilt werden, dass es sich um eine C-Funktion handelt.\\
+\subsubsection{Einbinden von C-Bibliotheken unter C++}
+Wird in C++ eine Funktion \lstinline{foo(int)} aufgerufen welche in einer compilierten C-Library vorliegt, sucht der Compiler nach einer Funktion \_foo\_i. Diese existiert aber nicht da sie \_foo heisst. Deshalb muss dem Compiler mitgeteilt werden, dass es sich um eine C-Funktion handelt.\\
   
 \begin{lstlisting}[style=Cpp]
 extern "C" void foo(int);    \\ use C language linkage
-extern void goo(int);        \\use C++ language linkage
-void hoo(int);               \\use C++ language linkage
-extern "C++" void koo(int);  \\use C++ language linkage
+extern void goo(int);        \\ use C++ language linkage
+void hoo(int);               \\ use C++ language linkage
+extern "C++" void koo(int);  \\ use C++ language linkage
 
-//optimale Anwendung von extern "C"
+//optimale Anwendung von extern "C" (koennen in C und C++ Dateien included werden)
 #ifdef __cplusplus
 extern "C"
 {
