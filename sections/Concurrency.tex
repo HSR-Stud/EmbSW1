@@ -76,7 +76,19 @@ Man beachte: Alles was ein Thread inne hat, hat ein Prozess auch inne (aber NICH
 \item The link command must include –lpthread
 \end{itemize}
 \subsubsection{Starting and Terminating a Thread}
-
+\begin{itemize}
+\item Any routine with the following interface may become a thread routine:\newline
+\lstinline{void* threadRoutine(void* arg);}
+\item A thread is started with:\newline
+\lstinline{int pthread_create(pthread_t* thread, const pthread_attr_t* attr, void* (*startRoutine) (void*), void* arg);}
+  \begin{itemize}
+  \item thread: pointer to a pthread\_t instance
+  \item attr: pointer to a pthread\_attr\_t structure, often 0 (default attributes)
+  \item arg: a single argument that may be passed to startRoutine
+  \item returns 0 on success 
+  \end{itemize}
+\end{itemize}
+\lstinputlisting[style=C]{snippets/Threads/thread_start.c}
 
 
 
