@@ -108,61 +108,50 @@ frühere Zustände\\
 Zustände bis in die unterste Hierarchie\\
 \kreis{}&Eintrittspunkt (entry point)\\
 $\otimes$&Austrittspunkt (exit point)\\
-\end{tabular}
+\end{tabular} 
 
-\includegraphics[scale = 0.3]{images/FSM/history_default_state_mechanism}  
-
-\subsubsection{Definitonen}
-\begin{itemize}
-  \item Current states of FSMs are also called \textbf{active} states.
-  \item States which are not composed of other states are called \textbf{basic
-  states}.
-  \item States containing other states are called \textbf{super-states}.
-  \item for each basic state s, the super-states containing s are called
-  \textbf{ancenstor states}.
-  \item Super-states S are called \textbf{OR-super-states}, if exactly one of
-  the sub-states of S is active whenever S is active.\\\\   
-\end{itemize}
-\includegraphics[scale = 0.3]{images/FSM/definition_statechart}
-
-\subsubsection{Modellierung von Hierarchie}
+\subsubsection{Modellierung von einfacher Hierarchie}
 \begin{itemize}
   \item Hierarchie wird mit Hilfe von Superzuständen (superstates) eingeführt.
   \item Zustände, die andere Zustände enthalten, heissen Superzustände.
   \item Zustände, die in anderen Zuständen enthalten sind, heissen Unterzustände der Superzustände.
 \end{itemize}
 \includegraphics[width = 12cm]{images/FSM/Hierarchie}\\\\
-Superzustand S beinhaltet die Zustände A, B, C, D und E. Angenommen, der Automat beﬁndet sich in Zustand Z (wird auch als aktiven Zustand beschrieben). Wenn dann die Eingabe m am Automaten erfolgt, ist A der nächste Zustand. Wenn sich der Automat in Zustand S beﬁndet und es gibt die Eingabe k, so ist Z der nächste Zustand, unabhängig davon, in welchem
-der Unterzustände A, B, C, D oder E sich der Automat tatsächlich beﬁndet.In diesem Beispiel sind alle in S enthaltenen Zustände nicht-hierarchische Zustände. Im Allgemeinen könnten die Unterzustände von S selbst wieder Superzustände sein, die weitere Unterzustände enthalten.
+Superzustand S beinhaltet die Zustände A, B, C, D und E. Angenommen, der Automat befindet sich in Zustand Z (wird auch als aktiven Zustand beschrieben). Wenn dann die Eingabe m am Automaten erfolgt, ist A der nächste Zustand. Wenn sich der Automat in Zustand S befindet und es gibt die Eingabe k, so ist Z der nächste Zustand, unabhängig davon, in welchem
+der Unterzustände A, B, C, D oder E sich der Automat tatsächlich befindet.In diesem Beispiel sind alle in S enthaltenen Zustände nicht-hierarchische Zustände. Im Allgemeinen könnten die Unterzustände von S selbst wieder Superzustände sein, die weitere Unterzustände enthalten.
 \begin{itemize}
   \item Jeder Zustand, der nicht aus anderen Zuständen besteht, heisst Basiszustand.
-  \item Superzustände S heissen ODER-Superzustände, wenn das System, das S enthält, sich zu jedem Zeitpunkt lediglich in einem einzigen Unterzustand von S beﬁnden kann, solange es sich in S beﬁndet.
+  \item Superzustände S heissen ODER-Superzustände, wenn das System, das S enthält, sich zu jedem Zeitpunkt lediglich in einem einzigen Unterzustand von S befinden kann, solange es sich in S befindet.
 \end{itemize}
-\subsubsection{History}
-\subsubsection{Parallälität (Concurrency)}
-\begin{itemize}
-  \item AND-super-states: Die FSM ist in allen sub-states einer super-state (siehe Abbildung \ref{fig:AND_super_state})
-\end{itemize}
-\begin{figure}[h]
-  \centering
-  {\includegraphics[scale = 0.4]{images/FSM/AND_super_state}  
-  \caption{AND-super-state}
-  \label{fig:AND_super_state}}
-\end{figure} 
 
-\subsubsection{Timers (nicht wait states)}
-\begin{figure}[h]
-  \centering
-  {\includegraphics[scale = 0.2]{images/FSM/timer}  
-  \caption{Using timers in an  answering machine}
-  \label{fig:timer}}
-\end{figure} 
+\subsubsection{Modellierung von Hierarchie mit Default State (Standardzustand)}
+Der Standardzustand kann in Superzuständen verwendet werden, um anzuzeigen, welche der Unterzustände
+betreten werden, wenn der Superzustand betreten wird. 
+Dies wird mit einem kleinen ausgefüllten Kreis dargestellt.\\
+\includegraphics[width = 6cm]{images/FSM/Hierarchie_DefaultState}
 
-\subsubsection{Vergleiche}
-Statecharts im "`Lehrbuch der Objektmodellierung"':
+\subsubsection{Modellierung von Hierarchie mit History}
+Mit Hilfe des History-Mechanismus ist es möglich, in den letzten Unterzustand zurückzukehren, der aktiv war, bevor der Superzustand verlassen wurde. Der History-Mechanismus wird durch den Buchstaben H in
+einem Kreis dargestellt.\\
+\begin{minipage}[hbt]{8cm}
+	\includegraphics[width=6cm]{images/FSM/Hierarchie_History}
+\end{minipage}
+\begin{minipage}[hbt]{6cm}
+	\includegraphics[width = 6cm]{images/FSM/history_default_state_mechanism}
+\end{minipage}\\\\ 
+
+\subsubsection{Parallälität (UND-Superzustände)}
+Eine Spezifikationstechnik muss auch in der Lage sein, Nebenläufigkeit und Parallelität darzustellen. Zu diesem Zweck gibt es eine zweite Art von Superzuständen, die sogenannten UND-Superzustände.
 \begin{itemize}
-  \item LE4: pp87-95
-  \item LE8: pp 197-205
-  \item LE13: pp 339-348
+\item Superzustände S heissen UND-Superzustände, wenn das System, das S enthält, sich in allen Unterzuständen von S gleichzeitig befindet,
+solange es sich in S befindet.
 \end{itemize}
+\includegraphics[width=8cm]{images/FSM/AND_super_state} 
+
+\subsubsection{Zeitbedingungen}
+Da es notwendig ist, in eingebetteten Systemen Zeitbedingungen zu modellieren, bietet Statecharts die sogenannten Timer an. Zeitbedingungen werden
+durch das gezackte Symbol dargestellt.\\Wenn das System für die im Timer angegebene Zeitdauer im Timer -Zustand war, wird ein Time-Out ausgelöst und das System verlässt diesen Zustand.
+Timer können auch hierarchisch verwendet werden.\\
+\includegraphics[width=8cm]{images/FSM/timer}   
+
 \newpage
