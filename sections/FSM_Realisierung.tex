@@ -94,23 +94,15 @@ codiert werden.
 \subsubsection{Vollständiger Code für objektorientiertes Steuerkonstrukt}
 \lstinputlisting[style=Cpp]{snippets/Ctrl_Cpp/counterCtrl.h}
 \lstinputlisting[style=Cpp]{snippets/Ctrl_Cpp/counterCtrl.cpp}
-\lstinputlisting[style=Cpp]{snippets/Ctrl_Cpp/counter.h}
-\lstinputlisting[style=Cpp]{snippets/Ctrl_Cpp/counter.cpp}
-\lstinputlisting[style=Cpp]{snippets/Ctrl_Cpp/counterTest.cpp}
 
-\subsubsection{Realisierung mit Tabelle\buch{p.33}}
+\subsection{Realisierung mit Tabelle}
 \begin{itemize}
   \item Die Tabelle kann sowohl prozedural als auch objektorientiert implementiert werden.
-  \item Die objektorientierte Variante verwendet einzig die Datenkapselung,
-        Vererbung und Polymorphismus werden nicht benötigt
-  \item Die objektorientierte Variante kann klarer und schöner strukturiert
-        implementiert werden. Im folgenden wird nur diese Variante gezeigt, die
-        C-Version kann jedoch einfach davon abgeleitet werden
+  \item Die objektorientierte Variante verwendet einzig die Datenkapselung, Vererbung und Polymorphismus werden nicht benötigt
+  \item Die objektorientierte Variante kann klarer und schöner strukturiert implementiert werden. Im folgenden wird nur diese Variante gezeigt, die C-Version kann jedoch einfach davon abgeleitet werden
   \item Die ganze FSM ist in einer Tabelle gespeichert
-  \item Die Aktionen sind als Funktionen implementiert, in der Tabelle steht der
-        entsprechende Funktionspointer
-  \item Die Abarbeitung der FSM erfolgt mit Hilfe einer \textit{Execution
-        Engine}, die in der Tabelle "`nachschaut"', was zu tun ist
+  \item Die Aktionen sind als Funktionen implementiert, in der Tabelle steht der entsprechende Funktionspointer
+  \item Die Abarbeitung der FSM erfolgt mit Hilfe einer \textit{Execution Engine}, die in der Tabelle "nachschaut", was zu tun ist
   \item Die Execution Engine ändert sich nicht, wenn die FSM geändert wird
   \item Das Testprogramm ist völlig unverändert
   \item Die Schnittstelle von CounterCtrl (public-Teil) ist ebenfalls identisch
@@ -120,15 +112,8 @@ codiert werden.
   \item Alle (Tansitions-)Aktionen werden als Methoden deklariert,
   \textit{Action} wird als Funktionspointer definiert. Diese Methoden müssen
   alle mit dem Funktionspointer übereinstimmen
- \begin{lstlisting}[style=Cpp]
- typedef void (CounterCtrl::*Action)(void);// ptr for action function
-  // action functions 
-  void actionIdleUp(void); 
-  void actionIdleDown(void); 
-  void actionDoNothing(void); 
-  void actionUpUp(void); 
-  void actionDownDown(void);
- \end{lstlisting}
+  \lstinputlisting[style=Cpp, firstline=33, lastline=40]{snippets/Table_Simple/counterCtrl.h}
+
  \item Die Transition wird als klasseninterne Struktur deklariert. Sie besteht
  aus
  \begin{itemize}
@@ -138,253 +123,35 @@ codiert werden.
    \item Nächster Zustand
  \end{itemize}
 fsm() wird als statischer Array deklariert.
-\begin{lstlisting}[style=Cpp]
-struct Transition
-    {
-      State currentState;   // current state
-      Event ev;             // event triggering the transition
-      Action pAction;       // pointer to action function
-      State nextState;      // next state
-    };
-    static const Transition fsm[];
-\end{lstlisting}
+\lstinputlisting[style=Cpp, firstline=42, lastline=48]{snippets/Table_Simple/counterCtrl.h}
 
 \item Tabellendefinition in CounterCtrl.cpp
 \begin{figure}[h]
   \centering
-  {\includegraphics[scale = 0.5]{images/FSM/tabelle}  
-  \caption{Tabellendefinition}
-  \label{fig:tabelle}}
+  \includegraphics[scale = 0.5]{images/FSM/tabelle}  
 \end{figure}
-\begin{lstlisting}[style=Cpp]
-enum {transCount = 6}; // number of transitions (rows in following table)
-const CounterCtrl::Transition CounterCtrl::fsm[transCount] =  // this table defines the fsm
-{//currentState     triggering event  action function                 next state
-  {idleState,       evUp,             &CounterCtrl::actionIdleUp,     countUpState},
-  {idleState,       evDown,           &CounterCtrl::actionIdleDown,   countDownState},
-  {countUpState,    evCount,          &CounterCtrl::actionUpUp,       countUpState},
-  {countUpState,    evStop,           &CounterCtrl::actionDoNothing,  idleState},
-  {countDownState,  evCount,          &CounterCtrl::actionDownDown,   countDownState},
-  {countDownState,  evStop,           &CounterCtrl::actionDoNothing,  idleState}
-};
-\end{lstlisting}
+\lstinputlisting[style=Cpp, firstline=14, lastline=22]{snippets/Table_Simple/counterCtrl.cpp}
+
 \item Aufbau einer Aktionsmethode
-\begin{lstlisting}[style=Cpp]
-void CounterCtrl::actionDownDown(void)
-{
-  myCounter.count(-1);
-  cout << "State: countDownState, counter = " << myCounter.getCounter() << endl;
-}
-\end{lstlisting}
+\lstinputlisting[style=Cpp, firstline=65, lastline=70]{snippets/Table_Simple/counterCtrl.cpp}
+
 \item Execution Engine
-\begin{lstlisting}[style=Cpp]
-void CounterCtrl::process(Event e)    // execution engine, this function never changes
-{
-  for (int i=0; i<transCount; i++)
-  {
-    if (fsm[i].currentState == currentState &&  fsm[i].ev == e) // is there an entry in the table?
-    {
-      (this->*fsm[i].pAction)();
-      currentState = fsm[i].nextState;
-      break;
-    }
-  }
-}
-\end{lstlisting}
+\lstinputlisting[style=Cpp, firstline=30, lastline=41]{snippets/Table_Simple/counterCtrl.cpp}
+
 \item Wenn der Zustandsübergang nicht nur durch einen Event, sondern eine
 komplexe Prüfung (Event und Guard) ausgelöst wird, dann könnte der Eventeintrag
 in der Tabelle durch einen weiteren Funktionspointer auf eine Checkfunktion
 ersetzt werden
-\begin{lstlisting}[style=Cpp]
-typedef bool (CounterCtrl::*Checker)(Event);
-// function ptr for checker function 
-// checker functions
-bool checkIdleUp(Event check); 
-...
-
-struct Transition 
-{
-  State currentState; // current state
-  Checker pChecker;   // pointer to checker function
-  Action pAction;     // pointer to action function
-  State nextState;    // next state
-};
-\end{lstlisting}
+\lstinputlisting[style=Cpp, firstline=33, lastline=33]{snippets/Table/counterCtrl.h}
+\lstinputlisting[style=Cpp, firstline=36, lastline=36]{snippets/Table/counterCtrl.h}
+\lstinputlisting[style=Cpp, firstline=51, lastline=57]{snippets/Table/counterCtrl.h}
 \end{itemize}
 
 \subsubsection{Vollständiger Code für Tabellen-Realisation}
-\begin{lstlisting}[style=Cpp]
-// counterCtrl.h
-//
-// implements the Finite State Machine (FSM) of an up/down-Counter as a table
-//
-// (C) R. Bonderer, HSR Hochschule Rapperswil, Okt. 2011
+\lstinputlisting[style=Cpp]{snippets/Table/counterCtrl.h}
+\lstinputlisting[style=Cpp]{snippets/Table/counterCtrl.cpp}
 
-#ifndef COUNTERCTRL_H__
-#define COUNTERCTRL_H__
-#include "counter.h"
-
-class CounterCtrl
-{
-  public:
-    enum Event{evUp,       // count upwards
-               evDown,     // count downwards
-               evCount,    // count (up or down)
-               evStop};    // stop counting
-    CounterCtrl();
-    void process(Event e);
-    // changes the state of the FSM based on the event 'e'
-    // starts the actions
-
-  private:
-    enum State{idleState,         // idle state
-               countUpState,      // counting up at each count event
-               countDownState};   // counting down at each count event
-
-    State currentState;           // holds the current state of the FSM
-    Counter myCounter;
-    
-    typedef bool (CounterCtrl::*Checker)(Event); // function ptr for checker function
-    typedef void (CounterCtrl::*Action)(void);   // function ptr for action function
-    // check functions
-    bool checkIdleUp(Event check);
-    bool checkIdleDown(Event check);
-    bool checkUpIdle(Event check);
-    bool checkDownIdle(Event check);
-    bool checkUpUp(Event check);
-    bool checkDownDown(Event check);
-    
-    // action functions
-    void actionIdleUp(void);
-    void actionIdleDown(void);
-    void actionUpIdle(void);
-    void actionDownIdle(void);
-    void actionUpUp(void);
-    void actionDownDown(void);
-    
-    struct Transition
-    {
-      State currentState;   // current state
-      Checker pChecker;     // pointer to checker function
-      Action pAction;       // pointer to action function
-      State nextState;      // next state
-    };
-    static const Transition fsm[];
-};
-#endif
-\end{lstlisting}
-
-\begin{lstlisting}[style=Cpp]
-//
-// counterCtrl.cpp
-//
-// implements the Finite State Machine (FSM) of an up/down-Counter as a table
-//
-// (C) R. Bonderer, HSR Hochschule Rapperswil, Okt. 2011
-
-#include <iostream>
-#include "counterCtrl.h"
-#include "counter.h"
-using namespace std;
-
-enum {transCount = 6}; // number of transitions (rows in following table)
-const CounterCtrl::Transition CounterCtrl::fsm[transCount] =  // this table defines the fsm
-{//currentState     checker function              action function               next state
-  {idleState,       &CounterCtrl::checkIdleUp,    &CounterCtrl::actionIdleUp,   countUpState},
-  {idleState,       &CounterCtrl::checkIdleDown,  &CounterCtrl::actionIdleDown, countDownState},
-  {countUpState,    &CounterCtrl::checkUpUp,      &CounterCtrl::actionUpUp,     countUpState},
-  {countUpState,    &CounterCtrl::checkUpIdle,    &CounterCtrl::actionUpIdle,   idleState},
-  {countDownState,  &CounterCtrl::checkDownDown,  &CounterCtrl::actionDownDown, countDownState},
-  {countDownState,  &CounterCtrl::checkDownIdle,  &CounterCtrl::actionDownIdle, idleState}
-};
-
-CounterCtrl::CounterCtrl(int initValue) : 
-  currentState(idleState),
-  myCounter(initValue)
-{
-}
-
-void CounterCtrl::process(Event e)    // this function never changes
-{
-  for (int i=0; i<transCount; i++)
-  {
-    if (fsm[i].currentState == currentState &&  // is there an entry in the table?
-      (this->*fsm[i].pChecker)(e))              // Check function is true?
-    {
-      (this->*fsm[i].pAction)();
-      currentState = fsm[i].nextState;
-      break;
-    }
-  }
-}
-
-// check functions
-bool CounterCtrl::checkIdleUp(Event check)
-{
-  return evUp == check;
-}
-
-bool CounterCtrl::checkIdleDown(Event check)
-{
-  return evDown == check;
-}
-
-bool CounterCtrl::checkUpIdle(Event check)
-{
-  return evStop == check;
-}
-
-bool CounterCtrl::checkDownIdle(Event check)
-{
-  return evStop == check;
-}
-
-bool CounterCtrl::checkUpUp(Event check)
-{
-  return evCount == check;
-}
-
-bool CounterCtrl::checkDownDown(Event check)
-{
-  return evCount == check;
-}
-
-// action functions
-void CounterCtrl::actionIdleUp(void)
-{
-  cout << "State: idleState, counter = " << myCounter.getCounter() << endl;
-}
-
-void CounterCtrl::actionIdleDown(void)
-{
-  cout << "State: idleState, counter = " << myCounter.getCounter() << endl;
-}
-
-void CounterCtrl::actionUpIdle(void)
-{
-}
-
-void CounterCtrl::actionDownIdle(void)
-{
-}
-
-void CounterCtrl::actionUpUp(void)
-{
-  myCounter.count(1);
-  cout << "State: countUpState, counter = " << myCounter.getCounter() << endl;
-}
-
-void CounterCtrl::actionDownDown(void)
-{
-  myCounter.count(-1);
-  cout << "State: countDownState, counter = " << myCounter.getCounter() << endl;
-}
-
-\end{lstlisting}
-
-Die Implementierung für counter.h, counter.cpp und counterTest.cpp sind im Kapitel \ref{subsec:oo_code} zu finden.\\
-
-\subsubsection{Realisierung mit State Pattern\buch{p.3}}
+\subsection{Realisierung mit State Pattern\buch{p.3}}
 \begin{itemize}
   \item Das Prinzip besteht aus einer abstrakten State-Basisklasse. Pro Zustand
   muss eine eigene Klasse definiert werden, die von dieser abstrakten
@@ -403,9 +170,7 @@ Die Implementierung für counter.h, counter.cpp und counterTest.cpp sind im Kapi
   genau einen Zustand (ist Singleton)
  \begin{figure}[h]
   \centering
-  {\includegraphics[scale = 0.3]{images/FSM/state_pattern}  
-  \caption{Teile des State Pattern}
-  \label{fig:state_pattern}}
+  \includegraphics[scale = 0.3]{images/FSM/state_pattern}  
 \end{figure}
 \item Das State Pattern definiert die Zuständigkeit der state Transition nicht
 \item Die Transitionen könnten in der Context-Klasse definiert werden. Der
@@ -418,285 +183,18 @@ realisiert
 \item Im folgenden betrachten wir eine saubere Lösung mit friend-Deklaration.
  \begin{figure}[h]
   \centering
-  {\includegraphics[height=8cm]{images/FSM/klassendiagramm}  
-  \caption{Klassendiagramm des Counters mit dem State Pattern}
-  \label{fig:klassendiagramm}}
+  \includegraphics[height=8cm]{images/FSM/klassendiagramm}  
 \end{figure}
 \item counterCtrl.h : Schnittstelle zur FSM
-	\begin{lstlisting}[style=Cpp]
-// counterCtrl.h
-//
-// implements the Finite State Machine (FSM) of an up/down-Counter
-//
-// (C) R. Bonderer, HSR Hochschule Rapperswil, Oct. 2013
+\lstinputlisting[style=Cpp]{snippets/Pattern_Action/counterCtrl.h}
 
-#ifndef COUNTERCTRL_H__
-#define COUNTERCTRL_H__
-#include "counter.h"
-
-class CounterState;   // forward declaration
-
-class CounterCtrl
-// this is the 'Context' class of the State pattern
-{
-  public:
-    enum Event{evUp,       // count upwards
-               evDown,     // count downwards
-               evCount,    // count (up or down)
-               evStop};    // stop counting
-    CounterCtrl(int initValue = 0);
-    void process(Event e);  
-    // changes the state of the FSM based on the event 'e'
-  private:
-    Counter counter;
-    CounterState* pState;  // holds the current state
-    friend class CounterState; // this (base) class is the only friend
-};
-#endif
-\end{lstlisting}
 \item counterCtrl.cpp
-	\begin{lstlisting}[style=Cpp]
-// counterCtrl.cpp
-//
-// implements the Finite State Machine (FSM) of an up/down-Counter
-// CounterCtrl is the Context class in the State pattern
-//
-// (C) R. Bonderer, HSR Hochschule Rapperswil, Oct. 2013
+\lstinputlisting[style=Cpp]{snippets/Pattern_Action/counterCtrl.cpp}
 
-#include "counterCtrl.h"
-#include "counterState.h"
-
-CounterCtrl::CounterCtrl(int initValue) :
-  counter(initValue), 
-  pState(IdleState::getInstance()) // initial state
-{
-}
-
-void CounterCtrl::process(Event e)
-{ // delegates all requests to CounterState
-  pState =  pState->process(this, e);
-}
-\end{lstlisting}
 \item class CounterState: Interface
-	\begin{lstlisting}[style=Cpp]
-// counterState.h
-//
-// implements an up/down-Counter
-// this file contains all classes of the state machine
-// it may make sense to have separate files for each state
-//
-// (C) R. Bonderer, HSR Hochschule Rapperswil, Oct. 2011
+\lstinputlisting[style=Cpp]{snippets/Pattern_Action/counterState.h}
 
-#ifndef COUNTERSTATE_H__
-#define COUNTERSTATE_H__
-#include "counterctrl.h"
-
-class Counter;
-
-class CounterState  // abstract base class
-{
-  public:
-    virtual CounterState* process(CounterCtrl::Event e) = 0;
-    // returns new state
-  protected:
-    virtual void entryAction(void) = 0;
-    virtual void exitAction(void) = 0;
-    typedef void (CounterState::*Action)(void);   // ptr to action function
-    CounterState* changeState(Action ptransAction, CounterState* pnewState);
-
-    // transition actions
-    void emptyAction() {};
-    void showCounter();
-    void countUp();
-    void countDown();
-
-    static Counter myCounter;
-};
-
-class IdleState : public CounterState // it's a singleton
-{
-  public:
-    static IdleState* getInstance();  //erzeugt Singelton
-    virtual CounterState*  process(CounterCtrl::Event e);
-  protected:
-    virtual void entryAction(void);
-    virtual void exitAction(void);
-  private:
-    IdleState() {};
-    static IdleState instance;
-};
-
-class CountUpState : public CounterState // it's a singleton
-{
-  public:
-    static CountUpState* getInstance();
-    virtual CounterState*  process(CounterCtrl::Event e);
-  protected:
-    virtual void entryAction(void);
-    virtual void exitAction(void);
-  private:
-    CountUpState() {};
-    static CountUpState instance;
-};
-
-class CountDownState : public CounterState // it's a singleton
-{
-  public:
-    static CountDownState* getInstance();
-    virtual CounterState*  process(CounterCtrl::Event e);
-  protected:
-    virtual void entryAction(void);
-    virtual void exitAction(void);
-  private:
-    CountDownState() {};            //default Konstuktor -> verhindert dass Objekte von dieser Klasse gegruendet werden koennen
-    static CountDownState instance; //erstellt das EINZIGE Objekt von dieser Klasse
-};
-#endif
-
-\end{lstlisting}
 \item class CounterState: Implementation
-	\begin{lstlisting}[style=Cpp]
-// counterState.cpp
-//
-// implements all states of an up/down-Counter
-// this file contains all classes of the state machine.
-// it may make sense to have separate files for each state
-//
-// (C) R. Bonderer, HSR Hochschule Rapperswil, Oct. 2011
+\lstinputlisting[style=Cpp]{snippets/Pattern_Action/counterState.cpp}
 
-#include <iostream>
-#include "counterState.h"
-#include "counterCtrl.h"
-#include "counter.h"
-using namespace std;
-
-//class CounterState
-Counter CounterState::myCounter(0);  // initialize static data
-
-CounterState* CounterState::changeState(Action ptransAction, CounterState* pnewState)
-{
-  exitAction();              // polymorphic call of exit action
-  (this->*ptransAction)();   // call of transition action
-  pnewState->entryAction();  // polymorphic call of entry action
-  return pnewState;
-}
-
-void CounterState::showCounter()
-{
-  cout << "counter = " << myCounter.getCounter() << endl;
-}
-
-void CounterState::countUp()
-{
-  myCounter.count(1);
-  cout << "counter = " << myCounter.getCounter() << endl;
-}
-
-void CounterState::countDown()
-{
-  myCounter.count(-1);
-  cout << "counter = " << myCounter.getCounter() << endl;
-}
-
-// class IdleState
-IdleState IdleState::instance;
-IdleState* IdleState::getInstance()
-{
-  return &instance;
-}
-
-CounterState* IdleState::process(CounterCtrl::Event e)
-{
-  cout << "State: idleState" << endl;
-  if (CounterCtrl::evUp == e)
-  {
-    // state transition
-    return changeState(&IdleState::countUp, CountUpState::getInstance());
-  }
-  if (CounterCtrl::evDown == e)
-  {
-    // state transition
-    return changeState(&IdleState::showCounter, CountDownState::getInstance());
-  }
-  return this;
-}
-
-void IdleState::entryAction(void)
-{
-  cout << "Enter idleState" << endl;
-}
-
-void IdleState::exitAction(void)
-{
-  cout << "Exit from idleState" << endl;
-}
-
-// class CountUpState
-CountUpState CountUpState::instance;
-CountUpState* CountUpState::getInstance()
-{
-  return &instance;
-}
-
-CounterState* CountUpState::process(CounterCtrl::Event e)
-{
-  cout << "State: countUpState" << endl;
-  if (CounterCtrl::evCount == e)
-  {
-    // state transition
-    return changeState(&CountUpState::countUp, CountUpState::getInstance());
-  }
-  if (CounterCtrl::evStop == e)
-  {
-    // state transition
-    return changeState(&CountUpState::emptyAction, IdleState::getInstance());
-  }
-  return this;
-}
-
-void CountUpState::entryAction(void)
-{
-  cout << "Enter countUpState" << endl;
-}
-
-void CountUpState::exitAction(void)
-{
-  cout << "Exit from countUpState" << endl;
-}
-
-// class CountDownState
-CountDownState CountDownState::instance;
-CountDownState* CountDownState::getInstance()
-{
-  return &instance;
-}
-
-CounterState* CountDownState::process(CounterCtrl::Event e)
-{
-  cout << "State: countDownState" << endl;
-  if (CounterCtrl::evCount == e)
-  {
-    // state transition
-    return changeState(&CountDownState::countDown, CountDownState::getInstance());
-  }
-  if (CounterCtrl::evStop == e)
-  {
-    // state transition
-    return changeState(&CountDownState::emptyAction, IdleState::getInstance());
-  }
-  return this;
-}
-
-void CountDownState::entryAction(void)
-{
-  cout << "Enter countDownState" << endl;
-}
-
-void CountDownState::exitAction(void)
-{
-  cout << "Exit from countDownState" << endl;
-}
-\end{lstlisting}
 \end{itemize}
-Die Implementierung für counter.h, counter.cpp und counterTest.cpp sind im Kapitel \ref{subsec:oo_code} zu finden.\\
-
