@@ -105,8 +105,16 @@ monotonic).\\
 Ein Set von n periodischen Tasks ist dann rate-monotonic schedulable, wenn die gesamte Systemauslastung U folgenden Wert nicht überschreitet: 
 \begin{equation}
 U \leq n\cdot(2^\frac{1}{n}-1)
-\end{equation}
+\end{equation}\\
 
+\begin{tabular}{| l | l | l | l | l | l | l |}
+	\hline
+	n & 2 & 3 & 4 & 5 & 10 & $\infty$\\
+	\hline
+	u [\%] & 82.4 & 78.0 & 75.7 & 74.4 & 71.7 & 69.3 \\
+	\hline
+\end{tabular}\\\\
+	
 Die maximale Systemauslastung beträgt: 
 \begin{equation}
 \lim_{n \to \infty}n\cdot(2^\frac{1}{n}-1) = \ln 2 \approx 0.69

@@ -1,60 +1,55 @@
-\section{Modularisierung - Marco}
-\subsection{Motivation \buch{p.9}}
-\begin{minipage}{0.4\textwidth}
-{\includegraphics[width=\textwidth]{images/Modularisierung/SchlechtesBeispielModularisierung.png}}
-%\label{Fig: Schlechtes Beispiel für Modularisierung}
-\end{minipage}
-\hspace{0.05\textwidth}
-\begin{minipage}{0.5\textwidth}
-	Bei Kleinstsoftware braucht es kein systematisches Design, da man diese meist
-	auch nicht ausbauen möchte. Vernünftige SW-Projekte will man jedoch meist noch
-	weiter ausbauen können.\\
-	Wichtig ist daher:
+\section{Modularisierung}
+Modularisierung ist die Aufteilung eines Ganzen in Teile, die als Module oder Komponenten bezeichnet werden. Bei geeigneter Form und Funktion können sie zusammengefügt werden oder über entsprechende Schnittstellen interagieren.
+
+\subsection{Motivation}
+Bei Kleinstsoftware braucht es kein systematisches Design, da man diese meist auch nicht ausbauen möchte. Vernünftige Softwaresysteme benötigen einen systematischen Designansatz mit einem strukturierten Aufbau.\\\\
+Wichtig ist daher:
 	\begin{itemize}
+	\item Entwicklung im Team vs. One-person-show
   	\item Schnittstellen definieren
-  	\item Modularisierung
 	\end{itemize}
-\end{minipage}
 
 \subsection{Grundprinzip}
 \begin{itemize}
-  \item Divide et impera
+  \item Divide et impera (Teile und herrsche)
   \begin{itemize}
     \item Problem aufteilen in Unterprobleme, diese einzeln angehen
     \item Zuerst Grobentwurf, dann verfeinern (Top-Down-Prinzip)
   \end{itemize}
   \item \textbf{Ziel:} Reduktion der Komplexität
 \end{itemize}
+
 \subsection{Information Hiding}
 \begin{itemize}
   \item Nutzer des Moduls braucht nur die Schnittstelle zu kennen (*.h files)
   \item Über inneren Aufbau dürfen keine Annahmen getroffen werden
   \item Der innere Aufbau (*.cpp files) muss nicht bekannt sein
 \end{itemize}
+
 \subsection{Hauptkriterien der Zerlegung}
 \begin{itemize}
-  \item Hauptkriterien
+  \item Kopplung/Coupling
   \begin{itemize}
-    \item Kopplung/Coupling
-    \begin{itemize}
-      \item Mass für Komplexität der Schnittstelle
-    \end{itemize}
-    \item Kohäsion/Cohesion
-    \begin{itemize}
-      \item Aussage wie stark eine funktionale Einheit wirklich zusammengehört
-      \item Mass für die Stärke des inneren Zusammenhangs 
-    \end{itemize}
+    \item Mass für Komplexität der Schnittstelle
   \end{itemize}
-  \item \textbf{Ziel:} Schwache Kopplung, starke Kohäsion 
+  \item Kohäsion/Cohesion
+  \begin{itemize}
+    \item Aussage wie stark eine funktionale Einheit wirklich zusammengehört
+    \item Mass für die Stärke des inneren Zusammenhangs 
+  \end{itemize}
 \end{itemize}
-\begin{center}
-{\includegraphics[width=0.5\textwidth]{images/Modularisierung/BeispieleKopplungKohaesion.png}}
-%\label{Fig: Schlechtes Beispiel für Modularisierung}
-\end{center}
-\begin{itemize}
-  \item Bild a: Hohe Kohäsion, niedrige Kopplung (gut)
-  \item Bild b: Niedrige Kohäsion, hohe Kopplung (schlecht)
-\end{itemize}
+
+\textbf{Ziel:} Schwache Kopplung, starke Kohäsion 
+
+\begin{minipage}{9cm}
+  \includegraphics[width=8cm]{images/Modularisierung/BeispieleKopplungKohaesion.png}
+\end{minipage}
+\begin{minipage}{8cm}
+  \begin{itemize}
+    \item Bild a: Schwache Kopplung, starke Kohäsion (gut)
+    \item Bild b: Starke Kopplung, schwache Kohäsion (schlecht)
+  \end{itemize}
+\end{minipage}
 
 \begin{multicols}{2}
 \subsection{Definitionen Kopplung}
@@ -67,9 +62,9 @@
   \item Datenbereichskopplung
    \begin{itemize}
     \item Modul hat Zugriff auf Datenstruktur eines anderen Moduls
-    \item Es werden nur einzelne Kompenenten benötigt
+    \item Es werden nur einzelne Komponenten benötigt
   \end{itemize}
-  \item Steuerflusskopplung
+  \item Steuerflusskopplung (Control Flow)
   \begin{itemize}
     \item Modul beeinflusst Steuerfluss eines anderen Moduls
   \end{itemize}
@@ -121,33 +116,33 @@
   \end{itemize}
 \end{itemize}
 \end{multicols}
-
+\begin{minipage}{9cm}
 \subsubsection{Ziele bezüglich Kohäsion}
-\begin{multicols}{2}
-%Bestimmung der Kohäsion:
-%\begin{center}
-%{\includegraphics[width=0.5\textwidth]{images/Modularisierung/Kohaesionsbestimmung.png}}
-%%\label{Fig: Schlechtes Beispiel für Modularisierung}
-%\end{center}
-%
-%\columnbreak
-
-\begin{itemize}
+  \begin{itemize}
   \item Kohäsion maximieren
   \item Idealerweise führt eine Unit nur eine Aufgabe (Funktion) aus
   \item Starke Kohäsion steigert
-  \begin{itemize}
+    \begin{itemize}
     \item Wartbarkeit
     \item Änderbarkeit
     \item Verständlichkeit
-  \end{itemize}
+    \end{itemize}
   \item \textbf{Zusammengehörendes zusammen nehmen!}
   \item \textbf{Starke Kohäsion führt zu schwacher Kopplung, aber nicht umgekehrt!!}
-\end{itemize}
-\columnbreak
-\begin{center}
-Beispiel guter Modularisierung:\\
-\includegraphics[width=0.4\textwidth]{images/Modularisierung/GutesBeispielModularisierung.png}
-%\label{Fig: Schlechtes Beispiel für Modularisierung}
-\end{center}
-\end{multicols}
+  \end{itemize}
+\end{minipage}
+\hfill
+\begin{minipage}{9cm}
+  \subsubsection{Bestimmung der Kohäsion}
+  \includegraphics[width=9cm]{images/Modularisierung/Kohaesionsbestimmung.png}
+\end{minipage}
+
+\subsection{Schlechte vs. gute Modularisierung}
+\begin{minipage}[t]{10cm}
+\textbf{Beispiel schlechter Modularisierung:}\\
+\includegraphics[width=9cm]{images/Modularisierung/SchlechtesBeispielModularisierung.png}
+\end{minipage}
+\begin{minipage}[t]{8cm}
+\textbf{Beispiel guter Modularisierung:}\\
+\includegraphics[width=8cm]{images/Modularisierung/GutesBeispielModularisierung.png}
+\end{minipage}
