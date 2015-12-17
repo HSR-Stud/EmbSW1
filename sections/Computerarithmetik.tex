@@ -194,22 +194,83 @@ A-B = A + (-B)
 	\item Analog wird der minimale Wert behandelt: bei signedTypen verbleibt der minimale negative Wert, bei unsignedTypen der Wert Null
 \end{itemize}
 
-\subsection{Fixpunkt}
-Dezimalpunkt sitzt an fester Stelle, die unteren Dezimalstellen werden als negative Zweierpotenzen interpretiert. \\
-Fixed point ist einfach zu implementieren. 
-\subsection{Gleitkomma}
-\begin{equation}
-(-1)^S\cdot M \cdot B^E
-\end{equation}
-S = Vorzeichen (float: 1 bit double:1 bit)\\
-M = Mantisse (float:23 bit double: 52 bit)\\
-B = Basis \\
-E = Exponent (float:8 bit double:11 bit)\\
+\subsection{Fixpunkt (Fixed Point)}
+\begin{itemize}
+	\item Die Hardware für Fixed Point Arithmetic ist einfacher als die Floating Point Arithmetic, d.h. sie kann einfacher implementiert werden
+	\item Wie der Name sagt, sitzt der Dezimalpunkt an einer fixen Stelle. Die Stellen rechts vom Dezimalpunkt werden als negative Zweierpotenzen interpretiert
+	\item  Für Fixed Point-Berechnungen kann die Integereinheit verwendet werden
+	\item Eigentlich erhält das LSB einfach nicht mehr den Wert 1, sondern beispielsweise den Wert $2^{-6}$, d.h $\frac{1}{64} = 0.015625$
+	\item  Davon ausgehend kann mit der Integereinheitganz normal gerechnet werden. 
+	Fixed Point Berechnungen sind deshalb sehr effizient
+\end{itemize}
 
-Floating Point Unit (FPU): HW-Implementation zur Berechnung von Floating Point Zahlen. Kann auch Wurzeln, Trigo etc.\\
+\subsection{Gleitkomma (Floating Point)}
+\begin{multicols}{2}
+	\begin{equation}
+	(-1)^S\cdot M \cdot B^E
+	\end{equation}
+	S = Vorzeichen (float: 1 bit double:1 bit)\\
+	M = Mantisse (float:23 bit double: 52 bit)\\
+	B = Basis \\
+	E = Exponent (float:8 bit double:11 bit)\\
+\columnbreak
+	\includegraphics[width=0.5\textwidth]{images/Arithmetik/floating_point}
+\end{multicols}
+
+\subsubsection{Floating Point Unit (FPU)}
+\begin{itemize}
+	\item Eine FPU ist eine Hardwareimplementation für die Berechnung von Floating Point Zahlen
+	\item Eine FPU-Implementation rechnet die FP-Operationen mindestens eine Grössenordnung schneller als Softwareimplementationen
+	\item Nebst den Grundrechenarten rechnet die FPU auch Wurzeln, teilweise auch trigonometrische Funktionen, etc.
+\end{itemize}
+
+\subsubsection{Addition}
+\begin{enumerate}
+	\item Die beiden Exponenten subtrahieren, um festzustellen, welcher der grössere ist. Der grössere Exponent wird als resultierender Exponent verwendet. Die Mantisse der kleineren Zahl muss zudem vor der Addition um diesen Differenzbetrag verschoben werden. 
+	\item Die Mantisse der kleineren Zahl verschieben und zur grösseren addieren. 
+	\item Die Mantisse wieder normalisieren, d.h. für die Mantisse M muss immer gelten: $1 \leq M \leq 2$. Dies bedingt unter Umständen auch eine Anpassung des Exponenten.	
+\end{enumerate}
+Für einen Floating Point Adder werden mindestens folgende Elemente benötigt: Integer-Addierer/Subtrahierer, Komparatoren und Schiebeeinheiten (Shifter)
+
+\subsubsection{Subtraktion}
+Der Floating Point Subtrahierer kann analog zum Addierer implementiert werden.
+
+\subsubsection{Multiplikation}
+\begin{equation}
+	m_1 \cdot B^{e1} \cdot m_2 \cdot B^{e2} = m_1 \cdot m_2 \cdot B^{e1 + e2}
+\end{equation}
+\begin{enumerate}
+	\item Die beiden Exponenten müssen addiert werden 
+	\item Die beiden Mantissen müssen multipliziert werden 
+	\item Die Mantisse wieder normalisieren, d.h. für die Mantisse M muss immer gelten: $1 \leq M \leq 2$. Dies bedingt unter Umständen auch eine Anpassung des Exponenten.	
+\end{enumerate}
+Für einen Floating Point Multiplier werden mindestens folgende Elemente benötigt: Integer-Addierer/Subtrahierer, Integer-Multiplizierer und Schiebeeinheiten (Shifter)
+
+\subsubsection{Division}
+\begin{equation}
+\frac{m_1 \cdot B^{e1}}{m_2 \cdot B^{e2}} = \frac{m_1}{m_2} \cdot B^{e1 - e2}
+\end{equation}
+\begin{enumerate}
+	\item Die beiden Exponenten müssen subtrahiert werden 
+	\item  Die beiden Mantissen müssen dividiert werden 
+	\item Die Mantisse wieder normalisieren, d.h. für die Mantisse M muss immer gelten: $1 \leq M \leq 2$. Dies bedingt unter Umständen auch eine Anpassung des Exponenten.	
+\end{enumerate}
+Für einen Floating Point Divider werden mindestens folgende Elemente benötigt: Integer-Addierer/Subtrahierer, Integer-Dividierer und Schiebeeinheiten (Shifter) \\
+Die Floating Point Division ist relativ selten (ca. 5\% der Grundrechenarten im Normalfall). Aus diesem Grund wird oft kein Hardware-Dividierer angeboten. Häufig wird eine Multiplikation mit der Reziproken gerechnet. Die Reziproke kann nur mit Additionen und Multiplikationen gerechnet werden
+\begin{equation}
+\frac{x}{y} = \frac{1}{y} \cdot x
+\end{equation}
+
+\subsubsection{Berechnung von beliebigen Kurvenverläufen}
+\begin{itemize}
+	\item Der Verlauf von beliebigen Kurven wird häufig in Lookup Tables gespeichert
+	\item Für Werte zwischen zwei Stützwerten wird interpoliert, normalerweise linear
+	\item Die Genauigkeit nimmt offensichtlich zu, je mehr und je genauere Stützwerte gespeichert werden
+	\item Denkbar sind auch Approximationen, wobei nur mit Additionen, Subtraktionen und Multiplikationen gearbeitet werden darf	
+\end{itemize}
 
 \subsubsection{Newton-Raphson}
-Um eine unäre Funktion wie $sin(x)$ zu berechnen, kann man die Taylorreihe verwenden $sin(x) = x - \frac{x^3}{3!} + \frac{x^5}{5!} - \frac{x^7}{7!}\cdots$ Die Koeffizienten k"onnten gespeichert werden, jedoch ist die Konvergenz trotz dieser Vereinfachung langsam. 
+Um eine unäre Funktion wie $sin(x)$ zu berechnen, kann man die Taylorreihe verwenden $sin(x) = x - \frac{x^3}{3!} + \frac{x^5}{5!} - \frac{x^7}{7!}\cdots$ Die Koeffizienten könnten gespeichert werden, jedoch ist die Konvergenz trotz dieser Vereinfachung langsam. 
 Eine Methode, welche schneller konvergiert ist das Newton-Raphson Verfahren: 
 \begin{equation}
 y_{k+1} = y_k - \frac{f(y_k)}{\frac{\partial}{\partial y}f(y_k)}
@@ -218,13 +279,47 @@ Zur Berechnung einer Reziproken $g(x)=\frac{1}{x}=y$ ergibt sich folgende Formel
 \begin{equation}
 y_{k+1} = y_k\cdot (2-x\cdot y_k)
 \end{equation}
-Wobei $x$ die Zahl aus dem Reziprokwert ist und $y_k$ ein vern"unftiger Anfangswert ist. \\
+Wobei $x$ die Zahl aus dem Reziprokwert ist und $y_k$ ein vernünftiger Anfangswert ist. \\
 
 Somit kann auch die Quadratwurzel berechnet werden und zwar via: $\frac{1}{\sqrt{x}} \cdot x = \sqrt{x}$\\
 Wobei der Bruch $\frac{1}{\sqrt{x}}$ wie folgt berechnet werden kann:
 \begin{equation}
 y_{k+1} = 0.5y_k\cdot (3-x\cdot y_k^2)
 \end{equation}
-Das Newton Verfahren konvergiert quadratisch, d.h mit jedem Durchlauf kann die Genauigkeit verdoppelt werden.\\
-Ablauf Addition/Subtraktion/Multiplikation/Division siehe Folien.\\
-Ausserdem siehe dort auch Infos zu Beispielarchitekturen.
+Das Newton Verfahren konvergiert quadratisch, d.h mit jedem Durchlauf kann die Genauigkeit verdoppelt werden.
+
+\begin{multicols}{2}
+	\paragraph{Herleitung $\frac{1}{x}$}
+	\begin{equation}
+	g(x)=\frac{1}{x} \equiv y \rightarrow x=\frac{1}{y}
+	\end{equation}
+	\begin{equation}
+	f(y) \equiv \frac{1}{y}-x = 0
+	\end{equation}
+	\begin{equation}
+	\frac{\partial}{\partial y} f(y)=-y^{-2}=-\frac{1}{y^2}
+	\end{equation}
+	\begin{equation}
+	y_{k+1}=y_k-\frac{\frac{1}{y_k}-x}{-\frac{1}{y^2}}
+	\end{equation}
+	\begin{equation}
+	y_{k+1}=y_k \cdot (2-x \cdot y_k)
+	\end{equation}
+\columnbreak
+	\paragraph{Herleitung $\frac{1}{\sqrt{x}}$}
+	\begin{equation}
+	g(x)=\frac{1}{\sqrt{x}} \equiv y \rightarrow x=\frac{1}{y^2}
+	\end{equation}
+	\begin{equation}
+	f(y) \equiv \frac{1}{y^2}-x = 0
+	\end{equation}
+	\begin{equation}
+	\frac{\partial}{\partial y} f(y)=\frac{-2}{y^3}
+	\end{equation}
+	\begin{equation}
+	y_{k+1}=y_k-\frac{\frac{1}{y_k^2}-x}{\frac{-2}{y^3}}
+	\end{equation}
+	\begin{equation}
+	y_{k+1}=0.5 \cdot y_k \cdot (3-x \cdot y_k^2)
+	\end{equation}
+\end{multicols}
