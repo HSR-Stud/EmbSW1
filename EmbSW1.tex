@@ -7,6 +7,15 @@
 
 \setDefaultArrayStretch{1.8}
 
+\makeatletter
+
+% Newline after a paragraph
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\z@}%
+	{-3.25ex\@plus -1ex \@minus -.2ex}%
+	{1.5ex \@plus .2ex}%
+	{\normalfont\normalsize\bfseries}}
+\makeatother
+
 \title{EmbSW1}
 \author{C. Gwerder, S. Körner, M. Ehrler, L. Leuenberger}
 \begin{document}
@@ -18,6 +27,7 @@
 
 \lstset{style=C}
 \setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{5}
 \tableofcontents \newpage
 
 \input{sections/EmbeddedRTSystems}

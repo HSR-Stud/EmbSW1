@@ -20,12 +20,30 @@
 Wird direkt mit der Arithmetic Logic Unit (ALU) durchgeführt.
 
 \subsubsection{Multiplikation}
+\paragraph {Multiplikation mit Zweierpotenzen}
+Die Multiplikation mit Zweierpotenzen ist ein Spezialfall, der sehr effizient umgesetzt werden kann. Die Multiplikation einer Zahl $x$ mit $2^n$ entspricht einem Schieben der Zahl $x$ um $n$ Stellen nach links.
 
+\paragraph{Allgemeine Multiplikation}
+\begin{multicols}{2}
+	Implementation algorithmisch: Langsam, wenig Aufwand
+	\begin{itemize}
+		\item Mikroprogramm
+		\item Softwareemulation
+	\end{itemize}
+	Implementation Hardware: Schnell, viel Aufwand
+	\begin{itemize}
+		\item In vielen uC's drin, vor allem RISC (MSP430)
+		\item Im DSP ist HW-Multiplizierer ein Muss
+	\end{itemize}
+	\columnbreak
+	\includegraphics[width=0.3\textwidth]{images/Arithmetik/Ganzzahlig_Multiplikation}
+\end{multicols}
 
+\subsubsection{Division}
+\paragraph {Division mit Zweierpotenzen}
+Die Division durch Zweierpotenzen ist ein Spezialfall, der sehr effizient umgesetzt werden kann. Die Division einer Zahl $x$ durch $2^n$ entspricht einem Schieben der Zahl $x$ um $n$ Stellen nach rechts.
 
-
-
-Mit ALU, Schieberegister und Ablaufsteuerung. Berechnungszeit nimmt linear mit Wortbreite zu.\\ Schiebe Zahl x um n Stellen nach \textbf{links} $\rightarrow$ Multiplikation von x mit der n-ten Zweierpotenz. \\
+\paragraph {Allgemeine Division}
 Implementation algorithmisch: Langsam, wenig Aufwand
 \begin{itemize}
 	\item Mikroprogramm
@@ -34,15 +52,22 @@ Implementation algorithmisch: Langsam, wenig Aufwand
 Implementation Hardware: Schnell, viel Aufwand
 \begin{itemize}
 	\item In vielen uC's drin, vor allem RISC (MSP430)
-	\item DSP ist HW-Multiplizierer ein Muss
+	\item da die Division die seltenste Operation ist, wird speziell bei Microcontrollern nur selten ein Hardware-Dividierer verwendet
 \end{itemize}
-\subsubsection{Division}
-Mit Subtraktion, Schieberegister und Ablaufsteuerung. 
-Implementation wie oben, jedoch HW-Dividierer eher selten, da Operation eher selten.\\
-Schiebe Zahl x um n Stellen nach \textbf{rechts} $\rightarrow$ Division von x durch die n-ten Zweierpotenz.
+
+\subsubsection{Skalierung}
+\begin{itemize}
+	\item Aus Effizienzgründen wird insbesondere bei Mikrocontrollern versucht, so viel wie möglich mit Integer-Arithmetik zu lösen
+	\item Quantisierung auf 1 Bit kann bei kleinen Werten zu Ungenauigkeiten führen
+	\item Lösung: durch Skalierung soll Dynamikbereich, d.h. der Wertebereich der ganzen Zahl, möglichst ausgenutzt werden
+	\item Skalierungen mit Zweierpotenzen sind viel effizienter als solche mit Dezimalzahlen
+	\item Wenn möglich immer mit Zweierpotenzen skalieren	
+\end{itemize}
+
+\subsection{Arithmetische Schaltungen}
 \subsubsection{Addierer}
-Wichtigste arithmetische Funktion, n-Addierer werden auf 1-Bit Addierer zur"uck gef"uhrt.
-\paragraph{Halbaddierer:}~\\
+Wichtigste arithmetische Funktion, n-Addierer werden auf 1-Bit Addierer zurück geführt.
+\paragraph{1 Bit Halbaddierer:}
 \begin{minipage}{0.5\textwidth}
 	\centering
 	\begin{tabular}{|c | c | c | c |}
@@ -63,12 +88,11 @@ Wichtigste arithmetische Funktion, n-Addierer werden auf 1-Bit Addierer zur"uck 
 	\centering
 	\begin{flushleft}
 		{\includegraphics[width=0.3\textwidth]{images/Arithmetik/halbaddierer.png}}
-		\label{Fig: Halbaddierer}
 	\end{flushleft}
 \end{minipage}\\ \\
 
-\paragraph{Volladierer:}~\\
-\begin{minipage}{0.5\textwidth}
+\paragraph{1 Bit Volladierer:}
+\begin{minipage}{0.35\textwidth}
 	\begin{tabular}{|c | c | c | c | c |}
 		\hline
 		A & B & Carry In & Sum & Carry Out\\
@@ -93,16 +117,83 @@ Wichtigste arithmetische Funktion, n-Addierer werden auf 1-Bit Addierer zur"uck 
 \end{minipage}
 \begin{minipage}{0.9\textwidth}
 	\begin{flushleft}
-		{\includegraphics[width=0.5\textwidth]{images/Arithmetik/volladdierer.png}}
-		\label{Fig: Volladdierer}
+		{\includegraphics[width=0.7\textwidth]{images/Arithmetik/volladdierer.png}}
 	\end{flushleft}
-\end{minipage}\\ \\
+\end{minipage}
 
-\textbf{Subtrahierer:}\\
-Subtraktion = Addition einer negativen Zahl (Bits invertieren plus 1)\\
+\paragraph {Ripple Carry Adder (4 Bit)}
+\includegraphics[width=1\textwidth]{images/Arithmetik/Ripple_Carry_Adder}
+Das niederwertige Carry-Bit wird immer an die nächst höhere Position weitergereicht. Dadurch dauert es eine gewisse Zeit, bis das MSB korrekt ist. Für hohe Wortbreiten zu langsam.
 
-\textbf{S"attigungsarithmetik:}\\
-Es gibt keinen Over- bzw. Underflow, sondern der h"ochste bzw. niedrigste Wert wird einfach bei behalten.
+\paragraph{Carry Select Adder}
+\begin{itemize}
+	\item Obere Worthälfte wird zweimal berechnet 
+	\begin{itemize}
+		\item einmal für Carry-In = 0 
+		\item einmal für Carry-In = 1
+	\end{itemize}
+	\item Die untere Worthälfte und die beiden oberen Worthälften werden gleichzeitig berechnet.
+	\item Das richtige Resultat der oberen Worthälfte wird ausgewählt sobald das Carry der unteren Worthälfte feststeht.
+	\item Bei einem $n$ Bit breiten Adder wird idealerweise in $\sqrt{n}$ breite Blöcke aufgeteilt 
+	\item Die Ausführungszeit steigt dann nicht linear, sondern nur mit $\sqrt{n}$
+	\item Kosten: Erhöhter Hardwareaufwand
+\end{itemize}
+
+\paragraph{Carry Look-Ahead Adder}
+	\begin{multicols}{2}
+		\begin{itemize}
+		\item Carrymuss bei jeder Bitposition $i$ entweder fortgepflanzt (propagate, $p_i$) oder generiert (generate, $g_i$) werden. 
+		\item  $p_i$ und $g_i$ sind nur von den Eingängen $a_i$ und $b_i$ abhängig, nicht aber von den Carries der vorherigen Stufen. 
+		\begin{equation}
+			p_i = a_i \oplus b_i \newline	
+		\end{equation}
+		\begin{equation}
+		g_i = a_i * b_1		
+		\end{equation}
+		\begin{equation}
+		c_{i+1} = g_i + p_i * c_i		
+		\end{equation}
+		\item  Jedes einzelne Carry kann somit als zweistufige Logik von verschiedenen $p_i$ und $g_i$ implementiert werden. 
+	\end{itemize}	
+\columnbreak			
+	\includegraphics[width=0.5\textwidth]{images/Arithmetik/Carry_Look_Ahead_Adder}
+\end{multicols}
+
+\subsubsection{Subtrahierer}
+\begin{equation}
+A-B = A + (-B)	
+\end{equation}
+\begin{itemize}
+	\item Subtraktion wird zurückgeführt auf Addition
+	\item (-B) kann gebildet werden, indem alle Bits von B invertiert werden und 1 addiert wird.
+	\item 1 addieren erfolgt durch Anlegen einer '1' bei $Carry_0$
+	\item Damit der Addierer mit minimalem Zusatzaufwand auch als Subtrahierer verwendet werden kann, wird deshalb auch an der Bitposition 0 ein Volladdierer eingesetzt
+\end{itemize}
+
+\subsubsection{Schiebeeinheit (Shifter)}
+\begin{itemize}
+	\item Ein Shifter kann mit einem Schieberegister implementiert werden
+	\item Der Nachteil dabei ist, dass pro Clockzyklus nur um ein Bit nach links oder rechts geschoben werden kann. Zudem ist das Schieberegister eine sequentielle Schaltung und benötigt Flip Flops.
+	\item Oft muss um eine beliebige Anzahl Stellen möglichst  in einem Schritt geschoben werden
+	\item Schieben kann auch mittels einer kombinatorischen Schaltung erreicht werden 
+	\item In der Praxis wird meist ein Barrel Shifter eingesetzt. Dieser kann innerhalb eines Zyklus um eine beliebige Anzahl Stellen schieben. Der Barrel Shifter ist rein kombinatorisch.	
+\end{itemize}
+
+\begin{multicols}{2}
+	\paragraph{Kombinatorischer 8 Bit Shifter nach links (C=0) bzw. rechts (C=1)}
+	\includegraphics[width=0.3\textwidth]{images/Arithmetik/Shifter_1}
+
+	\paragraph{4 Bit Crossbar Barrel Shifter}
+	\includegraphics[width=0.2\textwidth]{images/Arithmetik/Shifter_2}
+\end{multicols}
+
+\subsubsection{Sättigungsarithmetik}
+\begin{itemize}
+	\item Besonders bei DSPs wird die Sättigungsarithmetik als Option eingesetzt 
+	\item Wenn der maximal darstellbare Wert inkrementiert werden soll, ergibt das nicht einen Overflow sondern der Wert bleibt auf seinem Maximalwert 
+	\item Analog wird der minimale Wert behandelt: bei signedTypen verbleibt der minimale negative Wert, bei unsignedTypen der Wert Null
+\end{itemize}
+
 \subsection{Fixpunkt}
 Dezimalpunkt sitzt an fester Stelle, die unteren Dezimalstellen werden als negative Zweierpotenzen interpretiert. \\
 Fixed point ist einfach zu implementieren. 
