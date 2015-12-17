@@ -98,3 +98,83 @@ Gesamtaufgabe soll auf möglichst viele Cores aufgeteilt werden, um eine optimal
 	\end{itemize}
 \end{multicols}
 
+\paragraph{Programmierung von Shared Memory}
+\begin{minipage}[c]{14cm}
+	\begin{itemize}
+		\item Die beiden Cores haben eigene Adressbereiche 
+		\item Die Variable \lstinline{sharedVariable} liegt auf einer festen Adresse im Shared Memory 
+		\item \lstinline{sharedVariable} wird von beiden Cores genutzt
+		\item  Der Zugriff auf \lstinline{sharedVariable} muss synchronisiert werden
+		\item Zwischen den CPU Cores und \lstinline{sharedVariable} können mehrere Caches liegen 
+		\item Jeder Core muss für sich diese Variable definieren 
+		\item Bei \lstinline{int sharedVariable;} darf der Compiler eine Kopie in einem Arbeitsregister anlegen. Unbedingt verhindern!
+		\item Die Definition muss zwingend mit \lstinline{volatile} versehen werden: \lstinline{volatile int sharedVariable;}	
+	\end{itemize}
+\end{minipage}
+\begin{minipage}[c]{3cm}
+	\includegraphics[width=1.5\textwidth]{images/Multicore/Multicore_shared_variable}
+\end{minipage}
+
+\paragraph{Kennzeichnung von Variablen mit \lstinline{volatile}}
+\begin{itemize}
+	\item Alle Variablen, die ausserhalb des Programmkontextes des Prozessors geändert werden können müssen gekennzeichnet werden.
+	\item Dies sind:
+	\begin{itemize}
+		\item Variablen, die speziell bei Embedded Systems ein Hardwareregister darstellen 
+		\item Globale Variablen, auf die in mehreren Tasks (concurrency, gleichzeitige Ausführungseinheiten) zugegriffen wird 
+		\item Globale Variablen, auf die in Interruptserviceroutinen (ISR) zugegriffen wird
+	\end{itemize}
+	\item Es muss verhindert werden, das irgendwann mit einer nicht aktuellen Kopie in einem Arbeitsregister gearbeitet wird
+\end{itemize}
+
+\subsection{Caches}
+\begin{itemize}
+	\item Caches sind (für den Prozessor) versteckte schnelle Speicher, die zwischen dem Prozessor und dem Hauptspeicher liegen 
+	\item Caches führen eine Kopie von häufig benötigten Hauptspeicherdaten 
+	\item Im besten Fall sind die Hauptspeicherdaten, auf welche der Prozessor zugreifen will, bereits im Cache vorhanden.  Dann ist der Speicherzugriff schneller als wenn wirklich auf den Hauptspeicher zugegriffen werden müsste
+	\item Bei Multicore Systemen können mehrere Cores je Caches auf dieselben Daten haben, d.h. es kann mehrere Kopien derselben Daten geben 
+	\item Cache Coherency: Wie erfährt ein Cache eines Cores, dass ein anderer Core diese Daten geändert hat? \lstinline{volatile} löst das Cache Coherency Problem nicht. Damit wird einzig sichergestellt, dass der Core einen Zugriff Richtung Speicher macht und sich nicht eine Kopie in einem Arbeitsregister hält
+\end{itemize}
+
+\subsubsection{Speicherzugriff zur Laufzeit}
+\begin{itemize}
+	\item \lstinline{volatile} hat Einfluss zur Compile-time und stellt sicher, dass der Compiler keinen Code generiert, bei dem er sich lokale Kopien in einem Register hält. Dank \lstinline{volatile} besteht der Code nun also aus einem expliziten Speicherzugriff  
+	\item Dieser Speicherzugriff sollte so schnell wie möglich sein. Hoffnung: die Daten werden in einem möglichst prozessornahen Cache gefunden  
+	\item Beim ersten Zugriff auf diese Daten befinden sie sich logischerweise noch nicht im Cache. Ein Geschwindigkeitsgewinn ergibt sich erst ab dem zweiten Zugriff
+	\item Triviale Folgerung: Daten, auf die nur einmal zugegriffen werden muss, sollen nicht gecached werden
+\end{itemize}
+
+\subsubsection{Lokalität}
+\begin{minipage}[t]{6cm}
+	\begin{itemize}
+		\item Zeitliche Lokalität (Temporal locality) 
+		\begin{itemize}
+			\item Soeben verwendete Daten oder Instruktionen werden mit hoher Wahrscheinlichkeit bald wieder verwendet 
+			\item Caches nutzen die zeitliche Lokalität aus
+		\end{itemize}
+	\end{itemize}
+\end{minipage}
+\begin{minipage}[t]{13cm}
+	\begin{itemize}
+		\item Räumliche Lokalität (Spatiallocality) 
+		\begin{itemize}
+			\item Bei soeben verwendeten Daten oder Instruktionen werden mit hoher Wahrscheinlichkeit auch benachbarte Daten oder Instruktionen bald verwendet 
+			\item Die räumliche Lokalität wird in Caches folgendermassen umgesetzt: Wenn auf eine bestimmte Adresse das erste Mal zugegriffen wird, werden nicht nur die Daten von dieser Adresse ins Cache geladen, sondern ein Speicherblock bestimmter Grösse um diese Adresse herum
+		\end{itemize}
+	\end{itemize}
+\end{minipage}
+
+\subsection{Ping Pong Speicher}
+Szenario: Ein System empfängt Daten und schriebt diese in einen Buffer. Die Daten werden gefiltert und wieder ausgegeben. Wie kann bei Multicore Systemen verhindert werden, dass der Filterschritt mit inkonsistenten Daten arbeitet? \\
+Schlechte Lösung: Buffer wird synchronisiert, oder der Empfangsbuffer wird in einen zweiten Buffer kopiert \\
+Gute Lösung: Ping Pong Buffer
+
+\subsubsection{Funktion}
+\begin{itemize}
+	\item Zwei identische Buffer werden definiert 
+	\item Ein Core bestimmt, in welchen Buffer die Daten geschrieben werden 
+	\item Nach abgeschlossenem Empfang übergibt der Core dem Filterschritt einen Pointer auf diesen Buffer zur weiteren Bearbeitung 
+	\item Dem Empfänger übergibt der Core einen Pointer auf den zweiten Buffer, damit nun in diesen geschrieben wird
+	\item Daten werden nicht kopiert, nur Pointer werden von einem Buffer zum anderen hin-und hergewechselt (Ping Pong)
+\end{itemize}
+
