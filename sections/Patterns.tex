@@ -1,1 +1,130 @@
-\section{Patterns - Marco \buch{p.}}
+\section{Patterns}
+
+\subsection{Pattern-Philosophie}
+Ein Software Pattern ist eine bekannte Lösung für eine Klasse von Problemen. 
+
+\begin{itemize}
+\item Vorteile
+	\begin{itemize}
+	\item Funktionierende Lösungen
+	\item Getestete Lösungen
+	\item Rad muss nicht immer neu erfunden werden
+	\end{itemize}
+\item Herausforderungen
+	\begin{itemize}
+	\item Problemstellungen müssen als solche erkannt werden
+	\item Wichtige Patterns müssen bekannt sein
+	\end{itemize}
+\end{itemize}
+
+\subsection{Einige wichtige Patterns}
+\begin{minipage}[t]{10cm}
+\begin{itemize}
+\item Implementation von Finite State Machines
+	\begin{itemize}
+	\item State Pattern
+	\item Singleton Pattern
+	\item Steuerkonstrukt mit switch-case
+	\item Tabellenvariante
+	\end{itemize}
+\item Mini-Patterns
+	\begin{itemize}
+	\item Setzen und Löschen von einzelnen Bits
+	\item Behandlung von asynchronen Ereignissen
+		\begin{itemize}
+		\item Interrupts
+		\item Polling
+		\end{itemize}
+	\item etc.
+	\end{itemize}
+\item Creational Patterns
+	\begin{itemize}
+	\item Factory (Dependency injection)
+	\item RAII
+	\item Singleton
+	\end{itemize}
+\end{itemize}
+\end{minipage}
+\begin{minipage}[t]{8cm}
+\begin{itemize}
+\item Structural Patterns
+	\begin{itemize}
+	\item Adapter
+	\item Facade
+	\item Proxy
+	\end{itemize}
+\item Behavioral Patterns
+	\begin{itemize}
+	\item Adapter
+	\item Mediator
+	\item Observer (MVC)
+	\end{itemize}
+\item Concurrency Patterns
+	\begin{itemize}
+	\item Active Object
+	\item Lock
+	\item Monitor
+	\end{itemize}	
+\end{itemize}
+\end{minipage}
+
+\subsection{Creational Patterns}
+Creational Patterns behandeln die Erzeugung (und Vernichtung) von Objekten.
+\subsubsection{Factory (Dependency injection)}
+  \begin{itemize}
+  \item Definition einer Schnittstelle zur Erzeugung eines Objekts, statt der direkten Erzeugung auf der Client-Seite.
+  \end{itemize}
+\subsubsection{RAII (Resource Acquisition Is Initialization)}
+  \begin{itemize}
+  \item Die Belegung und Freigabe einer Ressource wird an die Lebensdauer eines Objektes gebunden. Dadurch wird eine Ressource z.B. "automatisch" freigegeben.
+  \end{itemize}
+\subsubsection{Singleton}
+  \begin{itemize}
+  \item Ein Singleton stellt sicher, dass eine Klasse nur ein einziges Objekt besitzt.
+  \end{itemize}
+
+\subsection{Structural Patterns}
+Structural Patterns vereinfachen Beziehungen zu anderen Teilen.
+\subsubsection{Adapter (Wrapper, Translator, glue code)}
+  \begin{itemize}
+  \item Wandelt (adaptiert) eine Schnittstelle in eine für einen Client passendere Schnittstelle um.
+  \end{itemize}
+\subsubsection{Facade}
+  \begin{itemize}
+  \item Bietet eine einfache Schnittstelle für die Nutzung einer meist viel grösseren Library.
+  \end{itemize}
+\subsubsection{Proxy}
+  \begin{itemize}
+  \item A proxy, in its most general form, is a class functioning as an interface to something else.
+  \item Oft ist es eine SW-Repräsentation eines HW-Teils, z.B. die Repräsentation einer
+  Netzwerkverbingung.
+  \end{itemize}
+
+\subsection{Behavioral Patterns}
+Behavioral Patterns identifizieren gemeinsame Kommunikationspatterns zwischen Objekten und implementieren diese.
+\subsubsection{Mediator}
+  \begin{itemize}
+  \item Definiert ein Objekt, welches das Zusammenspiel einer Menge von Objekten regelt.
+  \item Ein Embedded System, das aus mehreren Teilen wie Sensoren und Aktoren besteht, wird im Mediator softwaremässig zusammengebaut.
+  \end{itemize}
+\subsubsection{Observer (MVC)}
+  \begin{itemize}
+  \item Wird als objektorientierte Variante präsentiert.
+  \item Wie wir gesehen haben, kann das MVC-Prinzip auch prozedural mit Callbackfunktionen implementiert werden.
+  \end{itemize}
+  
+\subsection{Concurrency Patterns}
+Concurreny Patterns kümmern sich um die Ausführung in multi-threaded Umgebungen.
+\subsubsection{Active Object}
+  \begin{itemize}
+  \item Entkoppelt den Methodenaufruf von der Methodenausführung, die Methode soll sich nicht kümmern, in welchem Kontext sie aufgerufen wird.
+  \end{itemize}
+\subsubsection{Lock}
+  \begin{itemize}
+  \item Ist eine Synchronisationsprimitive, welche den unteilbaren Zugriff read-modify-write
+  implementiert.
+  \end{itemize}
+\subsubsection{Monitor}
+  \begin{itemize}
+  \item Der Monitor versteckt Synchronisationsanforderungen vor dem Client.
+  \end{itemize}
