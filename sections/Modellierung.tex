@@ -20,7 +20,6 @@ Agile Softwareentwicklung ist der Oberbegriff für den Einsatz von Agilität (fl
 	\item \textbf{Aber keine Anarchie!}
 \end{itemize} 
 
-
 \textbf{Model Driven Development (MDD)}\\
 Bei der modellbasierten Entwicklung kommen in allen Entwicklungsphasen durchgängig Modelle zur Anwendung.
 
@@ -36,17 +35,17 @@ Bei der modellbasierten Entwicklung kommen in allen Entwicklungsphasen durchgän
 	\end{itemize}
 	\columnbreak
 	
-	\textbf{Generelles Vorgehen bei der Modellierung:}\\
+	\textbf{Generelles Vorgehen bei der Modellierung:}
 	\begin{enumerate}
 		\item Systemgrenze definieren (statischer Aspekt)
 		\item Systemprozesse finden (statischer Aspekt)
 		\item Verteilung festlegen (statischer Aspekt)
 		\item Systemprozesse detaillieren (dynamischer Aspekt)
-	\end{enumerate}
+	\end{enumerate} \ \\
 \end{multicols}
 
 \subsection{Systemgrenze definieren und Systemprozesse finden}
-\textbf{Systemgrenze definieren}\\
+\subsubsection{Systemgrenze definieren}
 Das wichtigste und allererste bei sämtlichen Systemen ist die Festlegung der Systemgrenze (system boundary) mittels Kontextdiagramm (Use Case oder auch Sequenzdiagramm).
 \begin{itemize}
 	\item Was macht das System, d.h was liegt innerhalb der Systemgrenze
@@ -54,11 +53,11 @@ Das wichtigste und allererste bei sämtlichen Systemen ist die Festlegung der Sy
 	\item Welches sind die Schnittstellen zu den Nachbarsystemen
 \end{itemize}
 
-\textbf{Systemprozesse finden}\\
+\subsubsection{Systemprozesse finden}
 Die Aufteilung in Hardware und Software sollte erst nach der Analyse der grundlegenden Anforderungen erfolgen.
 RTE-Systeme bestehen meistens nur aus einem einzigen Systemprozess, speziell wenn das System im Prinzip 'nur' ein
 Regler ist. Dieser Schritt ist in der Analysephase. Wenn hier von Prozessen die Rede ist, bedeutet das nicht unbedingt ein
-Betriebssystem Prozess ist. Wichtig ist, dass es nicht zuviele Funktionsblöcke gibt (nicht ins Detail gehen). \newline\newline
+Betriebssystem Prozess ist. Wichtig ist, dass es nicht zuviele Funktionsblöcke gibt (nicht ins Detail gehen). \\
 Bei Systemen bei denen die Grenze durch Nachrichtenflüsse charakterisiert werden können, eignen sich Sequenzdiagramme
 für Kontextbeschreibung.\\
 
@@ -66,9 +65,9 @@ für Kontextbeschreibung.\\
 
 \subsection{Verteilung festlegen}
 Bei Embedded Systems werden häufig mehrere Rechnersysteme verwendet um die Aufgaben zu erledigen. Diese liegen meistens 
-geographisch (cm bis km) verteilt und sind mit einem Kommunikationskanal verbunden. Diese Systeme heissen Verteilte Systeme (Distributed Systems). Zur Darstellung eignet sich in UML das Verteilungsdiagramm (Deployment Diagram).\\
+geographisch (cm bis km) verteilt und sind mit einem Kommunikationskanal verbunden. Diese Systeme heissen Verteilte Systeme (Distributed Systems). Zur Darstellung eignet sich in UML das Verteilungsdiagramm (Deployment Diagram).
 
-\textbf{Verteilungsdiagramm (Deployment Diagram)}
+\subsubsection{Verteilungsdiagramm (Deployment Diagram)}
 \begin{itemize}
 	\item Die Knoten werden zur Darstellung der geographischen Orten oder Subsysteme verwendet
 	\item Die physikalische Verbindung zwischen den Knoten (Netzwerke, Kabel, Wireless, etc.) werden als Linien dargestellt.
@@ -80,9 +79,9 @@ geographisch (cm bis km) verteilt und sind mit einem Kommunikationskanal verbund
 
 \subsection{Systemprozesse Detaillieren}
 Die gefundenen Systemprozesse müssen nun genauer spezifiziert werden. Dabei nicht detaillierter spezifizieren als sinnvoll. Jede weitere Detaillierung soll einen "`added value"' liefern. 
-Leitidee: Lieber weniger als mehr Details\\
+Leitidee: Lieber weniger als mehr Details.
 
-\textbf{Verschiedene Detaillierungsstufen}
+\subsubsection{Verschiedene Detaillierungsstufen}
 \begin{itemize}
 	\item \textbf{Überblick: } z.B in Form von normalem umgangssprachlichem Text. Diese Form sollte immer erstellt werden.
 	\item \textbf{Normale Sicht: } Sie ist für den Systementwickler gedacht und enthält mehr Details.  
