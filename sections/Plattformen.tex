@@ -100,6 +100,63 @@ keep the pipeline full:
   \vspace{-0.8\baselineskip}
  \item CPU auto adds inactive cycles (NOP) to ensure that reads\&writes happen as intended
   \vspace{-0.8\baselineskip}
+  \item Zwei Typen von Fehlern: 1. read\&write to same data-space location 2. Register conflicts
 \end{itemize}
 \end{minipage}
-
+\begin{itemize}
+ \item Branches are taken in D2: - Content in F1-D1 could then be wrong
+ - This requires a flush of F1-D1 - Pipeline flushes should be avoided $\rightarrow$ machen das System langsam! (z.B. if-Abfrage in einer for-Schleife)
+\end{itemize}
+\subsubsection{C28x Pipeline Beispiele}
+\vspace{-2\baselineskip}
+\begin{minipage}{0.53\textwidth}
+  \includegraphics[width = 1\linewidth]{images/Plattformen/Example_pipeline}
+\end{minipage}
+\begin{minipage}{0.47\textwidth}
+  \includegraphics[width = 1\linewidth]{images/Plattformen/Example_pipeline_activity}
+\end{minipage}
+\begin{minipage}{0.75\textwidth}
+\flushleft
+  C-Code / Assembler-Code und Darstellung der Instruction Pipeline
+  \includegraphics[width = 1\linewidth]{images/Plattformen/Example_pipeline_assembler}
+\end{minipage}
+\begin{minipage}{0.25\textwidth}
+Gründe für Freeze in Pipeline Activity: \newline
+\underline{Wait states:} Lesen von oder Schreiben ins Memory dauert länger als 1 stage \newline
+Activity in the pipeline freezes depending on where the wait state occurrred (F1, R1, W)\newline
+\underline{Instr not available:} if instr is not available in D2 phase.
+\end{minipage}
+\newpage
+\begin{minipage}{0.45\textwidth}
+	\subsubsection{C28x FPU Pipeline}
+	\includegraphics[width = 1\linewidth]{images/Plattformen/C28xPipeline}
+\end{minipage}
+\begin{minipage}{0.55\textwidth}
+\subsection{ARM-Cortex}
+\subsubsection{ARM-Cortex Family}
+\begin{itemize}
+ \item ARMv8-A: Application profile: High-performance (Smartphones, Tablets) Cortex-A72, -A57, -A53
+ \item ARMv8-R: Real-time profile: Embedded applications in automotive and industrial control: Cortex-R4, -R5, -R7
+ \item ARMv8-M: Microcontroller profile: Embedded applications, optimized for energy efficiency and cost Cortex-M0, -M1, -M3, -M4, -M7
+\end{itemize}
+\end{minipage}
+\subsubsection{Cortex-M family}
+\includegraphics[width = 0.8\linewidth]{images/Plattformen/Cortex_M_Family}\newline
+\includegraphics[width = 0.8\linewidth]{images/Plattformen/Cortex_M_instr_set}\newline
+Befehle für den Cortex-M4 mit FPU (M4F) beginnen immer mit "'V"' z.B: VADD, VMUL, VDIV, VSQRT;\newline
+\newline
+\begin{minipage}{0.4\textwidth}
+\subsection{MSP432 und Vergleich}
+\begin{itemize}
+  \item Successor of MSP430
+  \vspace{-0.7\baselineskip}
+  \item No proprietary core anymore but ARM Cortex-M4F
+  \vspace{-0.7\baselineskip}
+  \item Ultra-low-power (90 $\mu$A/MHz, static 25 nA)
+  \vspace{-0.7\baselineskip}
+  \item Wide configuration of device options is planned
+\end{itemize}
+\end{minipage}
+\begin{minipage}{0.6\textwidth}
+\includegraphics[width = 1\linewidth]{images/Plattformen/Comparison}
+\end{minipage}
