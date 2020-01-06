@@ -1,0 +1,86 @@
+\section{Hardware Abstraction Layer (HAL)}
+\begin{itemize}
+  \item In Programmen für Embedded Systems gibt es sehr häufig Zugriffe auf Hardware-Register, d.h. die Programmierung erfolgt häufig durch Setzen oder Löschen, bzw. Lesen einzelner Bits
+  \item Wenn diese Zugriffe direkt bei Bedarf getätigt werden, entstehen sehr unleserliche und auch fehlerträchtige Programme
+  \item Wenn die Zielhardware geändert wird, muss praktisch die ganze Software neu geschrieben werden, d.h. die Portierbarkeit ist sehr schlecht
+  \item \textbf{Diese Registerzugriffe sollen unbedingt in einem HAL abstrahiert werden}
+  \begin{itemize}
+    \item Wenn es richtig gemacht wird, ist es nicht mit einem enormen Overhead verbunden, wie oft behauptet wird.
+    \item And: Macro-based HALs suffer from all the macro drawbacks
+  \end{itemize}
+\end{itemize}
+
+\subsection{Organisation des HALs}
+\begin{itemize}
+  \item Unterteilung in
+  \begin{itemize}
+    \item Board Support Library (BSL)
+    \item Chip Support Library (CSL)
+  \end{itemize}
+  \item Die CSL abstrahiert den Chip, d.h. den Mikrocontroller und wurd häufig vom $\mu$C-Hersteller zur Verfügung gestellt.
+  \item Die BSL abstrahiert das PCB und muss vom Hersteller des Boards zur Verfügun gestellt werden.
+\end{itemize}
+
+\subsection{HAL in C}
+Client Program in C
+\lstinputlisting[style=C]{snippets/HAL/client.c}
+\begin{itemize}
+  \item Ab C99 wird auch Inlining unterstützt
+  \item Die Inline-Funktionen müssen in Headerfiles definiert sein, damit der Compiler auch Inlining machen kann
+  \item Wenn die Funktionen \lstinline[style=C]{static} deklariert werden, wird garantiert, dass die Funktionen nicht auch noch im Objectfile als Funktion vorhanden sind
+  \item Damit die Namen eindeutig sind, sollen die Unitkürzel \textbf{csl}, bzw. \textbf{bsl} verwendet werden (in C++ ist das dank Namespaces viel eleganter und einfacher)
+\end{itemize}
+\begin{lstlisting}[style=C]
+enum {csl_bit0 = 0x00000001, csl_bit1 = 0x00000002, csl_bit2 = 0x00000004, csl_bit3 = 0x00000008,
+    csl_bit4 = 0x00000010, csl_bit5 = 0x00000020, csl_bit6 = 0x00000040, csl_bit7 = 0x00000080,
+    // ...
+    csl_bit28 = 0x10000000, csl_bit29 = 0x20000000, csl_bit30 = 0x40000000, csl_bit31 = 0x80000000};
+\end{lstlisting}
+\begin{lstlisting}[style=C]
+static inline void csl_hwReg32SetBits(volatile uint32_t* reg, uint32_t bits) {*reg |= bits;}
+static inline void csl_hwReg16ClearBits(volatile uint16_t* reg, uint16_t bits) {*reg &= ~bits;}
+\end{lstlisting}
+
+\subsubsection{CSL in C}
+\textbf{Port definitions}
+\lstinputlisting[style=C]{snippets/HAL/cslPort.h}
+
+\textbf{Pin definitions}
+\lstinputlisting[style=C]{snippets/HAL/cslPin.h}
+
+\subsubsection{BSL in C}
+In der Board Support Library wird die Verbindung der effektiv auf dem Board vorhandenen Komponenten mit dem $\mu$C über die CSL abstrahiert.
+\lstinputlisting[style=C]{snippets/HAL/bsl.h}
+
+\subsection{HAL in C++}
+Client Program in C++
+\lstinputlisting[style=Cpp]{snippets/HAL/client.cpp}
+\begin{itemize}
+  \item Die Inline-Funktionen müssen in Headerfiles definiert sein, damit der Compiler auch Inlining machen kann
+  \item Damit die Namen eindeutig sind, sollen die Namespaces \textbf{csl}, bzw. \textbf{bsl} definiert werden.
+\end{itemize}
+\begin{lstlisting}[style=Cpp]
+namespace csl
+{
+enum {bit0 = 0x00000001, bit1 = 0x00000002, bit2 = 0x00000004, bit3 = 0x00000008,
+    bit4 = 0x00000010, bit5 = 0x00000020, bit6 = 0x00000040, bit7 = 0x00000080,
+    // ...
+    bit28 = 0x10000000, bit29 = 0x20000000, bit30 = 0x40000000, bit31 = 0x80000000};
+
+template<typename RegType>
+class HwReg{
+  static void setBits(volatile RegType& reg, const RegType& bits) {reg |= bits;}
+  static void clearBits(volatile RegType& reg, const RegType& bits) {reg &= ~bits;}
+};
+}
+\end{lstlisting}
+
+\subsubsection{CSL in C++}
+\textbf{Port definitions}
+\lstinputlisting[style=Cpp]{snippets/HAL/cslPortCpp.h}
+\textbf{Pin definitions}
+\lstinputlisting[style=Cpp]{snippets/HAL/cslPinCpp.h}
+
+\subsubsection{BSL in C++}
+In der Board Support Library wird die Verbindung der effektiv auf dem Board vorhandenen Komponenten mit dem $\mu$C über die CSL abstrahiert.
+\lstinputlisting[style=Cpp]{snippets/HAL/bslCpp.h}

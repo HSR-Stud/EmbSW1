@@ -1,23 +1,23 @@
 \section{Modularisierung}
 Modularisierung ist die Aufteilung eines Ganzen in Teile, die als Module oder Komponenten bezeichnet werden. Bei geeigneter Form und Funktion können sie zusammengefügt werden oder über entsprechende Schnittstellen interagieren.
 
+\subsection{Grundprinzip}
+\begin{itemize}
+  \item Divide et impera (Teile und herrsche)
+  \begin{itemize}
+    \item Problem aufteilen und Unterprobleme einzeln angehen
+    \item Zuerst Grobentwurf, dann verfeinern (Top-Down-Prinzip)
+  \end{itemize}
+  \item \textbf{Ziel:} Reduktion der Komplexität
+\end{itemize}
+
 \subsection{Motivation}
-Bei Kleinstsoftware braucht es kein systematisches Design, da man diese meist auch nicht ausbauen möchte. Vernünftige Softwaresysteme benötigen einen systematischen Designansatz mit einem strukturierten Aufbau.\\\\
+Bei Kleinstsoftware braucht es kein systematisches Design, da man diese meist auch nicht ausbauen möchte. Vernünftige Softwaresysteme benötigen einen systematischen Designansatz mit einem strukturierten Aufbau.\\\\§
 Wichtig ist daher:
 	\begin{itemize}
 	\item Entwicklung im Team vs. One-person-show
   	\item Schnittstellen definieren
 	\end{itemize}
-
-\subsection{Grundprinzip}
-\begin{itemize}
-  \item Divide et impera (Teile und herrsche)
-  \begin{itemize}
-    \item Problem aufteilen in Unterprobleme, diese einzeln angehen
-    \item Zuerst Grobentwurf, dann verfeinern (Top-Down-Prinzip)
-  \end{itemize}
-  \item \textbf{Ziel:} Reduktion der Komplexität
-\end{itemize}
 
 \subsection{Information Hiding}
 \begin{itemize}
@@ -35,21 +35,21 @@ Wichtig ist daher:
   \item Kohäsion/Cohesion
   \begin{itemize}
     \item Aussage wie stark eine funktionale Einheit wirklich zusammengehört
-    \item Mass für die Stärke des inneren Zusammenhangs 
+    \item Mass für die Stärke des inneren Zusammenhangs
   \end{itemize}
 \end{itemize}
 
-\textbf{Ziel:} Schwache Kopplung, starke Kohäsion 
+\textbf{Ziel:} Schwache Kopplung, starke Kohäsion
 
-\begin{minipage}{9cm}
-  \includegraphics[width=8cm]{images/Modularisierung/BeispieleKopplungKohaesion.png}
-\end{minipage}
-\begin{minipage}{8cm}
-  \begin{itemize}
-    \item Bild a: Schwache Kopplung, starke Kohäsion (gut)
-    \item Bild b: Starke Kopplung, schwache Kohäsion (schlecht)
-  \end{itemize}
-\end{minipage}
+\begin{multicols}{2}
+\includegraphics[width=\linewidth]{images/Modularisierung/BeispieleKopplungKohaesion.png}
+\vfill\null
+\begin{itemize}
+	\item Bild a: Schwache Kopplung, starke Kohäsion (gut)
+	\item Bild b: Starke Kopplung, schwache Kohäsion (schlecht)
+\end{itemize}
+\vfill\null
+\end{multicols}
 
 \begin{multicols}{2}
 \subsection{Definitionen Kopplung}
@@ -57,7 +57,7 @@ Wichtig ist daher:
   \item Keine direkte Kopplung (Schwache Kopplung $\rightarrow$ \textbf{GUT})
   \item Datenkopplung
   \begin{itemize}
-    \item Kommunikation ausschliesslich über Parameter 
+    \item Kommunikation ausschliesslich über Parameter
   \end{itemize}
   \item Datenbereichskopplung
    \begin{itemize}
@@ -76,7 +76,7 @@ Wichtig ist daher:
   \item Inhaltskopplung (Starke Kopplung $\rightarrow$ \textbf{SCHLECHT})
   \begin{itemize}
     \item Aus einem Modul werden lokale Daten eines anderen Moduls modifiziert,
-    obwohl dieses Modul NICHT vom anderen Modul aufgerufen worden ist. 
+    obwohl dieses Modul NICHT vom anderen Modul aufgerufen wird.
     \item \textbf{Todsünde}
   \end{itemize}
 \end{itemize}
@@ -85,7 +85,7 @@ Wichtig ist daher:
 \begin{itemize}
   \item Funktionale Kohäsion (Starke Kohäsion $\rightarrow$ \textbf{GUT})
   \begin{itemize}
-    \item Teile einer Einheit bilden zusammen eine Funktion 
+    \item Teile einer Einheit bilden zusammen eine Funktion
   \end{itemize}
   \item Sequentielle Kohäsion
    \begin{itemize}
@@ -104,7 +104,7 @@ Wichtig ist daher:
   \end{itemize}
   \item Zeitliche Kohäsion
   \begin{itemize}
-    \item Teile einer Einheit sind alle zu einer bestimmten auszuführen
+    \item Teile einer Einheit sind alle zu einer bestimmten Zeit auszuführen
   \end{itemize}
   \item Logische Kohäsion
   \begin{itemize}
@@ -146,3 +146,18 @@ Wichtig ist daher:
 \textbf{Beispiel guter Modularisierung:}\\
 \includegraphics[width=8cm]{images/Modularisierung/GutesBeispielModularisierung.png}
 \end{minipage}
+
+\subsection{In bestehendem Projekt zurechtfinden}
+\begin{itemize}
+	\item Die Schnittstelle muss in den Headerfiles beschrieben werden
+	\item Dort muss man alles finden, was wichtig ist, d.h. es müssen zuerst die Headerfiles studiert werden
+	\item Wenn man das Projekt nur nutzen soll, dann sollte man im Normalfall keinen Grund finden, auch die Definitionsfiles (*.c, *.cpp) anschauen zu müssen
+\end{itemize}
+
+\subsection{Package-Diagramm}
+\begin{itemize}
+	\item ist bekannt aus OOAD
+	\item Ein Package ist besteht aus mindestens einer, üblich aus mehreren Klassen, die zusammengehören (Stichwort: Kohäsion)
+	\item Im Package-Diagramm kann dargestellt werden, welche Packages mit welchen anderen Packages Verbindungen haben (dürfen), d.h. die Abhängigkeiten zwischen Packages können sichtbar gemacht werden
+	\item In C++ wird das Packagekonzept mit Namespaces umgesetzt, d.h. ein Namespace entspricht einem Package
+\end{itemize}
