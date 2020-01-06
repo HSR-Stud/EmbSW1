@@ -40,9 +40,11 @@
 \subsubsection{DSP Eigenschaften}
 \begin{itemize}
     \item Mikrocontroller, der speziell für Digital Signal Processing geeignet ist
+    \item Analoge Daten kontinuierlich und in Echtzeit digital verarbeiten (filtern)
     \item Für Faltung oder FFT müssen (Abtast-)Werte mit einem Gewicht multipliziert und zu einem bestehenden Wert addiert werden
     \item Diese Multiply-Add-Folge wird häufig als Multiply-Accumulate (MAC) bezeichnet
     \item Viele Daten, immer wieder dieselben Operationen
+    \item Ziel eines DSPs: nicht mehr als ein Zyklus pro MAC-Operation
     \item meist Harvard: gleichzeitig Daten und Instruktionen aus dem Speicher holen
     \item Pipelining, DMA und FPU
 \end{itemize}

@@ -3,29 +3,29 @@
 //
 // implements an up/down-Counter
 //
-// (C) R. Bonderer, HSR Hochschule Rapperswil, Nov. 2010
+// (C) R. Bonderer, HSR Hochschule Rapperswil, Okt. 2019
 //
 
 #include "counter.h"
 
 static int countValue;
 
-void cntInit(int val)
+void cnt_init(int val)
 {
   countValue = val;
 }
 
-void cntCount(int step)
+void cnt_count(int step)
 {
   countValue += step;
 }
 
-int cntGetCounter()
+int cnt_getCounter()
 {
   return countValue;
 }
 
-void cntSetCounter(int val)
+void cnt_setCounter(int val)
 {
   countValue = val;
 }

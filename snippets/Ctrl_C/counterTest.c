@@ -3,7 +3,7 @@
 //
 // Test program for the Finite State Machine (FSM) of an up/down-Counter
 //
-// (C) R. Bonderer, HSR Hochschule Rapperswil, Oct. 2014
+// (C) R. Bonderer, HSR Hochschule Rapperswil, Oct. 2019
 //
 
 #include <stdio.h>
@@ -13,7 +13,7 @@ int main(void)
 {
   char answer;
   
-  cntCtrlInit(0);
+  cnt_ctrlInit(0);
   
   do
   {
@@ -32,16 +32,16 @@ int main(void)
     switch (answer)
     {
       case 'u':
-        cntCtrlProcess(cntEvUp);
+        cnt_ctrlProcess(cnt_evUp);
         break;
       case 'd':
-        cntCtrlProcess(cntEvDown);
+        cnt_ctrlProcess(cnt_evDown);
         break;
       case 'c':
-        cntCtrlProcess(cntEvCount);
+        cnt_ctrlProcess(cnt_evCount);
         break;
       case 's':
-        cntCtrlProcess(cntEvStop);
+        cnt_ctrlProcess(cnt_evStop);
         break;
       default:
         break;

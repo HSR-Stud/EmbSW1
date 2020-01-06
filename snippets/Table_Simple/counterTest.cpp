@@ -3,11 +3,11 @@
 //
 // Test program for the Finite State Machine (FSM) of an up/down-Counter
 //
-// (C) R. Bonderer, HSR Hochschule Rapperswil, Nov. 2010
+// (C) R. Bonderer, HSR Hochschule Rapperswil, Okt. 2017
 //
 
 #include <iostream>
-#include "counterCtrl.h"
+#include "CounterCtrl.h"
 using namespace std;
 
 int main(void)

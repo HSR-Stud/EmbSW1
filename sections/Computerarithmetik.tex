@@ -7,7 +7,7 @@
 	\hline
 	Zahlenbereich & $-(2^{n-1}-1)$ bis $+(2^{n-1}-1)$ & $-(2^{n-1}-1)$ bis +$(2^{n-1}-1)$ & $-2^{n-1}$ bis +$(2^{n-1}-1)$\\
 	\hline
-	Vorteil & Vorzeichen kann einfach durch Vorzeichenbit festgestellt werden. & Vorzeichen kann einfach durch MSB festgestellt werden. Addition und Subtraktion einfach realisierbar. & Vorzeichen kann einfach durch MSB festgestellt werden. Addition und Subtratkion einfach realisierbar \\ 
+	Vorteil & Vorzeichen kann einfach durch Vorzeichenbit festgestellt werden. & Vorzeichen kann einfach durch MSB festgestellt werden. Addition und Subtraktion einfach realisierbar. & Vorzeichen kann einfach durch MSB festgestellt werden. Addition und Subtratkion einfach realisierbar \\
 	\hline
 	Nachteil & Positive und negative Null. Addition/Subtraktion kompliziert. & Positive und negative Null. & Bereich nicht ganz symmetrisch\\
 	\hline
@@ -33,7 +33,7 @@ Die Multiplikation mit Zweierpotenzen ist ein Spezialfall, der sehr effizient um
 	Implementation Hardware: Schnell, viel Aufwand
 	\begin{itemize}
 		\item In vielen uC's drin, vor allem RISC (MSP430)
-		\item Im DSP ist HW-Multiplizierer ein Muss
+		\item Im DSP ist HW-Multiplizierer ein Muss (wichtige Multiply-Accumulate-Funktion (MAC))
 	\end{itemize}
 	\columnbreak
 	\includegraphics[width=0.3\textwidth]{images/Arithmetik/Ganzzahlig_Multiplikation}
@@ -51,7 +51,6 @@ Implementation algorithmisch: Langsam, wenig Aufwand
 \end{itemize}
 Implementation Hardware: Schnell, viel Aufwand
 \begin{itemize}
-	\item In vielen uC's drin, vor allem RISC (MSP430)
 	\item da die Division die seltenste Operation ist, wird speziell bei Microcontrollern nur selten ein Hardware-Dividierer verwendet
 \end{itemize}
 
@@ -61,7 +60,7 @@ Implementation Hardware: Schnell, viel Aufwand
 	\item Quantisierung auf 1 Bit kann bei kleinen Werten zu Ungenauigkeiten führen
 	\item Lösung: durch Skalierung soll Dynamikbereich, d.h. der Wertebereich der ganzen Zahl, möglichst ausgenutzt werden
 	\item Skalierungen mit Zweierpotenzen sind viel effizienter als solche mit Dezimalzahlen
-	\item Wenn möglich immer mit Zweierpotenzen skalieren	
+	\item \textbf{Wenn möglich immer mit Zweierpotenzen skalieren}
 \end{itemize}
 
 \subsection{Arithmetische Schaltungen}
@@ -127,14 +126,14 @@ Das niederwertige Carry-Bit wird immer an die nächst höhere Position weiterger
 
 \paragraph{Carry Select Adder}
 \begin{itemize}
-	\item Obere Worthälfte wird zweimal berechnet 
+	\item Obere Worthälfte wird zweimal berechnet
 	\begin{itemize}
-		\item einmal für Carry-In = 0 
+		\item einmal für Carry-In = 0
 		\item einmal für Carry-In = 1
 	\end{itemize}
 	\item Die untere Worthälfte und die beiden oberen Worthälften werden gleichzeitig berechnet.
 	\item Das richtige Resultat der oberen Worthälfte wird ausgewählt sobald das Carry der unteren Worthälfte feststeht.
-	\item Bei einem $n$ Bit breiten Adder wird idealerweise in $\sqrt{n}$ breite Blöcke aufgeteilt 
+	\item Bei einem $n$ Bit breiten Adder wird idealerweise in $\sqrt{n}$ breite Blöcke aufgeteilt
 	\item Die Ausführungszeit steigt dann nicht linear, sondern nur mit $\sqrt{n}$
 	\item Kosten: Erhöhter Hardwareaufwand
 \end{itemize}
@@ -142,26 +141,26 @@ Das niederwertige Carry-Bit wird immer an die nächst höhere Position weiterger
 \paragraph{Carry Look-Ahead Adder}
 	\begin{multicols}{2}
 		\begin{itemize}
-		\item Carrymuss bei jeder Bitposition $i$ entweder fortgepflanzt (propagate, $p_i$) oder generiert (generate, $g_i$) werden. 
-		\item  $p_i$ und $g_i$ sind nur von den Eingängen $a_i$ und $b_i$ abhängig, nicht aber von den Carries der vorherigen Stufen. 
+		\item Carrymuss bei jeder Bitposition $i$ entweder fortgepflanzt (propagate, $p_i$) oder generiert (generate, $g_i$) werden.
+		\item  $p_i$ und $g_i$ sind nur von den Eingängen $a_i$ und $b_i$ abhängig, nicht aber von den Carries der vorherigen Stufen.
 		\begin{equation}
-			p_i = a_i \oplus b_i \newline	
+			p_i = a_i \oplus b_i \newline
 		\end{equation}
 		\begin{equation}
-		g_i = a_i * b_1		
+		g_i = a_i * b_i
 		\end{equation}
 		\begin{equation}
-		c_{i+1} = g_i + p_i * c_i		
+		c_{i+1} = g_i + p_i * c_i
 		\end{equation}
-		\item  Jedes einzelne Carry kann somit als zweistufige Logik von verschiedenen $p_i$ und $g_i$ implementiert werden. 
-	\end{itemize}	
-\columnbreak			
+		\item  Jedes einzelne Carry kann somit als zweistufige Logik von verschiedenen $p_i$ und $g_i$ implementiert werden.
+	\end{itemize}
+\columnbreak
 	\includegraphics[width=0.5\textwidth]{images/Arithmetik/Carry_Look_Ahead_Adder}
 \end{multicols}
 
 \subsubsection{Subtrahierer}
 \begin{equation}
-A-B = A + (-B)	
+A-B = A + (-B)
 \end{equation}
 \begin{itemize}
 	\item Subtraktion wird zurückgeführt auf Addition
@@ -175,8 +174,8 @@ A-B = A + (-B)
 	\item Ein Shifter kann mit einem Schieberegister implementiert werden
 	\item Der Nachteil dabei ist, dass pro Clockzyklus nur um ein Bit nach links oder rechts geschoben werden kann. Zudem ist das Schieberegister eine sequentielle Schaltung und benötigt Flip Flops.
 	\item Oft muss um eine beliebige Anzahl Stellen möglichst  in einem Schritt geschoben werden
-	\item Schieben kann auch mittels einer kombinatorischen Schaltung erreicht werden 
-	\item In der Praxis wird meist ein Barrel Shifter eingesetzt. Dieser kann innerhalb eines Zyklus um eine beliebige Anzahl Stellen schieben. Der Barrel Shifter ist rein kombinatorisch.	
+	\item Schieben kann auch mittels einer kombinatorischen Schaltung erreicht werden
+	\item In der Praxis wird meist ein \textbf{Barrel Shifter} eingesetzt. Dieser kann innerhalb eines Zyklus um eine beliebige Anzahl Stellen schieben. Der Barrel Shifter ist rein kombinatorisch.
 \end{itemize}
 
 \begin{multicols}{2}
@@ -189,9 +188,9 @@ A-B = A + (-B)
 
 \subsubsection{Sättigungsarithmetik}
 \begin{itemize}
-	\item Besonders bei DSPs wird die Sättigungsarithmetik als Option eingesetzt 
-	\item Wenn der maximal darstellbare Wert inkrementiert werden soll, ergibt das nicht einen Overflow sondern der Wert bleibt auf seinem Maximalwert 
-	\item Analog wird der minimale Wert behandelt: bei signedTypen verbleibt der minimale negative Wert, bei unsignedTypen der Wert Null
+	\item Besonders bei DSPs wird die Sättigungsarithmetik als Option eingesetzt
+	\item Wenn der maximal darstellbare Wert inkrementiert werden soll, ergibt das nicht einen Overflow sondern der Wert bleibt auf seinem Maximalwert
+	\item Analog wird der minimale Wert behandelt: bei signed Typen verbleibt der minimale negative Wert, bei unsigned Typen der Wert Null
 \end{itemize}
 
 \subsection{Fixpunkt (Fixed Point)}
@@ -200,7 +199,7 @@ A-B = A + (-B)
 	\item Wie der Name sagt, sitzt der Dezimalpunkt an einer fixen Stelle. Die Stellen rechts vom Dezimalpunkt werden als negative Zweierpotenzen interpretiert
 	\item  Für Fixed Point-Berechnungen kann die Integereinheit verwendet werden
 	\item Eigentlich erhält das LSB einfach nicht mehr den Wert 1, sondern beispielsweise den Wert $2^{-6}$, d.h $\frac{1}{64} = 0.015625$
-	\item  Davon ausgehend kann mit der Integereinheitganz normal gerechnet werden. 
+	\item  Davon ausgehend kann mit der Integereinheitganz normal gerechnet werden.
 	Fixed Point Berechnungen sind deshalb sehr effizient
 \end{itemize}
 
@@ -209,10 +208,10 @@ A-B = A + (-B)
 	\begin{equation}
 	(-1)^S\cdot M \cdot B^E
 	\end{equation}
-	S = Vorzeichen (float: 1 bit double:1 bit)\\
-	M = Mantisse (float:23 bit double: 52 bit)\\
+	S = Vorzeichen (float: 1 bit double: 1 bit)\\
+	M = Mantisse (float: 23 bit double: 52 bit)\\
 	B = Basis \\
-	E = Exponent (float:8 bit double:11 bit)\\
+	E = Exponent (float: 8 bit double: 11 bit)\\
 \columnbreak
 	\includegraphics[width=0.5\textwidth]{images/Arithmetik/floating_point}
 \end{multicols}
@@ -226,9 +225,9 @@ A-B = A + (-B)
 
 \subsubsection{Addition}
 \begin{enumerate}
-	\item Die beiden Exponenten subtrahieren, um festzustellen, welcher der grössere ist. Der grössere Exponent wird als resultierender Exponent verwendet. Die Mantisse der kleineren Zahl muss zudem vor der Addition um diesen Differenzbetrag verschoben werden. 
-	\item Die Mantisse der kleineren Zahl verschieben und zur grösseren addieren. 
-	\item Die Mantisse wieder normalisieren, d.h. für die Mantisse M muss immer gelten: $1 \leq M \leq 2$. Dies bedingt unter Umständen auch eine Anpassung des Exponenten.	
+	\item Die beiden Exponenten subtrahieren, um festzustellen, welcher der grössere ist. Der grössere Exponent wird als resultierender Exponent verwendet. Die Mantisse der kleineren Zahl muss zudem vor der Addition um diesen Differenzbetrag verschoben werden.
+	\item Die Mantisse der kleineren Zahl verschieben und zur grösseren addieren.
+	\item Die Mantisse wieder normalisieren, d.h. für die Mantisse M muss immer gelten: $1 \leq M \leq 2$. Dies bedingt unter Umständen auch eine Anpassung des Exponenten.
 \end{enumerate}
 Für einen Floating Point Adder werden mindestens folgende Elemente benötigt: Integer-Addierer/Subtrahierer, Komparatoren und Schiebeeinheiten (Shifter)
 
@@ -240,9 +239,9 @@ Der Floating Point Subtrahierer kann analog zum Addierer implementiert werden.
 	m_1 \cdot B^{e1} \cdot m_2 \cdot B^{e2} = m_1 \cdot m_2 \cdot B^{e1 + e2}
 \end{equation}
 \begin{enumerate}
-	\item Die beiden Exponenten müssen addiert werden 
-	\item Die beiden Mantissen müssen multipliziert werden 
-	\item Die Mantisse wieder normalisieren, d.h. für die Mantisse M muss immer gelten: $1 \leq M \leq 2$. Dies bedingt unter Umständen auch eine Anpassung des Exponenten.	
+	\item Die beiden Exponenten müssen addiert werden
+	\item Die beiden Mantissen müssen multipliziert werden
+	\item Die Mantisse wieder normalisieren, d.h. für die Mantisse M muss immer gelten: $1 \leq M \leq 2$. Dies bedingt unter Umständen auch eine Anpassung des Exponenten.
 \end{enumerate}
 Für einen Floating Point Multiplier werden mindestens folgende Elemente benötigt: Integer-Addierer/Subtrahierer, Integer-Multiplizierer und Schiebeeinheiten (Shifter)
 
@@ -251,9 +250,9 @@ Für einen Floating Point Multiplier werden mindestens folgende Elemente benöti
 \frac{m_1 \cdot B^{e1}}{m_2 \cdot B^{e2}} = \frac{m_1}{m_2} \cdot B^{e1 - e2}
 \end{equation}
 \begin{enumerate}
-	\item Die beiden Exponenten müssen subtrahiert werden 
-	\item  Die beiden Mantissen müssen dividiert werden 
-	\item Die Mantisse wieder normalisieren, d.h. für die Mantisse M muss immer gelten: $1 \leq M \leq 2$. Dies bedingt unter Umständen auch eine Anpassung des Exponenten.	
+	\item Die beiden Exponenten müssen subtrahiert werden
+	\item  Die beiden Mantissen müssen dividiert werden
+	\item Die Mantisse wieder normalisieren, d.h. für die Mantisse M muss immer gelten: $1 \leq M \leq 2$. Dies bedingt unter Umständen auch eine Anpassung des Exponenten.
 \end{enumerate}
 Für einen Floating Point Divider werden mindestens folgende Elemente benötigt: Integer-Addierer/Subtrahierer, Integer-Dividierer und Schiebeeinheiten (Shifter) \\
 Die Floating Point Division ist relativ selten (ca. 5\% der Grundrechenarten im Normalfall). Aus diesem Grund wird oft kein Hardware-Dividierer angeboten. Häufig wird eine Multiplikation mit der Reziproken gerechnet. Die Reziproke kann nur mit Additionen und Multiplikationen gerechnet werden
@@ -266,16 +265,16 @@ Die Floating Point Division ist relativ selten (ca. 5\% der Grundrechenarten im 
 	\item Der Verlauf von beliebigen Kurven wird häufig in Lookup Tables gespeichert
 	\item Für Werte zwischen zwei Stützwerten wird interpoliert, normalerweise linear
 	\item Die Genauigkeit nimmt offensichtlich zu, je mehr und je genauere Stützwerte gespeichert werden
-	\item Denkbar sind auch Approximationen, wobei nur mit Additionen, Subtraktionen und Multiplikationen gearbeitet werden darf	
+	\item Denkbar sind auch Approximationen, wobei nur mit Additionen, Subtraktionen und Multiplikationen gearbeitet werden darf
 \end{itemize}
 
 \subsubsection{Newton-Raphson}
-Um eine unäre Funktion wie $sin(x)$ zu berechnen, kann man die Taylorreihe verwenden $sin(x) = x - \frac{x^3}{3!} + \frac{x^5}{5!} - \frac{x^7}{7!}\cdots$ Die Koeffizienten könnten gespeichert werden, jedoch ist die Konvergenz trotz dieser Vereinfachung langsam. 
-Eine Methode, welche schneller konvergiert ist das Newton-Raphson Verfahren: 
+Um eine unäre Funktion wie $sin(x)$ zu berechnen, kann man die Taylorreihe verwenden $sin(x) = x - \frac{x^3}{3!} + \frac{x^5}{5!} - \frac{x^7}{7!}\cdots$ Die Koeffizienten könnten gespeichert werden, jedoch ist die Konvergenz trotz dieser Vereinfachung langsam.
+Eine Methode, welche schneller konvergiert ist das Newton-Raphson Verfahren:
 \begin{equation}
 y_{k+1} = y_k - \frac{f(y_k)}{\frac{\partial}{\partial y}f(y_k)}
 \end{equation}
-Zur Berechnung einer Reziproken $g(x)=\frac{1}{x}=y$ ergibt sich folgende Formel: 
+Zur Berechnung einer Reziproken $g(x)=\frac{1}{x}=y$ ergibt sich folgende Formel:
 \begin{equation}
 y_{k+1} = y_k\cdot (2-x\cdot y_k)
 \end{equation}

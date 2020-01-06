@@ -3,22 +3,22 @@
 //
 // implements the Finite State Machine (FSM) of an up/down-Counter
 //
-// (C) R. Bonderer, HSR Hochschule Rapperswil, Oct. 2014
+// (C) R. Bonderer, HSR Hochschule Rapperswil, Oct. 2019
 //
 
 #ifndef COUNTERCTRL_H__
 #define COUNTERCTRL_H__
 
-typedef enum {cntEvUp,       // count upwards
-              cntEvDown,     // count downwards
-              cntEvCount,    // count (up or down)
-              cntEvStop}     // stop counting
-             CntEvent;
+typedef enum {cnt_evUp,       // count upwards
+              cnt_evDown,     // count downwards
+              cnt_evCount,    // count (up or down)
+              cnt_evStop}     // stop counting
+             cnt_Event;
 
-void cntCtrlInit(int initValue);
+void cnt_ctrlInit(int initValue);
 // initializes counter FSM
 
-void cntCtrlProcess(CntEvent e);
+void cnt_ctrlProcess(cnt_Event e);
 // changes the state of the FSM based on the event 'e'
 // starts the actions
 

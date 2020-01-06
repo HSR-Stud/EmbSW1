@@ -3,7 +3,7 @@
 //
 // implements the Finite State Machine (FSM) of an up/down-Counter
 //
-// (C) R. Bonderer, HSR Hochschule Rapperswil, Okt. 2011
+// (C) R. Bonderer, HSR Hochschule Rapperswil, Okt. 2019
 //
 
 #include <stdio.h>
@@ -17,31 +17,31 @@ typedef enum {idleState,        // idle state
 
 static State currentState = idleState; // holds the current state of the FSM
 
-void cntCtrlInit(int initValue)
+void cnt_ctrlInit(int initValue)
 {
   currentState = idleState;
-  cntInit(initValue);
+  cnt_init(initValue);
 }
 
 
-void cntCtrlProcess(CntEvent e)
+void cnt_ctrlProcess(cnt_Event e)
 {
   switch (currentState)
   {
     case idleState:
       printf("State: idleState\n");
-      if (cntEvUp == e)
+      if (cnt_evUp == e)
       {
         // actions
-        printf("State: idleState, counter = %d\n", cntGetCounter());
+        printf("State: idleState, counter = %d\n", cnt_getCounter());
         // state transition
         printf("Changing to State: countUpState\n");
         currentState = countUpState;
       }
-      else if (cntEvDown == e)
+      else if (cnt_evDown == e)
       {
         // actions
-        printf("State: idleState, counter = %d\n", cntGetCounter());
+        printf("State: idleState, counter = %d\n", cnt_getCounter());
         // state transition
         printf("Changing to State: countDownState\n");
         currentState = countDownState;
@@ -50,14 +50,14 @@ void cntCtrlProcess(CntEvent e)
       
     case countUpState:
       printf("State: countUpState\n");
-      if (cntEvCount == e)
+      if (cnt_evCount == e)
       {
         // actions
-        cntCount(1);
-        printf("State: countUpState, counter = %d\n", cntGetCounter());
+        cnt_count(1);
+        printf("State: countUpState, counter = %d\n", cnt_getCounter());
         // state transition
       }
-      else if (cntEvStop == e)
+      else if (cnt_evStop == e)
       {
         // actions
         // state transition
@@ -68,14 +68,14 @@ void cntCtrlProcess(CntEvent e)
       
     case countDownState:
       printf("State: countDownState\n");
-      if (cntEvCount == e)
+      if (cnt_evCount == e)
       {
         // actions
-        cntCount(-1);
-        printf("State: countDownState, counter = %d\n", cntGetCounter());
+        cnt_count(-1);
+        printf("State: countDownState, counter = %d\n", cnt_getCounter());
         // state transition
       }
-      else if (cntEvStop == e)
+      else if (cnt_evStop == e)
       {
         // actions
         // state transition
