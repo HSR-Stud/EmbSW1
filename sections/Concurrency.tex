@@ -90,8 +90,7 @@ Man beachte: Alles was ein Thread inne hat, hat ein Prozess auch inne (aber NICH
 
 \subsubsection{Starting and Terminating a Thread}
 \begin{itemize}
-  \item Any routine with the following interface may become a thread routine:\newline
-  \lstinline{void* threadRoutine(void* arg);}
+  \item Any routine with the following interface may become a thread routine: \lstinline{void* threadRoutine(void* arg);}
   \item A thread is started with:\newline
   \lstinline{int pthread_create(pthread_t* thread, const pthread_attr_t* attr, void* (*startRoutine) (void*), void* arg);}
   \begin{itemize}
@@ -136,7 +135,7 @@ void* threadFunction(void* arg)
   \draw (A.west) edge (a.east);
   \draw[->, to path={-| (\tikztotarget)}] (B.west) edge (b.south);
 \end{tikzpicture}
-\newpage
+
 \textbf{Example - Waiting on a Thread to Finish}
 \begin{lstlisting}[style=C, escapechar=!]
 #include <pthread.h>
@@ -618,7 +617,7 @@ Optimierung und formalen Verifikation (Deadlock-Analyse).
 \end{itemize}
 \subsubsection{Elemente}
 \includegraphics[width=15cm]{images/Concurrency/PetriNetzeElemente}
-\newpage
+
 \subsubsection{Feuern von Transitionen}
 \begin{itemize}
 \item Das Feuern ist die einzige Aktion, die in einem Petri-Netz ausgeführt werden kann.
@@ -627,7 +626,7 @@ Optimierung und formalen Verifikation (Deadlock-Analyse).
 dieser Transition hinausführt (Ausgabestellen), erhält umgekehrt eine Marke.
 \item Das Feuern ist somit das Verschieben von Marken unter definierten Bedingungen.
 \end{itemize}
-\includegraphics[width=8cm]{images/Concurrency/Petri1}
+\includegraphics[width=5cm]{images/Concurrency/Petri1}
 
 \subsubsection{Grundstrukturen}
 \includegraphics[width=9cm]{images/Concurrency/Petri2}
