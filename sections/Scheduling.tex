@@ -72,11 +72,11 @@ Die Zuteilung kann mit einem beliebigen Algorithmus erfolgen
 \subsection{Preemptive Scheduling}
 \begin{itemize}
   \item Viele RTOS wenden präemptives Multitasking an (to preempt = zuvorkommen)
-  \item Task mit höherer Priorität wird immer ausgeführt Task mit niedrigerer Priorität wird verdrängt (preempt)
+  \item Task mit höherer Priorität wird immer ausgeführt, Task mit niedrigerer Priorität wird verdrängt (preempt)
   \item Prioritätsverteilungsmöglichkeiten
   \begin{itemize}
     \item Dynamic-priority algorithm: Prioritäten werden zur Laufzeit z.B. aufgrund vorhandener Deadlines angepasst.
-    \item Static-priority algorithm: Prioritäten werden zur Entwicklungszeit estgelegt und nicht mehr geändert. $\rightarrow$ Einfacher als dynamic-priority
+    \item Static-priority algorithm: Prioritäten werden zur Entwicklungszeit festgelegt und nicht mehr geändert. $\rightarrow$ Einfacher als dynamic-priority
   \end{itemize}
   \item Viele RTOS verwenden static-priority Algorithmen, wir betrachten im folgenden nur noch diese
 \end{itemize}
@@ -96,7 +96,7 @@ Die maximale Systemauslastung beträgt:
 \begin{equation}
 \lim_{n \to \infty}n\cdot(2^\frac{1}{n}-1) = \ln 2 \approx 0.69
 \end{equation}
-Folgerung aus diesem Grenzwert: Wenn die Auslasting unterhalb von 69.3\% liegt, ist die Konfiguration auch bei unendlich vielen Tasks RM schedulable.
+Folgerung aus diesem Grenzwert: Wenn die Auslastung unterhalb von 69.3\% liegt, ist die Konfiguration auch bei unendlich vielen Tasks RM schedulable.
 \end{minipage}
 \begin{minipage}{0.2\linewidth}
 \centering

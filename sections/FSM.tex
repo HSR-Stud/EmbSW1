@@ -1,7 +1,7 @@
 \section{Zustandsbasierte Systeme}
 
 \subsection{Finite State Machine (FSM)}
-\subsubsection{Asynchrone vs.synchrone FSMs}
+\subsubsection{Asynchrone vs. synchrone FSMs}
 \begin{itemize}
   \item Bei (elektronisch implementierten) \textbf{asynchronen} FSMs führen geänderte Inputsignale direkt zu Zustands-\\änderungen. Sie sind deshalb "`schneller"', jedoch äusserst empfindlich auf Glitches und kaum testbar.
   \item Bei \textbf{synchronen} FSMs werden die Inputsignale nur zu diskreten Zeitpunkten betrachtet, diese Systeme sind getaktet.
@@ -70,7 +70,7 @@ AUS&EIN-Taste&Hochlaufen&Motor ausschalten\\
 \hline
 Hochlaufen&Drehzahl\_erreicht&Drehzahl\_ok&Motor einschalten\\
 &Signal&&Kühlung einschalten\\ \cline{2-3}
-&Aus-Taste&AUS&\\\cline{2-3}
+&AUS-Taste&AUS&\\\cline{2-3}
 &Wasserkühlung&Störung&\\
 &Störung&&\\
 \hline
@@ -123,7 +123,7 @@ $\otimes$&Austrittspunkt (exit point)\\
   \item Zustände, die in anderen Zuständen enthalten sind, heissen Unterzustände der Superzustände.
 \end{itemize}
 \includegraphics[width = 12cm]{images/FSM/Hierarchie}\\\\
-Superzustand S beinhaltet die Zustände A, B, C, D und E. Angenommen, der Automat befindet sich in Zustand Z (wird auch als aktiver Zustand beschrieben). Wenn dann die Eingabe m am Automaten erfolgt, ist A der nächste Zustand. Wenn sich der Automat in Zustand S befindet und es gibt die Eingabe k, so ist Z der nächste Zustand, unabhängig davon, in welchem der Unterzustände A, B, C, D oder E sich der Automat tatsächlich befindet.In diesem Beispiel sind alle in S enthaltenen Zustände nicht-hierarchische Zustände. Im Allgemeinen könnten die Unterzustände von S selbst wieder Superzustände sein, die weitere Unterzustände enthalten.
+Superzustand S beinhaltet die Zustände A, B, C, D und E. Angenommen, der Automat befindet sich in Zustand Z (wird auch als aktiver Zustand beschrieben). Wenn dann die Eingabe m am Automaten erfolgt, ist A der nächste Zustand. Wenn sich der Automat in Zustand S befindet und es gibt die Eingabe k, so ist Z der nächste Zustand, unabhängig davon, in welchem der Unterzustände A, B, C, D oder E sich der Automat tatsächlich befindet. In diesem Beispiel sind alle in S enthaltenen Zustände nicht-hierarchische Zustände. Im Allgemeinen könnten die Unterzustände von S selbst wieder Superzustände sein, die weitere Unterzustände enthalten.
 \begin{itemize}
   \item Jeder Zustand, der nicht aus anderen Zuständen besteht, heisst Basiszustand.
   \item Superzustände S heissen ODER-Superzustände, wenn das System, das S enthält, sich zu jedem Zeitpunkt lediglich in einem einzigen Unterzustand von S befinden kann, solange es sich in S befindet.
@@ -151,7 +151,7 @@ einem Kreis dargestellt.\\
 \end{minipage}
 \pagebreak\newpage
 
-\subsubsection{Parallälität (UND-Superzustände)}
+\subsubsection{Parallelität (UND-Superzustände)}
 \begin{multicols}{2}
 Eine Spezifikationstechnik muss auch in der Lage sein, Nebenläufigkeit und Parallelität darzustellen. Zu diesem Zweck gibt es eine zweite Art von Superzuständen, die sogenannten UND-Superzustände.
 \begin{itemize}

@@ -7,7 +7,7 @@
 	\hline
 	Zahlenbereich & $-(2^{n-1}-1)$ bis $+(2^{n-1}-1)$ & $-(2^{n-1}-1)$ bis +$(2^{n-1}-1)$ & $-2^{n-1}$ bis +$(2^{n-1}-1)$\\
 	\hline
-	Vorteil & Vorzeichen kann einfach durch Vorzeichenbit festgestellt werden. & Vorzeichen kann einfach durch MSB festgestellt werden. Addition und Subtraktion einfach realisierbar. & Vorzeichen kann einfach durch MSB festgestellt werden. Addition und Subtratkion einfach realisierbar \\
+	Vorteil & Vorzeichen kann einfach durch Vorzeichenbit festgestellt werden. & Vorzeichen kann einfach durch MSB festgestellt werden. Addition und Subtraktion einfach realisierbar. & Vorzeichen kann einfach durch MSB festgestellt werden. Addition und Subtraktion einfach realisierbar \\
 	\hline
 	Nachteil & Positive und negative Null. Addition/Subtraktion kompliziert. & Positive und negative Null. & Bereich nicht ganz symmetrisch\\
 	\hline
@@ -199,8 +199,7 @@ A-B = A + (-B)
 	\item Wie der Name sagt, sitzt der Dezimalpunkt an einer fixen Stelle. Die Stellen rechts vom Dezimalpunkt werden als negative Zweierpotenzen interpretiert
 	\item  Für Fixed Point-Berechnungen kann die Integereinheit verwendet werden
 	\item Eigentlich erhält das LSB einfach nicht mehr den Wert 1, sondern beispielsweise den Wert $2^{-6}$, d.h $\frac{1}{64} = 0.015625$
-	\item  Davon ausgehend kann mit der Integereinheitganz normal gerechnet werden.
-	Fixed Point Berechnungen sind deshalb sehr effizient
+	\item  Davon ausgehend kann mit der Integereinheit ganz normal gerechnet werden. Fixed Point Berechnungen sind deshalb sehr effizient
 \end{itemize}
 
 \subsection{Gleitkomma (Floating Point)}

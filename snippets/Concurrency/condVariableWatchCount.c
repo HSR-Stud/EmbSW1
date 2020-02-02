@@ -1,4 +1,4 @@
-void* watchCout(void* t)
+void* watchCount(void* t)
 {
   long myId = (long)t;
   printf("Starting watchCount(): thread %ld\n", myId);

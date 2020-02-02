@@ -199,7 +199,7 @@ Prozesse/Threads können folgende Zustände und Übergänge erfahren:\\
   \end{enumerate}
 \end{minipage}
 
-\subsection{Synchonisation: Zugriff auf gemeinsame Ressourcen}
+\subsection{Synchronisation: Zugriff auf gemeinsame Ressourcen}
 \subsubsection{Kritischer Abschnitt (Critical Section, CS)}
 \begin{itemize}
   \item Codebereich, in dem nebenläufige oder parallele Prozesse auf gemeinsame Ressourcen zugreifen. Zu jeder Zeit darf sich höchstens ein Prozess im kritischen Bereich
@@ -377,7 +377,7 @@ wakeup)
 
 \subsubsection{Race condition/Starvation/Deadlock}
 \begin{description}
- \item[Race Condition]  Das Ergebnis einer Operation hängt von zeitlichen Verhalten bestimmter Einzeloperationen ab.
+ \item[Race Condition]  Das Ergebnis einer Operation hängt vom zeitlichen Verhalten bestimmter Einzeloperationen ab.
  \item[Starvation]      Ist ein Zustand, bei dem ein Prozess nie dran kommt (er verhungert). Die Fairness condition besagt, dass Starvation verhindert werden muss.
  \item[Deadlock]        Ist eine Situation in denen sich zwei Prozesse gegenseitig blockieren. Ein Deadlock kann vermieden werden, indem alle Prozesse die gemeinsamen Ressourcen immer in derselben Reihenfolge anfordern.
 \end{description}
@@ -406,7 +406,7 @@ wakeup)
     \item attr: pointer to a pthread\_condattr\_t structure, often 0 (default attributes)
     \item returns 0 on success
   \end{itemize}
-  \item The condition variables shall be destroyed when it's no longer needed\newline
+  \item The condition variables shall be destroyed when they're no longer needed\newline
   \lstinline{int pthread_cond_destroy(pthread_cond_t* condVar);}
   \begin{itemize}
     \item condVar: pointer to the condition variable
@@ -531,9 +531,9 @@ void f()
 \begin{itemize}
   \item Kapsle die dynamisch erzeugte Ressource mit einem Handle-Objekt auf dem Stack
   \begin{itemize}
-    \item Ideal std::shared\_ptr\textless T\textgreater aus Header \textless memory\textgreater
+    \item Ideal std::shared\_ptr<T> aus Header <memory>
   \end{itemize}
-  \item Der Destruktor dieses Handle-Objekts räumt beim Verlassen des Scop automatisch auf. Das gilt auch für externe Ressourcen wie Files
+  \item Der Destruktor dieses Handle-Objekts räumt beim Verlassen des Scopes automatisch auf. Das gilt auch für externe Ressourcen wie Files
 \end{itemize}
 \begin{lstlisting}[style=C,escapechar=!]
 #include <memory>
@@ -555,7 +555,7 @@ void f()
 \begin{itemize}
   \item Wie kann man sicher gehen, dass eine Mutex, die mit lock(m) angefordert wurde, in jedem Fall auch wieder mit unlock(m) freigegeben wurde?
   \begin{itemize}
-    \item Exceptions könne dazwischen kommen
+    \item Exceptions können dazwischen kommen
     \item Freigabe auch bei vorzeitigem Ausstieg mit return
   \end{itemize}
 \end{itemize}
@@ -604,34 +604,3 @@ void f()
   \node [right=8cm of b] (B) {Hier wird lock automatisch freigegeben, egal ob der Block ordentlich oder wegen einer Exception verlassen wird.};
   \draw (B.west) edge (b.east);
 \end{tikzpicture}
-
-
-
-\subsection{Petri-Netze}
-\subsubsection{Was sind Petri-Netze?}
-\begin{itemize}
-\item Petri-Netze (Petri Nets) sind eine graphische Darstellung von parallelen Prozessen.
-\item Petri-Netze sind bipartite Graphen (Graphen mit zwei Arten von Knoten)
-\item Petri-Netze sind mathematische Modelle. Es bestehen Methoden zur
-Optimierung und formalen Verifikation (Deadlock-Analyse).
-\end{itemize}
-\subsubsection{Elemente}
-\includegraphics[width=15cm]{images/Concurrency/PetriNetzeElemente}
-
-\subsubsection{Feuern von Transitionen}
-\begin{itemize}
-\item Das Feuern ist die einzige Aktion, die in einem Petri-Netz ausgeführt werden kann.
-\item Eine Transition kann dann und nur dann feuern, wenn alle Stellen, die in die Transition hineinführen (Eingabestellen), mit mindestens einer Marke belegt sind. Dann wird bei jeder dieser Stellen eine Marke abgezogen.
-\item Jede Stelle, die aus
-dieser Transition hinausführt (Ausgabestellen), erhält umgekehrt eine Marke.
-\item Das Feuern ist somit das Verschieben von Marken unter definierten Bedingungen.
-\end{itemize}
-\includegraphics[width=5cm]{images/Concurrency/Petri1}
-
-\subsubsection{Grundstrukturen}
-\includegraphics[width=9cm]{images/Concurrency/Petri2}
-
-\vspace*{-1cm}
-\subsubsection{Beispiel}
-\includegraphics[width=10cm]{images/Concurrency/Petri3}\\
-In diesem Beispiel produziert der Produzent P bei jedem Takt ein Marke in S. Sobald eine Marke in T gesetzt wird, wird S geleert. P ist während dieses Vorgangs gesperrt. P produziert wieder, wenn erneut eine Marke in T gesetzt wird. Der Leerprozess wird dann gestoppt.

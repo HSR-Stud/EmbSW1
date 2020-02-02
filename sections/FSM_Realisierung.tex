@@ -1,4 +1,4 @@
-\section{Fine State Machine Realisierung}
+\section{Finite State Machine Realisierung}
 
 \subsection{Realisierung von Flachen FSMs}
 \begin{multicols}{2}
@@ -57,7 +57,7 @@
   \item Die Attribute der FSM (currentState) können nicht schön gekapselt werden
   \item Die Struktur ist recht einfach und kann gut erweitert werden
   \item Die Funktion cnt\_ctrlProcess() kann beliebig aufgerufen werden (z.B. aus einem periodischen Task, laufend, etc.)
-  \item Die Struktur der FSM ist von aussen nicht sichtbar, der FSM werden nur die eingetrtenen Events übertragen
+  \item Die Struktur der FSM ist von aussen nicht sichtbar, der FSM werden nur die eingetretenen Events übertragen
   \item Bei exportierten Funktionen und Definitionen muss in C ein Modulkürzel vorangestellt werden (hier: cnt)
 \end{itemize}
 
@@ -88,7 +88,7 @@ C++)}
   \item Die FSM wird in zwei Funktionen implementiert
   \lstinputlisting[style=Cpp, firstline=20, lastline=23]{snippets/Ctrl_Cpp/counterCtrl.h}
   \item \textbf{Entry-Actions} müssen überall dort hinzugefügt werden, wo in einen neuen Zustand gewechselt wird. Üblicherweise muss die Entry-Action für einen bestimmten Zustand bei mehreren Transitionen codiert werden.
-  \item \textbf{Exit-Actions} müssen überall dort hinzugefügt werden, wo ein Zustand verlassen, d.h. in einen anderen Zustand gewechselt, wird. Üblicherweise muss die Exit-Action für einen bestimmten Zustand bei mehreren Transitionen 3codiert werden.
+  \item \textbf{Exit-Actions} müssen überall dort hinzugefügt werden, wo ein Zustand verlassen, d.h. in einen anderen Zustand gewechselt wird. Üblicherweise muss die Exit-Action für einen bestimmten Zustand bei mehreren Transitionen codiert werden.
 \end{itemize}
 
 \subsubsection{Vollständiger Code für objektorientiertes Steuerkonstrukt}
