@@ -10,40 +10,40 @@
 \subsubsection{Parallel vs. Concurrent Computing}
 \begin{itemize}
   \item Parallel Computing
-  	\begin{itemize}
-  	  \item execution of different tasks is really at the same time
-  	  \item is not possible on a single-core machine
-  	\end{itemize}
+        \begin{itemize}
+          \item execution of different tasks is really at the same time
+          \item is not possible on a single-core machine
+        \end{itemize}
   \item Concurrent Computing
-  	\begin{itemize}
-  	  \item execution of different tasks only seems to be at the same time
-  	  \item different tasks get consecutive time slices
-  	  \item there's only one task really running at a particular time slice
-  	  \item can be done on a single- or multicore machine
-  	\end{itemize}
+        \begin{itemize}
+          \item execution of different tasks only seems to be at the same time
+          \item different tasks get consecutive time slices
+          \item there's only one task really running at a particular time slice
+          \item can be done on a single- or multicore machine
+        \end{itemize}
 \end{itemize}
 
 \subsubsection{Gründe, Concurrency nicht zu verwenden}
 \begin{itemize}
   \item \textbf{Concurrency (mit Prozessen, Tasks, Threads) kostet immer}:
-  \begin{itemize}
-  	\item Stack
-  	\item Context switch (Umschalten vom einen zum anderen)
-  	  \begin{itemize}
-  	  \item dauert
-  	  \item Alter Context muss gespeichert, neuer wieder geladen werden
-  	  \end{itemize}
-  	\item Zugriff auf gemeinsame Ressourcen muss synchronisiert werden
-  	  \begin{itemize}
-  	  \item kostet
-  	  \item fehleranfällig (wird vergessen oder falsch gemacht)
-  	  \end{itemize}
-  \end{itemize}
-\item \textbf{Komplexität steigt}
-  \begin{itemize}
-  \item Sequentielle Programme sind einfacher zu verstehen als parallele
-  \item Ziel ist immer, ein System möglichst einfach zu halten
-  \end{itemize}
+        \begin{itemize}
+          \item Stack
+          \item Context switch (Umschalten vom einen zum anderen)
+                \begin{itemize}
+                  \item dauert
+                  \item Alter Context muss gespeichert, neuer wieder geladen werden
+                \end{itemize}
+          \item Zugriff auf gemeinsame Ressourcen muss synchronisiert werden
+                \begin{itemize}
+                  \item kostet
+                  \item fehleranfällig (wird vergessen oder falsch gemacht)
+                \end{itemize}
+        \end{itemize}
+  \item \textbf{Komplexität steigt}
+        \begin{itemize}
+          \item Sequentielle Programme sind einfacher zu verstehen als parallele
+          \item Ziel ist immer, ein System möglichst einfach zu halten
+        \end{itemize}
 \end{itemize}
 
 \textbf{Folgerung:} Concurrency nur dann einsetzen, wenn wirklich ein Nutzen vorhanden ist!\\
@@ -89,23 +89,24 @@ Man beachte: Alles was ein Thread inne hat, hat ein Prozess auch inne (aber NICH
 \end{itemize}
 
 \subsubsection{Starting and Terminating a Thread}
-\begin{itemize}
+\begin{itemize}[noitemsep,topsep=0pt]
   \item Any routine with the following interface may become a thread routine: \lstinline{void* threadRoutine(void* arg);}
   \item A thread is started with:\newline
-  \lstinline{int pthread_create(pthread_t* thread, const pthread_attr_t* attr, void* (*startRoutine) (void*), void* arg);}
-  \begin{itemize}
-  \item thread: pointer to a pthread\_t instance
-  \item attr: pointer to a pthread\_attr\_t structure, often 0 (default attributes)
-  \item arg: a single argument that may be passed to startRoutine
-  \item returns 0 on success
-  \end{itemize}
-\item A thread terminates in one of the following ways:
-  \begin{itemize}
-  \item it calls pthread\_exit()
-  \item it returns from startRoutine
-  \item it is canceled with pthread\_cancel()
-  \end{itemize}
+        \lstinline{int pthread_create(pthread_t* thread, const pthread_attr_t* attr, void* (*startRoutine) (void*), void* arg);}
+        \begin{itemize}[noitemsep,topsep=0pt]
+          \item thread: pointer to a pthread\_t instance
+          \item attr: pointer to a pthread\_attr\_t structure, often 0 (default attributes)
+          \item arg: a single argument that may be passed to startRoutine
+          \item returns 0 on success
+        \end{itemize}
+  \item A thread terminates in one of the following ways:
+        \begin{itemize}[noitemsep,topsep=0pt]
+          \item it calls pthread\_exit()
+          \item it returns from startRoutine
+          \item it is canceled with pthread\_cancel()
+        \end{itemize}
 \end{itemize}
+
 \textbf{Example - Starting a Thread}
 \begin{lstlisting}[style=C, escapechar=!]
 #include <pthread.h>
@@ -119,17 +120,17 @@ int main(void)
     return -1;
   }
   while (1) {} // endless loop
-  return 0;
+  pthread_exit(0);
 }
 void* threadFunction(void* arg)
 {  // implement this
-  return 0;
+  pthread_exit(0);
 }
 \end{lstlisting}
 \begin{tikzpicture}[remember picture, overlay,
-  every edge/.append style = { ->, thick, >=stealth, dashed, line width = 1pt},
-  every node/.append style = { align = left, minimum height = 10pt, font = \bfseries, fill= green!20},
-  text width = 5.5cm]
+    every edge/.append style = { ->, thick, >=stealth, dashed, line width = 1pt},
+    every node/.append style = { align = left, minimum height = 10pt, font = \bfseries, fill= green!20},
+    text width = 5.5cm]
   \node [right=8cm of a] (A) {myT becomes the reference to the thread};
   \node [below right=.5cm and 3cm of b, text width=8.5cm] (B) {starts thread and immediately returns (thread may not yet be fully started)};
   \draw (A.west) edge (a.east);
@@ -143,27 +144,31 @@ void* threadFunction(void* arg);
 int main(void)
 {
   pthread_t myT;
-  int ret = pthread_create(&myT, 0, threadFunction, 0); // only starts and returns
+  pthread_attr_t attr;
+  pthread_attr_init(&attr); // initialize and set thread detached attribute
+  pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+  int ret = pthread_create(&myT, &attr, threadFunction, 0); // only starts and returns
   if (ret)
   {  // handle error
     return -1;
   }
+  pthread_attr_destroy(&attr); // free attribute
   ret = pthread_join(myT, 0);!\tikz[remember picture] \node [] (a) {};!
   if (ret)
   {  // handle error
     return -1;
   }
-  return 0;
+  pthread_exit(0);
 }
 void* threadFunction(void* arg)
 {  // implement this
-  return 0;
+  pthread_exit(0);
 }
 \end{lstlisting}
 \begin{tikzpicture}[remember picture, overlay,
-  every edge/.append style = { ->, thick, >=stealth, dashed, line width = 1pt},
-  every node/.append style = { align = left, minimum height = 10pt, font = \bfseries, fill= green!20},
-  text width = 7.5cm]
+    every edge/.append style = { ->, thick, >=stealth, dashed, line width = 1pt},
+    every node/.append style = { align = left, minimum height = 10pt, font = \bfseries, fill= green!20},
+    text width = 7.5cm]
   \node [right=5cm of a] (A) {main thread waits on myT to finish};
   \draw (A.west) edge (a.east);
 \end{tikzpicture}
@@ -203,7 +208,7 @@ Prozesse/Threads können folgende Zustände und Übergänge erfahren:\\
 \subsubsection{Kritischer Abschnitt (Critical Section, CS)}
 \begin{itemize}
   \item Codebereich, in dem nebenläufige oder parallele Prozesse auf gemeinsame Ressourcen zugreifen. Zu jeder Zeit darf sich höchstens ein Prozess im kritischen Bereich
-  befinden.
+        befinden.
   \item Der exklusive Zugriff durch höchstens einen Prozess wird mittels gegenseitigem Ausschluss (mutual exclusion, Mutex) sichergestellt.
 \end{itemize}
 
@@ -287,10 +292,10 @@ Prozesse/Threads können folgende Zustände und Übergänge erfahren:\\
 \subsubsection{Synchronisation mit Signalen}
 \begin{itemize}
   \item Jeder Prozess wartet vor Betreten des kritischen Bereichs auf ein
-  gemeinsames Signal.
+        gemeinsames Signal.
   \item Wenn Signal gesetzt $\rightarrow$ kritischer Bereich frei
   \item waitfor(signal) blockiert aufrufenden Prozess, falls signal nicht
-  gesetzt
+        gesetzt
   \item Jeder Prozess, der fertig ist, setzt Signal mit send(signal)
   \item Mehrere Prozesse können gleichzeitig warten
   \item Es ist Aufgabe des Schedulingalgorithmus' bei gesetztem Signal einem der wartenden Prozesse das Betreten des kritischen Abschnitts zu gewähren
@@ -304,41 +309,41 @@ waitFor(signal);
 CS;  //Eintritt in Critical Section
 send(signal);
     \end{lstlisting} \> \> \>
-    \begin{lstlisting}[style=C]
+  \begin{lstlisting}[style=C]
 waitFor(signal);
 CS;  //Eintritt in Critical Section
 send(signal);
     \end{lstlisting} \\\\
- \end{tabbing}
- \vspace*{-1.5cm}
+\end{tabbing}
+\vspace*{-1.5cm}
 
- \subsection{Semaphoren}
- \begin{itemize}
-   \item Das Signal für den Zutritt in den kritischen Bereich = Semaphor
-   \item Ein Semaphor s hat zwei atomare (= nicht unterbrechbare)
-     Operationen
-   \begin{itemize}
-     \item P(s) : Passieren $\rightarrow$ Beim Eintritt in CS (waitFor)
-     \item V(s) : Verlassen $\rightarrow$ Beim Austritt aus CS (send)
-   \end{itemize}
-   \item Busy waiting
-   \begin{itemize}
-   \item Beim Busy Waiting warten die Prozesse aktiv in einer Schleife (spin lock)
-   \item Wartende Prozesse belasten so unnötigerweise den Prozessor
-   \item \textbf{Lösung:} Wartende Prozesse werden in eine Warteschlange eingetragen (sleep und
-wakeup)
-   \end{itemize}
-   \item Probleme der Semaphoren
-   \begin{itemize}
-    \item Anwendung erfordert viel Disziplin
-    \begin{itemize}
-      \item Für jedes P(s) braucht es auch ein V(s)
-      \item Probleme treten auf, wenn V(s) vergessen geht! (Ressource bleibt besetzt)
-    \end{itemize}
-    \item In grösseren Programmen können subtile Probleme entstehen, falls z.B. das V(s) in einer if-Bedingung gemacht wird.
-    \item Beim Auftreten einer Exception kann das Freigeben ebenfalls schwierig werden.
-   \end{itemize}
- \end{itemize}
+\subsection{Semaphoren}
+\begin{itemize}
+  \item Das Signal für den Zutritt in den kritischen Bereich = Semaphor
+  \item Ein Semaphor s hat zwei atomare (= nicht unterbrechbare)
+        Operationen
+        \begin{itemize}
+          \item P(s) : Passieren $\rightarrow$ Beim Eintritt in CS (waitFor)
+          \item V(s) : Verlassen $\rightarrow$ Beim Austritt aus CS (send)
+        \end{itemize}
+  \item Busy waiting
+        \begin{itemize}
+          \item Beim Busy Waiting warten die Prozesse aktiv in einer Schleife (spin lock)
+          \item Wartende Prozesse belasten so unnötigerweise den Prozessor
+          \item \textbf{Lösung:} Wartende Prozesse werden in eine Warteschlange eingetragen (sleep und
+                wakeup)
+        \end{itemize}
+  \item Probleme der Semaphoren
+        \begin{itemize}
+          \item Anwendung erfordert viel Disziplin
+                \begin{itemize}
+                  \item Für jedes P(s) braucht es auch ein V(s)
+                  \item Probleme treten auf, wenn V(s) vergessen geht! (Ressource bleibt besetzt)
+                \end{itemize}
+          \item In grösseren Programmen können subtile Probleme entstehen, falls z.B. das V(s) in einer if-Bedingung gemacht wird.
+          \item Beim Auftreten einer Exception kann das Freigeben ebenfalls schwierig werden.
+        \end{itemize}
+\end{itemize}
 
 \subsection{Thread-Synchronisation in C mit POSIX Threads}
 \subsubsection{Mutual Exclusion (Mutex)}
@@ -363,23 +368,23 @@ wakeup)
 
 \lstinputlisting[style=C]{snippets/Concurrency/Sync_POSIX.c}
 
- \subsubsection{Das Monitorprinzip}
- \begin{itemize}
-   \item Grundprinzip: Abstrakten Datenyp (ADT) definieren, der genau die Funktionen
-   in der Schnittstelle anbietet, die notwendig sind.
-   \item Der Aufrufer ruft diese Funktionen auf, er muss sich aber nicht um die
-   Synchronisation kümmern.
-   \item Die Synchronisation z.B. mit Semaphoren ist in der Implementation des
-   Monitors lokal gelöst.
-   \item Problem wird einmal im Monitor gelöst, die Aufrufer müssen sich nicht
-   mehr darum kümmern.
- \end{itemize}
+\subsubsection{Das Monitorprinzip}
+\begin{itemize}
+  \item Grundprinzip: Abstrakten Datenyp (ADT) definieren, der genau die Funktionen
+        in der Schnittstelle anbietet, die notwendig sind.
+  \item Der Aufrufer ruft diese Funktionen auf, er muss sich aber nicht um die
+        Synchronisation kümmern.
+  \item Die Synchronisation z.B. mit Semaphoren ist in der Implementation des
+        Monitors lokal gelöst.
+  \item Problem wird einmal im Monitor gelöst, die Aufrufer müssen sich nicht
+        mehr darum kümmern.
+\end{itemize}
 
 \subsubsection{Race condition/Starvation/Deadlock}
 \begin{description}
- \item[Race Condition]  Das Ergebnis einer Operation hängt vom zeitlichen Verhalten bestimmter Einzeloperationen ab.
- \item[Starvation]      Ist ein Zustand, bei dem ein Prozess nie dran kommt (er verhungert). Die Fairness condition besagt, dass Starvation verhindert werden muss.
- \item[Deadlock]        Ist eine Situation in denen sich zwei Prozesse gegenseitig blockieren. Ein Deadlock kann vermieden werden, indem alle Prozesse die gemeinsamen Ressourcen immer in derselben Reihenfolge anfordern.
+  \item[Race Condition]  Das Ergebnis einer Operation hängt vom zeitlichen Verhalten bestimmter Einzeloperationen ab.
+  \item[Starvation]      Ist ein Zustand, bei dem ein Prozess nie dran kommt (er verhungert). Die Fairness condition besagt, dass Starvation verhindert werden muss.
+  \item[Deadlock]        Ist eine Situation in denen sich zwei Prozesse gegenseitig blockieren. Ein Deadlock kann vermieden werden, indem alle Prozesse die gemeinsamen Ressourcen immer in derselben Reihenfolge anfordern.
 \end{description}
 
 \subsection{Condition Variables}
@@ -392,37 +397,37 @@ wakeup)
   \item A condition variable is always used in conjunction with a mutex lock
 \end{itemize}
 \begin{center}
-\begin{minipage}{0.8\linewidth}
-  \includegraphics[width=\linewidth]{images/Concurrency/conditionVariablesAblauf}
-\end{minipage}
+  \begin{minipage}{0.8\linewidth}
+    \includegraphics[width=\linewidth]{images/Concurrency/conditionVariablesAblauf}
+  \end{minipage}
 \end{center}
 
 \subsubsection{Creating and destroying condition variables}
 \begin{itemize}
   \item Condition variables must be initialized before they can be used\newline
-  \lstinline{int pthread_cond_init(pthread_cond_t* condVar, const pthread_condattr_t* attr);}
-  \begin{itemize}
-    \item condVar: pointer to the condition variable
-    \item attr: pointer to a pthread\_condattr\_t structure, often 0 (default attributes)
-    \item returns 0 on success
-  \end{itemize}
+        \lstinline{int pthread_cond_init(pthread_cond_t* condVar, const pthread_condattr_t* attr);}
+        \begin{itemize}
+          \item condVar: pointer to the condition variable
+          \item attr: pointer to a pthread\_condattr\_t structure, often 0 (default attributes)
+          \item returns 0 on success
+        \end{itemize}
   \item The condition variables shall be destroyed when they're no longer needed\newline
-  \lstinline{int pthread_cond_destroy(pthread_cond_t* condVar);}
-  \begin{itemize}
-    \item condVar: pointer to the condition variable
-    \item returns 0 on success
-  \end{itemize}
+        \lstinline{int pthread_cond_destroy(pthread_cond_t* condVar);}
+        \begin{itemize}
+          \item condVar: pointer to the condition variable
+          \item returns 0 on success
+        \end{itemize}
 \end{itemize}
 
 \subsubsection{Waiting on condition variables}
 \begin{itemize}
   \item waiting on condition variable: blocks calling thread until condition is signalled\newline
-  \lstinline{int pthread_cond_wait(pthread_cond_t* condVar, pthread_mutex_t* mutex);}
-  \begin{itemize}
-    \item condVar: pointer to the condition variable
-    \item mutex: pointer to the mutex
-    \item returns 0 on success
-  \end{itemize}
+        \lstinline{int pthread_cond_wait(pthread_cond_t* condVar, pthread_mutex_t* mutex);}
+        \begin{itemize}
+          \item condVar: pointer to the condition variable
+          \item mutex: pointer to the mutex
+          \item returns 0 on success
+        \end{itemize}
   \item This routine should be called while mutex is locked
   \item It will automatically release the mutex while it waits
   \item After signal is received and thread is awakened, mutex will be automatically locked for use by the thread
@@ -432,11 +437,11 @@ wakeup)
 \subsubsection{Signaling on condition variables}
 \begin{itemize}
   \item Signal on condition variable: unblocks thread blocked on a condition variable\newline
-  \lstinline{int pthread_cond_signal(pthread_cond_t* condVar);}
-  \begin{itemize}
-    \item condVar: pointer to the condition variable
-    \item returns 0 on success
-  \end{itemize}
+        \lstinline{int pthread_cond_signal(pthread_cond_t* condVar);}
+        \begin{itemize}
+          \item condVar: pointer to the condition variable
+          \item returns 0 on success
+        \end{itemize}
   \item This routine is used to signal (or wake up) another thread which is waiting on the condition variable
   \item It should be called after mutex is locked, and must unlock mutex in order for pthread\_cond\_wait() routine to complete
 \end{itemize}
@@ -445,10 +450,10 @@ wakeup)
 \begin{itemize}
   \item This example code demonstrates the use of several Pthread condition variable routines
   \item The main routine creates three threads
-  \begin{itemize}
-    \item Two of the threads perform work and update a count variable
-    \item The third thread waits until the count variable reaches a specific value
-  \end{itemize}
+        \begin{itemize}
+          \item Two of the threads perform work and update a count variable
+          \item The third thread waits until the count variable reaches a specific value
+        \end{itemize}
   \item The counting thread that reaches the specified count value signals (wakes up) the watching thread waiting on this condition
 \end{itemize}
 
@@ -457,7 +462,7 @@ wakeup)
 \lstinputlisting[style=C]{snippets/Concurrency/condVariableWatchCount.c}
 
 \subsubsection{Bounded Buffer Problem}
-\begin{itemize}
+\begin{itemize}[noitemsep,topsep=0pt]
   \item The problem describes two processes, the producer and the consumer, who share a common, fixed-size buffer used as a queue.
   \item The producer's job is to generate a piece of data, put it into the buffer and start again.
   \item At the same time, the consumer is consuming the data (i.e., removing it from the buffer) one piece at a time.
@@ -465,7 +470,7 @@ wakeup)
   \item The problem can also be generalized to have multiple producers and consumers.
 \end{itemize}
 \textbf{Solution:}
-\begin{itemize}
+\begin{itemize}[noitemsep,topsep=0pt]
   \item The solution for the producer is to either go to sleep or discard data if the buffer is full.
   \item The next time the consumer removes an item from the buffer, it notifies the producer, who starts to fill the buffer again.
   \item In the same way, the consumer can go to sleep if it finds the buffer to be empty.
@@ -475,19 +480,19 @@ wakeup)
 \end{itemize}
 
 \subsection{POSIX Interprocess Communication (IPC)}
-\begin{itemize}
+\begin{itemize}[noitemsep,topsep=0pt]
   \item POSIX provides the following IPC mechanisms in the POSIX:XSI extension:
-  \begin{itemize}
-    \item Message queues in sys/msg.h
-    \item Semaphores in sys/sem.h
-    \item Shared Memory in sys/shm.h
-  \end{itemize}
+        \begin{itemize}
+          \item Message queues in sys/msg.h
+          \item Semaphores in sys/sem.h
+          \item Shared Memory in sys/shm.h
+        \end{itemize}
   \item These mechanisms allow unrelated processes to exchange information in a reasonably efficient way
 \end{itemize}
 
 \subsection{RAII (Resource Acquisition Is Initialisation)}
 \subsubsection{Motivation}
-\begin{itemize}
+\begin{itemize}[noitemsep,topsep=0pt]
   \item Ressourcen (z.B. Datei, Speicher, etc.) müssen vor dem Gebrauch grundsätzlich angefordert werden
   \item Nach Abschluss des Gebrauchs einer Ressource muss diese wieder freigegeben werden
   \item Die saubere Anforderung und Freigabe ist fehlerträchtig
@@ -495,22 +500,22 @@ wakeup)
 \end{itemize}
 
 \subsubsection{Idee hinter RAII}
-\begin{itemize}
+\begin{itemize}[noitemsep,topsep=0pt]
   \item Die Anforderung und Freigabe einer Ressource wird mit Hilfe einer Klasse implementiert:
-  \begin{itemize}
-    \item der Konstruktor fordert die Ressource an
-    \item der Destruktor gibt sie wieder frei
-  \end{itemize}
+        \begin{itemize}
+          \item der Konstruktor fordert die Ressource an
+          \item der Destruktor gibt sie wieder frei
+        \end{itemize}
   \item Die verwendete Ressource kann wie ein Objekt behandelt werden. Sobald das Objekt seine Gültigkeit verliert (z.B. out-of-scope), wird durch den Destruktor die Ressource "'automatisch"' freigegeben.
 \end{itemize}
 
 \subsubsection{Anwendung bei Heapobjekten}
-\begin{itemize}
+\begin{itemize}[noitemsep,topsep=0pt]
   \item Wie kann man sicher gehen, dass ein Objekt, welches auf dem Heap angelegt wurde, auch wieder mittels delete sicher gelöscht wird?
-  \begin{itemize}
-    \item Exceptions können dazwischen kommen
-    \item C++03 kennt kein finally bei Exception-Handling
-  \end{itemize}
+        \begin{itemize}
+          \item Exceptions können dazwischen kommen
+          \item C++03 kennt kein finally bei Exception-Handling
+        \end{itemize}
 \end{itemize}
 \begin{lstlisting}[style=C,escapechar=!]
 void f()
@@ -521,18 +526,18 @@ void f()
 }
 \end{lstlisting}
 \begin{tikzpicture}[remember picture, overlay,
-  every edge/.append style = { ->, thick, >=stealth, dashed, line width = 1pt},
-  every node/.append style = { align = left, minimum height = 10pt, font = \bfseries, fill= green!20},
-  text width = 7.5cm]
+    every edge/.append style = { ->, thick, >=stealth, dashed, line width = 1pt},
+    every node/.append style = { align = left, minimum height = 10pt, font = \bfseries, fill= green!20},
+    text width = 7.5cm]
   \node [right=5cm of a] (A) {was ist, wenn hier eine Exception geworfen wird?};
   \draw (A.west) edge (a.east);
 \end{tikzpicture}
 \textbf{Lösung:}
-\begin{itemize}
+\begin{itemize}[noitemsep,topsep=0pt]
   \item Kapsle die dynamisch erzeugte Ressource mit einem Handle-Objekt auf dem Stack
-  \begin{itemize}
-    \item Ideal std::shared\_ptr<T> aus Header <memory>
-  \end{itemize}
+        \begin{itemize}[noitemsep,topsep=0pt]
+          \item Ideal std::shared\_ptr\textless T\textgreater aus Header \textless memory\textgreater
+        \end{itemize}
   \item Der Destruktor dieses Handle-Objekts räumt beim Verlassen des Scopes automatisch auf. Das gilt auch für externe Ressourcen wie Files
 \end{itemize}
 \begin{lstlisting}[style=C,escapechar=!]
@@ -544,20 +549,20 @@ void f()
 }!\tikz[remember picture] \node [] (a) {};!
 \end{lstlisting}
 \begin{tikzpicture}[remember picture, overlay,
-  every edge/.append style = { ->, thick, >=stealth, dashed, line width = 1pt},
-  every node/.append style = { align = left, minimum height = 10pt, font = \bfseries, fill= green!20},
-  text width = 11cm]
+    every edge/.append style = { ->, thick, >=stealth, dashed, line width = 1pt},
+    every node/.append style = { align = left, minimum height = 10pt, font = \bfseries, fill= green!20},
+    text width = 11cm]
   \node [right=5cm of a] (A) {Beim Verlassen des Blocks räumt der Destruktor von shared\_ptr automatisch auf und löscht die Person};
   \draw (A.west) edge (a.east);
 \end{tikzpicture}
 
 \subsubsection{Anwendung bei Mutex}
-\begin{itemize}
+\begin{itemize}[noitemsep,topsep=0pt]
   \item Wie kann man sicher gehen, dass eine Mutex, die mit lock(m) angefordert wurde, in jedem Fall auch wieder mit unlock(m) freigegeben wurde?
-  \begin{itemize}
-    \item Exceptions können dazwischen kommen
-    \item Freigabe auch bei vorzeitigem Ausstieg mit return
-  \end{itemize}
+        \begin{itemize}
+          \item Exceptions können dazwischen kommen
+          \item Freigabe auch bei vorzeitigem Ausstieg mit return
+        \end{itemize}
 \end{itemize}
 \begin{lstlisting}[style=C,escapechar=!]
 static pthread_mutex_t m;
@@ -570,9 +575,9 @@ void f()
 }
 \end{lstlisting}
 \begin{tikzpicture}[remember picture, overlay,
-  every edge/.append style = { ->, thick, >=stealth, dashed, line width = 1pt},
-  every node/.append style = { align = left, minimum height = 10pt, font = \bfseries, fill= green!20},
-  text width = 6.5cm]
+    every edge/.append style = { ->, thick, >=stealth, dashed, line width = 1pt},
+    every node/.append style = { align = left, minimum height = 10pt, font = \bfseries, fill= green!20},
+    text width = 6.5cm]
   \node [right=4cm of a] (A) {was ist, wenn hier eine Exception geworfen wird?};
   \draw (A.west) edge (a.east);
 \end{tikzpicture}
@@ -598,9 +603,9 @@ void f()
 }
 \end{lstlisting}
 \begin{tikzpicture}[remember picture, overlay,
-  every edge/.append style = { ->, thick, >=stealth, dashed, line width = 1pt},
-  every node/.append style = { align = left, minimum height = 10pt, font = \bfseries, fill= green!20},
-  text width = 7.5cm]
+    every edge/.append style = { ->, thick, >=stealth, dashed, line width = 1pt},
+    every node/.append style = { align = left, minimum height = 10pt, font = \bfseries, fill= green!20},
+    text width = 7.5cm]
   \node [right=8cm of b] (B) {Hier wird lock automatisch freigegeben, egal ob der Block ordentlich oder wegen einer Exception verlassen wird.};
   \draw (B.west) edge (b.east);
 \end{tikzpicture}

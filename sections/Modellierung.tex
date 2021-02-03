@@ -26,15 +26,16 @@ Bei der modellbasierten Entwicklung kommen in allen Entwicklungsphasen durchgän
 \begin{multicols}{2}
 	\begin{itemize}
 		\item UML:
-		\begin{itemize}
-			\item Aktivitätsdiagramm
-			\item Sequenzdiagramm
-			\item Zustandsdiagramm (Statecharts)
-			\item Klassendiagramm
-			\item Use Case Diagramm
-			\item Verteilungsdiagramme (Deployment Diagram)
-		\end{itemize}
+		      \begin{itemize}
+			      \item Aktivitätsdiagramm
+			      \item Sequenzdiagramm
+			      \item Zustandsdiagramm (Statecharts)
+			      \item Klassendiagramm
+			      \item Use Case Diagramm
+			      \item Verteilungsdiagramme (Deployment Diagram)
+		      \end{itemize}
 		\item Matlab/Simulink
+		\item Petrinetze
 		\item plus evtl. weitere
 	\end{itemize}
 	\vfill\null
@@ -65,11 +66,11 @@ Das wichtigste und allererste bei sämtlichen Systemen ist die Festlegung der Sy
 
 \subsubsection{Systemprozesse finden}
 \begin{multicols}{2}
-Die Aufteilung in Hardware und Software sollte erst nach der Analyse der grundlegenden Anforderungen erfolgen. RTE-Systeme bestehen häufig nur aus einem einzigen Systemprozess, speziell wenn das System im Prinzip 'nur' ein Regler ist. Dieser Schritt ist in der Analysephase. Wenn hier von Prozessen die Rede ist, bedeutet das nicht ein Betriebssystem-Prozess. Wichtig ist, dass es nicht zuviele Funktionsblöcke gibt (nicht ins Detail gehen). \\
-Bei Systemen, bei denen die Grenzen durch Nachrichtenflüsse charakterisiert werden können, eignen sich \textbf{Sequenzdiagramme} zur Kontextbeschreibung.\\
-\vfill\null
-\columnbreak
-\includegraphics[height=6cm]{images/Modellierung/Systemgrenze}
+	Die Aufteilung in Hardware und Software sollte erst nach der Analyse der grundlegenden Anforderungen erfolgen. RTE-Systeme bestehen häufig nur aus einem einzigen Systemprozess, speziell wenn das System im Prinzip 'nur' ein Regler ist. Dieser Schritt ist in der Analysephase. Wenn hier von Prozessen die Rede ist, bedeutet das nicht ein Betriebssystem-Prozess. Wichtig ist, dass es nicht zuviele Funktionsblöcke gibt (nicht ins Detail gehen). \\
+	Bei Systemen, bei denen die Grenzen durch Nachrichtenflüsse charakterisiert werden können, eignen sich \textbf{Sequenzdiagramme} zur Kontextbeschreibung.\\
+	\vfill\null
+	\columnbreak
+	\includegraphics[height=6cm]{images/Modellierung/Systemgrenze}
 \end{multicols}
 
 \subsection{Verteilung festlegen}
@@ -78,14 +79,14 @@ Zur Darstellung eignet sich in UML das Verteilungsdiagramm (\textbf{Deployment D
 
 \subsubsection{Verteilungsdiagramm (Deployment Diagram)}
 \begin{multicols}{2}
-\begin{itemize}
-	\item Die Knoten werden zur Darstellung der geografischen Orte oder Subsysteme verwendet
-	\item Die physikalischen Verbindungen zwischen den Knoten (Netzwerke, Kabel, Wireless, etc.) werden als Linien dargestellt.
-	\item Die Knoten können auch hierarchisch aufgebaut sein.
-\end{itemize}
-\vfill\null
-\columnbreak
-\includegraphics[height=6cm, width = 9cm,]{images/Modellierung/Verteilungsdiagramm}
+	\begin{itemize}
+		\item Die Knoten werden zur Darstellung der geografischen Orte oder Subsysteme verwendet
+		\item Die physikalischen Verbindungen zwischen den Knoten (Netzwerke, Kabel, Wireless, etc.) werden als Linien dargestellt.
+		\item Die Knoten können auch hierarchisch aufgebaut sein.
+	\end{itemize}
+	\vfill\null
+	\columnbreak
+	\includegraphics[height=6cm, width = 9cm,]{images/Modellierung/Verteilungsdiagramm}
 \end{multicols}
 
 \subsection{Systemprozesse Detaillieren}
@@ -93,23 +94,23 @@ Die gefundenen Systemprozesse müssen nun genauer spezifiziert werden. Dabei nic
 Leitidee: Lieber weniger als mehr Details.
 
 \subsubsection{Verschiedene Detaillierungsstufen}
-\begin{itemize}
+\begin{itemize}[noitemsep,topsep=0pt]
 	\item \textbf{Überblick: } z.B. in Form von normalem umgangssprachlichem Text. Diese Form sollte immer erstellt werden.
 	\item \textbf{Normale Sicht: } Sie ist für den Systementwickler gedacht und enthält mehr Details.
 \end{itemize}
 
-Für die Detaillierung eignen sich umgangssprachlicher Text, Sequenzdiagramme, Aktivitätsdiagramme, Statecharts und Code (C, C++, ...).
+Für die Detaillierung eignen sich: Umgangssprachlicher Text, Sequenzdiagramme, Aktivitätsdiagramme, Statecharts und Code (C, C++, ...).
 
 \subsubsection{Sequenzdiagramme}
 \begin{multicols}{2}
 	\textbf{Zweck:}
-	\begin{itemize}
+	\begin{itemize}[noitemsep,topsep=0pt]
 		\item Austausch von Meldungen zwischen Objekten innerhalb einer beschränkten Zeitdauer anzeigen
 	\end{itemize}
 	\vfill\null
 	\columnbreak
 	\textbf{Ideal:}
-	\begin{itemize}
+	\begin{itemize}[noitemsep,topsep=0pt]
 		\item für kurze Zeitdauer mit einigen wenigen Objekten
 		\item bei wenigen Verschachtelungen und Verzweigungen
 	\end{itemize}
@@ -123,31 +124,37 @@ Für die Detaillierung eignen sich umgangssprachlicher Text, Sequenzdiagramme, A
 	\label{Bild2}
 \end{multicols}
 
-\includegraphics[width = 0.4\linewidth]{images/Modellierung/Pfeiltypen_Aktivitaetsdiagramm}
+\begin{multicols}{2}
+	\includegraphics[width =\linewidth]{images/Modellierung/Pfeiltypen_Aktivitaetsdiagramm}
+	\vfill\null
+	\includegraphics[height=5.5cm]{images/Modellierung/Aktivitaetsdiagramm_Beispiel_Kaffee.png}\\
+	{\centering Beispiel: Kaffee Maschine}
+\end{multicols}
+
 
 \begin{multicols}{2}
-\textbf{Diagramm nicht überladen!}
-\vfill\null
-\columnbreak
-Wann einsetzen?
-\begin{itemize}
-	\item Use Case Analyse (Beschreibung von Szenario)
-	\item Modellierung von Nachrichtenfluss
-	\item SW-Design
-	\item Implementation
-\end{itemize}
+	\textbf{Diagramm nicht überladen!}
+	\vfill\null
+	\columnbreak
+	Wann einsetzen?
+	\begin{itemize}[noitemsep,topsep=0pt]
+		\item Use Case Analyse (Beschreibung von Szenario)
+		\item Modellierung von Nachrichtenfluss
+		\item SW-Design
+		\item Implementation
+	\end{itemize}
 \end{multicols}
 
 \newpage
 \subsubsection{Kommunikationsdiagramm}
 \begin{minipage}[][][t]{0.4\linewidth}
-Das Kommunikationsdiagramm zeigt dieselbe Information wie das Sequenzdiagramm. Der Schwerpunkt liegt aber
-nicht auf dem zeitlichen Ablauf, sondern auf dem Informationsfluss zwischen den Objekten.
+	Das Kommunikationsdiagramm zeigt dieselbe Information wie das Sequenzdiagramm. Der Schwerpunkt liegt aber
+	nicht auf dem zeitlichen Ablauf, sondern auf dem Informationsfluss zwischen den Objekten.
 \end{minipage}%
 \begin{minipage}{0.6\linewidth}
-\begin{center}
-\includegraphics[width=0.8\linewidth]{images/Modellierung/Kommunikationsdiagramm}
-\end{center}
+	\begin{center}
+		\includegraphics[width=0.8\linewidth]{images/Modellierung/Kommunikationsdiagramm}
+	\end{center}
 \end{minipage}
 
 \subsubsection{Aktivitätsdiagramm}
