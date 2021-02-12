@@ -140,6 +140,16 @@ Die Zuteilung kann mit einem beliebigen Algorithmus erfolgen
 \begin{minipage}[c]{0.7\linewidth}
   \includegraphics[width=\linewidth]{images/Schedule/RMS}
 \end{minipage}
+\subsubsection{Mittlere Wartezeit}
+\begin{itemize}[noitemsep,topsep=0pt]
+  \item Scheduling Periode bestimmen $p_s$ (Zeitpunkt ab dem es sich wiederholt Bsp: 20 )
+  \item Von jedem Thread bestimmen wie oft er warten muss bis er starten kann.\\Dividieren durch Anzahl ausgeführt in der Schedual Periode.
+  \item mittlere Wartezeit entspricht der Summe der Wartezeiten dividiert durch die Summe der Perioden.
+  \item Beispiel:
+        \begin{equation}
+          \overline{w} = \frac{w_1+w_2+w_3}{p_s/p_1 + p_s/p_2 + p_s/p_3} = \frac{0+1+3}{5+4+1} = 0.4
+        \end{equation}
+\end{itemize}
 
 \subsubsection{Anleitung für die Zuweisung von Prioritäten bei RM Scheduling}
 \begin{enumerate}
